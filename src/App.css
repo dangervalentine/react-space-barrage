@@ -5,10 +5,11 @@ body {
     background-repeat: repeat;
     background-position: center;
     min-height: 100%;
+    overflow: hidden;
 }
 
 .App {
-    margin: 7.5vh;
+    margin: 12vh;
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
     justify-content: center;
@@ -19,7 +20,7 @@ body {
     position: relative;
     width: 75vw;
     height: 75vh;
-    background-color: #111;
+    background-color: rgba(22, 11, 11, 0.8);
     border-radius: 1vh;
 }
 
