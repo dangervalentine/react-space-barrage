@@ -3,19 +3,16 @@ import React from 'react';
 import { ShipEl } from '../StyledComponents';
 import { Consumer } from '../Context';
 
-
-
 class Ship extends React.Component {
-
-    render() {
-        return (
-            <Consumer>
-                { ({ship}) => (
-                    <ShipEl style={{left: ship.x, bottom: ship.y}} className="Ship"></ShipEl>
-                )}
-            </Consumer>
-        )
-    }
+  render() {
+    return (
+      <Consumer>
+        {({ ship }) => (
+          <ShipEl style={{ left: ship.x, bottom: ship.y }} className="Ship" />
+        )}
+      </Consumer>
+    );
+  }
 }
 
 export default Ship;

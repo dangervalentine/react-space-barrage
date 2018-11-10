@@ -1,29 +1,42 @@
 import styled from 'styled-components';
 
 import rocket from '../Assets/rocket.svg';
+import a from '../Assets/a.svg';
+import b from '../Assets/b.svg';
+import c from '../Assets/c.svg';
+
+const enemies = [a, b, c];
 
 export const AppEl = styled.div`
-    margin: 12vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-export const ShipEl = styled.div`
-    bottom: 0;
-    left: 50%;
-    width: 10vh;
-    height: 10vh;
-    position: absolute;
-    transform: translate(-50%, 0%);
-    background: url(${rocket});
+  margin: 12vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ContainerEl = styled.div`
-    position: relative;
-    width: 75vw;
-    height: 75vh;
-    background: black;
-    opacity: 0.8;
-    borderRadius: 1vh;
+  position: relative;
+  width: 80vh;
+  height: 80vh;
+  background: rgba(22, 11, 11, 0.8);
+  borderradius: 1vh;
+`;
+
+export const ShipEl = styled.div`
+  bottom: 0;
+  left: 50vh;
+  width: 10%;
+  height: 10%;
+  position: absolute;
+  transform: translate(-50%, 0%);
+  background: url(${rocket});
+  background-size: cover;
+`;
+
+export const EnemyEl = styled.div`
+  width: 10%;
+  height: 10%;
+  display: inline-block;
+  background: ${props => `url(${enemies[props.color]})`};
+  background-size: cover;
 `;
