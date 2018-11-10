@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { ContainerEl } from '../StyledComponents';
+
 import Ship from './Ship';
 
 class Container extends React.Component {
@@ -9,9 +11,9 @@ class Container extends React.Component {
 
     render() {
         return (
-            <div className="Container">
-                <Ship ship={{...this.props.ship}}/>
-            </div>
+            <ContainerEl className="Container">
+                <Ship/>
+            </ContainerEl>
         );
     }
     

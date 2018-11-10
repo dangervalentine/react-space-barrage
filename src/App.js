@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import Container from './Components/Container';
+import { AppEl } from './StyledComponents';
+import { Provider } from './Context';
 import { KEYS } from './Resources';
 
 import "./App.css";
@@ -61,9 +63,15 @@ class App extends Component {
     
     render() {
         return (
-            <div className = "App">
-                <Container ship={{...this.state.ship}} />
-            </div>
+            <Provider value={
+                {
+                    ship: this.state.ship
+                }
+            }>
+                <AppEl>
+                    <Container/>
+                </AppEl>
+            </Provider>
         );
     }
 }
