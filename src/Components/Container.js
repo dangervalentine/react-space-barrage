@@ -2,10 +2,18 @@ import React from 'react';
 
 import Ship from './Ship';
 
-const Container = () => (
-    <div className="Container">
-        <Ship />
-    </div>
-);
+class Container extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
+    render() {
+        return (
+            <div className="Container">
+                <Ship ship={{...this.props.ship}}/>
+            </div>
+        );
+    }
+    
+}
 export default Container;

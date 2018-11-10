@@ -1,7 +1,12 @@
 import React from 'react';
 
-const Ship = () => (
-    <div className="Ship"></div>
-);
+class Ship extends React.Component {
+
+    render() {
+        return (
+            <div style={{left: this.props.ship.x, bottom: this.props.ship.y}} className="Ship"></div>
+        )
+    }
+}
 
 export default Ship;
