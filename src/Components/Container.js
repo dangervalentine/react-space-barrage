@@ -13,20 +13,20 @@ class Container extends React.Component {
     }
 
     render() {
-        return (
-            <ContainerSC>
-                <EnemySC color={randomEn()} />
-                <EnemySC color={randomEn()} />
-                <EnemySC color={randomEn()} />
-                <EnemySC color={randomEn()} />
-                <EnemySC color={randomEn()} />
-                <EnemySC color={randomEn()} />
-                <EnemySC color={randomEn()} />
-                <EnemySC color={randomEn()} />
-                <EnemySC color={randomEn()} />
-                <EnemySC color={randomEn()} />
-                <Ship />
-            </ContainerSC>
+      return (
+          <ContainerSC>
+              <EnemySC color={randomEn()} />
+              <EnemySC color={randomEn()} />
+              <EnemySC color={randomEn()} />
+              <EnemySC color={randomEn()} />
+              <EnemySC color={randomEn()} />
+              <EnemySC color={randomEn()} />
+              <EnemySC color={randomEn()} />
+              <EnemySC color={randomEn()} />
+              <EnemySC color={randomEn()} />
+              <EnemySC color={randomEn()} />
+              <Ship />
+          </ContainerSC>
         );
     }
 }

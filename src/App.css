@@ -7,3 +7,20 @@ body {
     min-height: 100%;
     overflow: hidden;
 }
+
+.box {
+    height: 10vh;
+    width: 10vh;
+    background: red;
+}
+
+.ship {
+    bottom: 0;
+    left: 50vh;
+    width: 10%;
+    height: 10%;
+    position: absolute;
+    transform: translate(-50%, 0%);
+    background: url('./Assets/rocket.svg');
+    background-size: cover;
+}

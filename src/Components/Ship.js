@@ -1,60 +1,63 @@
 import React from 'react';
+import posed from 'react-pose';
 
-import { ShipSC } from '../StyledComponents';
-import { KEYS } from '../Resources';
+import { decayVelocity, handleKeys } from '../Helpers';
+
+const ShipPose = posed.div({
+  grow: { 
+    scale: 1.05,
+    transition: {
+      default: { ease: 'easeOut', duration: 400 }
+    }
+  },
+  shrink: { 
+    scale: 1,
+    transition: {
+      default: { ease: 'easeOut', duration: 400 }
+    }
+  }
+});
 
 class Ship extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            x: 0,
-            y: 0
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      y: 0,
+      x: 500,
+      upVelocity: 0,
+      leftVelocity: 0,
+      downVelocity: 0,
+      rightVelocity: 0,
 
-    handleKeys(value, e) {
-        if (e.keyCode === KEYS.RIGHT || e.keyCode === KEYS.D) {
-            const newX = this.state.x + 5;
-            this.setState({ x: newX });
-        }
-        if (e.keyCode === KEYS.LEFT || e.keyCode === KEYS.A) {
-            const newX = this.state.x - 5;
-            this.setState({ x: newX });
-        }
-        if (e.keyCode === KEYS.UP || e.keyCode === KEYS.W) {
-            const newY = this.state.y + 5;
-            this.setState({ y: newY });
-        }
-        if (e.keyCode === KEYS.DOWN || e.keyCode === KEYS.S) {
-            const newY = this.state.y - 5;
-            this.setState({ y: newY });
-        }
-    }
+      isVisible: true
+    };
 
-    componentDidMount() {
-        window.addEventListener('keyup', this.handleKeys.bind(this, false));
-        window.addEventListener('keydown', this.handleKeys.bind(this, true));
-    }
+    this.handleKeys = this.handleKeys.bind(this);
+    this.decayVelocity = this.decayVelocity.bind(this);
+  }
 
-    componentWillUnmount() {
-        window.removeEventListener('keyup', this.handleKeys);
-        window.removeEventListener('keydown', this.handleKeys);
-    }
+  handleKeys(e) {
+    this.setState({ ...handleKeys(this.state, e) });
+  }
 
-    render() {
-        return (
-            <ShipSC
-                style={{ left: this.state.x, bottom: this.state.y }}
-                className="Ship"
-            />
-        );
-    }
+  decayVelocity() {
+    this.setState({ ...decayVelocity(this.state) });
+  }
+
+  componentDidMount() {
+    setInterval(this.decayVelocity, 100);
+    window.addEventListener('keydown', this.handleKeys.bind(this));
+
+    setInterval(() => {
+      this.setState({ isVisible: !this.state.isVisible });
+    }, 400);
+  }
+
+  render() {
+    return (
+        <ShipPose pose={this.state.isVisible ? 'grow' : 'shrink'} className="ship" style={{left: this.state.x, bottom: this.state.y}} />
+    )
+  }
 }
 
 export default Ship;
-
-// x needs to be its own property
-// xVelocity as well
-// location is a property of x + xVelocity
-// xVelocity needs to peak at a certain point
-// xVelocity needs to decrement over time
