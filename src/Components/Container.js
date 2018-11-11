@@ -1,31 +1,33 @@
 import React from 'react';
 
-import { ContainerEl } from '../StyledComponents';
-import { EnemyEl } from '../StyledComponents';
+import { ContainerSC } from '../StyledComponents';
+import { EnemySC } from '../StyledComponents';
 
 import Ship from './Ship';
 
-class Container extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const randomEn = () => Math.floor(Math.random() * 3);
 
-  render() {
-    return (
-      <ContainerEl className="Container">
-        <EnemyEl color={0} />
-        <EnemyEl color={1} />
-        <EnemyEl color={2} />
-        <EnemyEl color={0} />
-        <EnemyEl color={1} />
-        <EnemyEl color={2} />
-        <EnemyEl color={0} />
-        <EnemyEl color={1} />
-        <EnemyEl color={2} />
-        <EnemyEl color={0} />
-        <Ship />
-      </ContainerEl>
-    );
-  }
+class Container extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <ContainerSC>
+                <EnemySC color={randomEn()} />
+                <EnemySC color={randomEn()} />
+                <EnemySC color={randomEn()} />
+                <EnemySC color={randomEn()} />
+                <EnemySC color={randomEn()} />
+                <EnemySC color={randomEn()} />
+                <EnemySC color={randomEn()} />
+                <EnemySC color={randomEn()} />
+                <EnemySC color={randomEn()} />
+                <EnemySC color={randomEn()} />
+                <Ship />
+            </ContainerSC>
+        );
+    }
 }
 export default Container;

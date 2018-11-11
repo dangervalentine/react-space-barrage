@@ -7,36 +7,36 @@ import c from '../Assets/c.svg';
 
 const enemies = [a, b, c];
 
-export const AppEl = styled.div`
-  margin: 12vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+export const AppSC = styled.div`
+    margin: 12vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
-export const ContainerEl = styled.div`
-  position: relative;
-  width: 80vh;
-  height: 80vh;
-  background: rgba(22, 11, 11, 0.8);
-  borderradius: 1vh;
+export const ContainerSC = styled.div`
+    position: relative;
+    width: 80vh;
+    height: 80vh;
+    background: rgba(22, 11, 11, 0.8);
+    borderradius: 1vh;
 `;
 
-export const ShipEl = styled.div`
-  bottom: 0;
-  left: 50vh;
-  width: 10%;
-  height: 10%;
-  position: absolute;
-  transform: translate(-50%, 0%);
-  background: url(${rocket});
-  background-size: cover;
+export const ShipSC = styled.div`
+    bottom: 0;
+    left: 50vh;
+    width: 10%;
+    height: 10%;
+    position: absolute;
+    transform: translate(-50%, 0%);
+    background: url(${rocket});
+    background-size: cover;
 `;
 
-export const EnemyEl = styled.div`
-  width: 10%;
-  height: 10%;
-  display: inline-block;
-  background: ${props => `url(${enemies[props.color]})`};
-  background-size: cover;
+export const EnemySC = styled.div`
+    width: 10%;
+    height: 10%;
+    display: inline-block;
+    background: ${props => `url(${enemies[props.color]})`} center;
+    background-size: cover;
 `;
