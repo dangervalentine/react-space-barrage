@@ -27,6 +27,6 @@ export const EnemySC = styled.div`
   display: inline-block;
   background: ${props => `url(${enemies[props.color]})`} center;
   background-size: cover;
-  `;
-  
-  // background: ${`url(${fire}) center`};
+`;
+
+// background: ${`url(${fire}) center`};

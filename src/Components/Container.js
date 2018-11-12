@@ -6,26 +6,26 @@ import Enemy from './Enemy';
 import Ship from './Ship';
 
 class Container extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    render() {
-      return (
-          <ContainerSC>
-              <Enemy />
-              <Enemy />
-              <Enemy />
-              <Enemy />
-              <Enemy />
-              <Enemy />
-              <Enemy />
-              <Enemy />
-              <Enemy />
-              <Enemy />
-              <Ship />
-          </ContainerSC>
-        );
-    }
+  render() {
+    return (
+      <ContainerSC>
+        <Enemy />
+        <Enemy />
+        <Enemy />
+        <Enemy />
+        <Enemy />
+        <Enemy />
+        <Enemy />
+        <Enemy />
+        <Enemy />
+        <Enemy />
+        <Ship />
+      </ContainerSC>
+    );
+  }
 }
 export default Container;

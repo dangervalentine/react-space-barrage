@@ -4,13 +4,13 @@ import posed from 'react-pose';
 import { decayVelocity, handleKeys } from '../Helpers';
 
 const ShipPose = posed.div({
-  grow: { 
+  grow: {
     scale: 1.05,
     transition: {
       default: { ease: 'easeOut', duration: 400 }
     }
   },
-  shrink: { 
+  shrink: {
     scale: 1,
     transition: {
       default: { ease: 'easeOut', duration: 400 }
@@ -54,13 +54,18 @@ class Ship extends React.Component {
   }
   componentDidUpdate() {
     const ship = document.querySelector('.ship');
-    ship.style.transform = `rotate(${(this.state.rightVelocity + this.state.leftVelocity) * 2.5}deg)`
+    ship.style.transform = `rotate(${(this.state.rightVelocity +
+      this.state.leftVelocity) *
+      2.5}deg)`;
   }
 
   render() {
     return (
-      <ShipPose className="ship" style={{left: this.state.x, bottom: this.state.y}} />
-    )
+      <ShipPose
+        className="ship"
+        style={{ left: this.state.x, bottom: this.state.y }}
+      />
+    );
   }
 }
 

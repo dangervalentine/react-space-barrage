@@ -3,9 +3,9 @@ import { KEYS } from '../Resources';
 export const decayVelocity = newState => {
   // newState.upVelocity = newState.upVelocity > 0 ? newState.upVelocity - 1 : 0;
 
-    // newState.downVelocity =
+  // newState.downVelocity =
   //   newState.downVelocity < 0 ? newState.downVelocity + 1 : 0;
-  
+
   // newState.y =
   //   newState.y > 0
   //     ? newState.y + newState.upVelocity + newState.downVelocity
@@ -13,14 +13,14 @@ export const decayVelocity = newState => {
 
   newState.leftVelocity =
     newState.leftVelocity < 0 ? newState.leftVelocity + 2 : 0;
-  
+
   newState.rightVelocity =
     newState.rightVelocity > 0 ? newState.rightVelocity - 2 : 0;
-  
+
   newState.x =
     newState.x > 0
-    ? newState.x + newState.rightVelocity + newState.leftVelocity
-    : 0;
+      ? newState.x + newState.rightVelocity + newState.leftVelocity
+      : 0;
 
   return newState;
 };
