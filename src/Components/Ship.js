@@ -22,7 +22,7 @@ class Ship extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      y: 0,
+      y: 100,
       x: 500,
       upVelocity: 0,
       leftVelocity: 0,
@@ -48,14 +48,22 @@ class Ship extends React.Component {
     setInterval(this.decayVelocity, 100);
     window.addEventListener('keydown', this.handleKeys.bind(this));
 
-    setInterval(() => {
-      this.setState({ isVisible: !this.state.isVisible });
-    }, 400);
+    // setInterval(() => {
+    //   this.setState({ isVisible: !this.state.isVisible });
+    // }, 400);
+  }
+  componentDidUpdate() {
+    const ship = document.querySelector('.ship');
+    ship.style.transform = `rotate(${(this.state.rightVelocity + this.state.leftVelocity) * 2.5}deg)`
   }
 
   render() {
     return (
-        <ShipPose pose={this.state.isVisible ? 'grow' : 'shrink'} className="ship" style={{left: this.state.x, bottom: this.state.y}} />
+      <ShipPose 
+      // pose={this.state.isVisible ? 'grow' : 'shrink'}
+      className="ship" 
+      style={{left: this.state.x, bottom: this.state.y,   transform: `rotate(40deg)`   }}> 
+      </ShipPose>
     )
   }
 }

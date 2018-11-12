@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import rocket from '../Assets/rocket.svg';
 import a from '../Assets/a.svg';
 import b from '../Assets/b.svg';
 import c from '../Assets/c.svg';
@@ -28,4 +27,6 @@ export const EnemySC = styled.div`
   display: inline-block;
   background: ${props => `url(${enemies[props.color]})`} center;
   background-size: cover;
-`;
+  `;
+  
+  // background: ${`url(${fire}) center`};
