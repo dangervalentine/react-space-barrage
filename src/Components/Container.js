@@ -1,11 +1,9 @@
 import React from 'react';
 
 import { ContainerSC } from '../StyledComponents';
-import { EnemySC } from '../StyledComponents';
+import Enemy from './Enemy';
 
 import Ship from './Ship';
-
-const randomEn = () => Math.floor(Math.random() * 3);
 
 class Container extends React.Component {
     constructor(props) {
@@ -15,16 +13,16 @@ class Container extends React.Component {
     render() {
       return (
           <ContainerSC>
-              <EnemySC color={randomEn()} />
-              <EnemySC color={randomEn()} />
-              <EnemySC color={randomEn()} />
-              <EnemySC color={randomEn()} />
-              <EnemySC color={randomEn()} />
-              <EnemySC color={randomEn()} />
-              <EnemySC color={randomEn()} />
-              <EnemySC color={randomEn()} />
-              <EnemySC color={randomEn()} />
-              <EnemySC color={randomEn()} />
+              <Enemy />
+              <Enemy />
+              <Enemy />
+              <Enemy />
+              <Enemy />
+              <Enemy />
+              <Enemy />
+              <Enemy />
+              <Enemy />
+              <Enemy />
               <Ship />
           </ContainerSC>
         );

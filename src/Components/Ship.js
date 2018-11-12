@@ -59,11 +59,7 @@ class Ship extends React.Component {
 
   render() {
     return (
-      <ShipPose 
-      // pose={this.state.isVisible ? 'grow' : 'shrink'}
-      className="ship" 
-      style={{left: this.state.x, bottom: this.state.y,   transform: `rotate(40deg)`   }}> 
-      </ShipPose>
+      <ShipPose className="ship" style={{left: this.state.x, bottom: this.state.y}} />
     )
   }
 }
