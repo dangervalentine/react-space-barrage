@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { ContainerSC } from '../StyledComponents';
-import Enemy from './Enemy';
+import { ContainerSC } from "../StyledComponents";
+import Enemy from "./Enemy";
 
-import Ship from './Ship';
+import Ship from "./Ship";
 
 class Container extends React.Component {
   constructor(props) {

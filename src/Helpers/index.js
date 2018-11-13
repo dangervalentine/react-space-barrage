@@ -1,4 +1,4 @@
-import { KEYS } from '../Resources';
+import { KEYS } from "../Resources";
 
 export const decayVelocity = newState => {
   // newState.upVelocity = newState.upVelocity > 0 ? newState.upVelocity - 1 : 0;

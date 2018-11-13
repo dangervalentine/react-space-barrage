@@ -1,19 +1,19 @@
-import React from 'react';
-import posed from 'react-pose';
+import React from "react";
+import posed from "react-pose";
 
-import { decayVelocity, handleKeys } from '../Helpers';
+import { decayVelocity, handleKeys } from "../Helpers";
 
 const ShipPose = posed.div({
   grow: {
     scale: 1.05,
     transition: {
-      default: { ease: 'easeOut', duration: 400 }
+      default: { ease: "easeOut", duration: 400 }
     }
   },
   shrink: {
     scale: 1,
     transition: {
-      default: { ease: 'easeOut', duration: 400 }
+      default: { ease: "easeOut", duration: 400 }
     }
   }
 });
@@ -46,14 +46,14 @@ class Ship extends React.Component {
 
   componentDidMount() {
     setInterval(this.decayVelocity, 100);
-    window.addEventListener('keydown', this.handleKeys.bind(this));
+    window.addEventListener("keydown", this.handleKeys.bind(this));
 
     // setInterval(() => {
     //   this.setState({ isVisible: !this.state.isVisible });
     // }, 400);
   }
   componentDidUpdate() {
-    const ship = document.querySelector('.ship');
+    const ship = document.querySelector(".ship");
     ship.style.transform = `rotate(${(this.state.rightVelocity +
       this.state.leftVelocity) *
       2.5}deg)`;

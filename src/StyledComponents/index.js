@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import a from '../Assets/a.svg';
-import b from '../Assets/b.svg';
-import c from '../Assets/c.svg';
+import a from "../Assets/a.svg";
+import b from "../Assets/b.svg";
+import c from "../Assets/c.svg";
 
 const enemies = [a, b, c];
 
