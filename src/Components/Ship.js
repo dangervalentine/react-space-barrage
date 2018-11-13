@@ -1,23 +1,7 @@
 import React from "react";
-import posed from "react-pose";
 
-import { ShipSC, ShipContainerSC } from "../StyledComponents";
+import { ShipSC, ShipContainerSC, FirePoseSC } from "./StyledComponents";
 import { decayVelocity, handleKeys } from "../Helpers";
-
-const FirePose = posed.div({
-  grow: {
-    scaleY: 1,
-    transition: {
-      default: { ease: "easeOut", duration: 200 }
-    }
-  },
-  shrink: {
-    scaleY: 0.8,
-    transition: {
-      default: { ease: "easeOut", duration: 200 }
-    }
-  }
-});
 
 class Ship extends React.Component {
   constructor(props) {
@@ -66,10 +50,7 @@ class Ship extends React.Component {
         className="ship-container"
       >
         <ShipSC />
-        <FirePose
-          className="fire"
-          pose={this.state.isVisible ? "grow" : "shrink"}
-        />
+        <FirePoseSC pose={this.state.isVisible ? "grow" : "shrink"} />
       </ShipContainerSC>
     );
   }

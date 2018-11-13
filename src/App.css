@@ -7,12 +7,3 @@ body {
   min-height: 100%;
   overflow: hidden;
 }
-
-.fire {
-  height: 100%;
-  width: 100%;
-  background: url("./Assets/fire.svg");
-  background-size: cover;
-  transform: translate(50%);
-  transform-origin: top;
-}

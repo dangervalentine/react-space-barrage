@@ -1,6 +1,6 @@
 import React from "react";
 
-import { EnemySC } from "../StyledComponents";
+import { EnemySC } from "./StyledComponents";
 
 const randomEn = () => Math.floor(Math.random() * 3);
 

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
 import Container from './Components/Container';
-import { AppSC } from './StyledComponents';
-import { KEYS } from './Resources';
+import { AppSC } from './Components/StyledComponents';
 
 import "./App.css";
 

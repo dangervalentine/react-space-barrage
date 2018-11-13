@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ContainerSC } from "../StyledComponents";
+import { ContainerSC } from "./StyledComponents";
 import Enemy from "./Enemy";
 
 import Ship from "./Ship";
