@@ -8,28 +8,11 @@ body {
     overflow: hidden;
 }
 
-
-
-.ship {
-    transform: translate(-50%, 0%);
+.box {
     height: 100%;
     width: 100%;
-    background: url('./Assets/rocket.svg');
-    background-size: cover;
-}
-.ship-container {
-    bottom: 0;
-    left: 50%;
-    width:10%;
-    height: 10%;
-    position: absolute;
-    transform: translate(-50%, 0%);
-}
-
-.box {
-    height: 50%;
-    width: 50%;
     background: url('./Assets/fire.svg');
     background-size: cover;
     transform: translate(50%);
+    transform-origin: top;
 }

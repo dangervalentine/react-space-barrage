@@ -1,17 +1,18 @@
 import React from "react";
 import posed from "react-pose";
 
+import { ShipSC, ShipContainerSC } from '../StyledComponents';
 import { decayVelocity, handleKeys } from "../Helpers";
 
-const ShipPose = posed.div({
+const FirePose = posed.div({
   grow: {
-    scale: 1.05,
+    scaleY: 1,
     transition: {
       default: { ease: "easeOut", duration: 400 }
     }
   },
   shrink: {
-    scale: 1,
+    scaleY: 0.8,
     transition: {
       default: { ease: "easeOut", duration: 400 }
     }
@@ -48,9 +49,9 @@ class Ship extends React.Component {
     setInterval(this.decayVelocity, 100);
     window.addEventListener("keydown", this.handleKeys.bind(this));
 
-    // setInterval(() => {
-    //   this.setState({ isVisible: !this.state.isVisible });
-    // }, 400);
+    setInterval(() => {
+      this.setState({ isVisible: !this.state.isVisible });
+    }, 200);
   }
   componentDidUpdate() {
     const ship = document.querySelector(".ship-container");
@@ -61,15 +62,15 @@ class Ship extends React.Component {
 
   render() {
     return (
-      <div 
-        className="ship-container"
+      <ShipContainerSC 
         style={{ left: this.state.x, bottom: this.state.y }}
+        className="ship-container"
       >
-        <ShipPose
-          className="ship"
-          />
-          <div className="box"></div>
-      </div>
+        <ShipSC />
+        <FirePose className="box"
+          pose={this.state.isVisible ? "grow" : "shrink" }
+        />
+      </ShipContainerSC>
     );
   }
 }
