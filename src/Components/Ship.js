@@ -53,7 +53,7 @@ class Ship extends React.Component {
     // }, 400);
   }
   componentDidUpdate() {
-    const ship = document.querySelector(".ship");
+    const ship = document.querySelector(".ship-container");
     ship.style.transform = `rotate(${(this.state.rightVelocity +
       this.state.leftVelocity) *
       2.5}deg)`;
@@ -61,10 +61,15 @@ class Ship extends React.Component {
 
   render() {
     return (
-      <ShipPose
-        className="ship"
+      <div 
+        className="ship-container"
         style={{ left: this.state.x, bottom: this.state.y }}
-      />
+      >
+        <ShipPose
+          className="ship"
+          />
+          <div className="box"></div>
+      </div>
     );
   }
 }
