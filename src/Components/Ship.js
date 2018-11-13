@@ -1,20 +1,20 @@
 import React from "react";
 import posed from "react-pose";
 
-import { ShipSC, ShipContainerSC } from '../StyledComponents';
+import { ShipSC, ShipContainerSC } from "../StyledComponents";
 import { decayVelocity, handleKeys } from "../Helpers";
 
 const FirePose = posed.div({
   grow: {
     scaleY: 1,
     transition: {
-      default: { ease: "easeOut", duration: 400 }
+      default: { ease: "easeOut", duration: 200 }
     }
   },
   shrink: {
     scaleY: 0.8,
     transition: {
-      default: { ease: "easeOut", duration: 400 }
+      default: { ease: "easeOut", duration: 200 }
     }
   }
 });
@@ -25,9 +25,7 @@ class Ship extends React.Component {
     this.state = {
       y: 100,
       x: 500,
-      upVelocity: 0,
       leftVelocity: 0,
-      downVelocity: 0,
       rightVelocity: 0,
 
       isVisible: true
@@ -53,6 +51,7 @@ class Ship extends React.Component {
       this.setState({ isVisible: !this.state.isVisible });
     }, 200);
   }
+
   componentDidUpdate() {
     const ship = document.querySelector(".ship-container");
     ship.style.transform = `rotate(${(this.state.rightVelocity +
@@ -62,13 +61,14 @@ class Ship extends React.Component {
 
   render() {
     return (
-      <ShipContainerSC 
+      <ShipContainerSC
         style={{ left: this.state.x, bottom: this.state.y }}
         className="ship-container"
       >
         <ShipSC />
-        <FirePose className="box"
-          pose={this.state.isVisible ? "grow" : "shrink" }
+        <FirePose
+          className="fire"
+          pose={this.state.isVisible ? "grow" : "shrink"}
         />
       </ShipContainerSC>
     );

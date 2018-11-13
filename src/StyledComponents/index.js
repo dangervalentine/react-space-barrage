@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import rocket from '../Assets/rocket.svg'
+import rocket from "../Assets/rocket.svg";
 import a from "../Assets/a.svg";
 import b from "../Assets/b.svg";
 import c from "../Assets/c.svg";
@@ -40,7 +40,7 @@ export const ShipSC = styled.div`
 export const ShipContainerSC = styled.div`
   bottom: 0;
   left: 50%;
-  width:10%;
+  width: 10%;
   height: 10%;
   position: absolute;
   transform: translate(-50%, 0%);

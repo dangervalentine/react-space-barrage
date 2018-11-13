@@ -1,18 +1,18 @@
 body {
-    background-color: #000;
-    background-image: url("./Assets/background.jpg");
-    background-size: auto auto;
-    background-repeat: repeat;
-    background-position: center;
-    min-height: 100%;
-    overflow: hidden;
+  background-color: #000;
+  background-image: url("./Assets/background.jpg");
+  background-size: auto auto;
+  background-repeat: repeat;
+  background-position: center;
+  min-height: 100%;
+  overflow: hidden;
 }
 
-.box {
-    height: 100%;
-    width: 100%;
-    background: url('./Assets/fire.svg');
-    background-size: cover;
-    transform: translate(50%);
-    transform-origin: top;
+.fire {
+  height: 100%;
+  width: 100%;
+  background: url("./Assets/fire.svg");
+  background-size: cover;
+  transform: translate(50%);
+  transform-origin: top;
 }
