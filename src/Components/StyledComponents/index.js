@@ -1,12 +1,12 @@
 import styled, { keyframes } from "styled-components";
 
 import rocket from "../../Assets/rocket.svg";
-import fire from '../../Assets/fire.svg';
+import fire from "../../Assets/fire.svg";
 import a from "../../Assets/a.svg";
 import b from "../../Assets/b.svg";
 import c from "../../Assets/c.svg";
 
-import { FirePose } from '../Posed';
+import { FirePose } from "../Posed";
 
 const enemies = [a, b, c];
 
@@ -60,48 +60,39 @@ export const FirePoseSC = styled(FirePose)`
   transform-origin: top;
 `;
 
-
 const StarSC = styled.div`
   position: absolute;
-  left: 0px;
+  left: ${props => props.x}px;
   background-color: white;
   border-radius: 50%;
-  animation-name: ${moveX};
   z-index: 1;
   opacity: 0.5;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
+  top: -2vh;
+  animation: ${() => moveX} ${props => props.sp}s linear
+    ${props => `${props.delay}ms`} infinite normal;
 `;
 
-
-export const SmallStarSC = styled(StarSC)`
-  top: 10px;
+export const SmStarSC = styled(StarSC)`
   width: 3px;
   height: 3px;
-  animation-duration: 16s;
   background-color: gray;
 `;
 
-export const MediumStarSC = styled(StarSC)`
-  top: 50px;
+export const MdStarSC = styled(StarSC)`
   width: 4px;
   height: 4px;
-  animation-duration: 14s;
 `;
 
-export const BigStartSC = styled(StarSC)`
-  left: 0px;
-  top: 100px;
+export const LgStarSC = styled(StarSC)`
   width: 5px;
   height: 5px;
-  animation-duration: 12s;
 `;
 
 export const moveX = keyframes`
-  from {
-    transform: translateY(-10vh);
+  0% {
+    transform: translateY(0vh);
   }
-  to {
-    transform: translateY(100vh);
+  100% {
+    transform: translateY(80vh);
   }
 `;

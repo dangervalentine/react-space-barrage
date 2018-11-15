@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ContainerSC } from "./StyledComponents";
+import { ContainerSC, SmStarSC, MdStarSC, LgStarSC } from "./StyledComponents";
 import Enemy from "./Enemy";
 
 import Ship from "./Ship";
@@ -9,44 +9,33 @@ class Container extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      stars: []
+    };
+
     this.container = React.createRef();
-    this.addStar = this.addStar.bind(this);
-  }
-
-  addStar(type) {
-    var div = document.createElement("div");
-    div.classList.add("star", type);
-    div.style.left = Math.floor(Math.random() * window.innerWidth) + "px";
-
-    const container = this.container;
-    container.current.appendChild(div);
   }
 
   componentWillMount() {
+    const newStars = [...this.state.stars];
+    const random = () => Math.floor(Math.random() * window.innerWidth);
+
     for (var i = 0; i < 20; ++i) {
-      var delay = i * 333;
-      window.setTimeout(this.addStar, delay, "small");
-      window.setTimeout(this.addStar, delay + 333, "medium");
-      window.setTimeout(this.addStar, delay + 666, "big");
+      newStars.push(
+        <SmStarSC key={"a" + i} x={random()} sp={12} delay={i * 333} />,
+        <MdStarSC key={"b" + i} x={random()} sp={09} delay={i * 333 + 333} />,
+        <LgStarSC key={"c" + i} x={random()} sp={06} delay={i * 333 + 666} />
+      );
     }
+
+    this.setState({ stars: newStars });
   }
 
   render() {
     return (
       <ContainerSC ref={this.container}>
-        <div className="star small" />
-        <div className="star medium" />
-        <div className="star big" />
-        <Enemy />
-        <Enemy />
-        <Enemy />
-        <Enemy />
-        <Enemy />
-        <Enemy />
-        <Enemy />
-        <Enemy />
-        <Enemy />
-        <Enemy />
+        <React.Fragment>{this.state.stars}</React.Fragment>
+
         <Ship />
       </ContainerSC>
     );
