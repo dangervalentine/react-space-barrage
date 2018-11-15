@@ -1,7 +1,11 @@
 import React from "react";
 
-import { ContainerSC, SmStarSC, MdStarSC, LgStarSC } from "./StyledComponents";
-import Enemy from "./Enemy";
+import { 
+  ContainerSC, 
+  SmStarSC, 
+  MdStarSC, 
+  LgStarSC 
+} from "./StyledComponents";
 
 import Ship from "./Ship";
 
@@ -12,8 +16,6 @@ class Container extends React.Component {
     this.state = {
       stars: []
     };
-
-    this.container = React.createRef();
   }
 
   componentWillMount() {
@@ -23,8 +25,8 @@ class Container extends React.Component {
     for (var i = 0; i < 20; ++i) {
       newStars.push(
         <SmStarSC key={"a" + i} x={random()} sp={12} delay={i * 333} />,
-        <MdStarSC key={"b" + i} x={random()} sp={09} delay={i * 333 + 333} />,
-        <LgStarSC key={"c" + i} x={random()} sp={06} delay={i * 333 + 666} />
+        <MdStarSC key={"b" + i} x={random()} sp={9}  delay={i * 333 + 333} />,
+        <LgStarSC key={"c" + i} x={random()} sp={6}  delay={i * 333 + 666} />
       );
     }
 
@@ -33,9 +35,8 @@ class Container extends React.Component {
 
   render() {
     return (
-      <ContainerSC ref={this.container}>
-        <React.Fragment>{this.state.stars}</React.Fragment>
-
+      <ContainerSC>
+        {this.state.stars}
         <Ship />
       </ContainerSC>
     );
