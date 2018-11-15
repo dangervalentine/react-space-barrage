@@ -15,15 +15,13 @@ class Ship extends React.Component {
       isVisible: true
     };
 
-    this.handleKeys = this.handleKeys.bind(this);
-    this.decayVelocity = this.decayVelocity.bind(this);
   }
 
-  handleKeys(e) {
+  handleKeys = e => {
     this.setState({ ...handleKeys(this.state, e) });
   }
 
-  decayVelocity() {
+  decayVelocity = () => {
     this.setState({ ...decayVelocity(this.state) });
   }
 
