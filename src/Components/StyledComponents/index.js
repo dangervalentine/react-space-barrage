@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 import rocket from "../../Assets/rocket.svg";
 import fire from '../../Assets/fire.svg';
@@ -22,7 +22,8 @@ export const ContainerSC = styled.div`
   width: 80vh;
   height: 80vh;
   background: rgba(22, 11, 11, 0.8);
-  borderradius: 1vh;
+  border-radius: 1vh;
+  overflow: hidden;
 `;
 
 export const EnemySC = styled.div`
@@ -38,6 +39,7 @@ export const ShipSC = styled.div`
   width: 100%;
   background: url(${rocket});
   background-size: cover;
+  z-index: 500;
 `;
 
 export const ShipContainerSC = styled.div`
@@ -58,3 +60,48 @@ export const FirePoseSC = styled(FirePose)`
   transform-origin: top;
 `;
 
+
+const StarSC = styled.div`
+  position: absolute;
+  left: 0px;
+  background-color: white;
+  border-radius: 50%;
+  animation-name: ${moveX};
+  z-index: 1;
+  opacity: 0.5;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+`;
+
+
+export const SmallStarSC = styled(StarSC)`
+  top: 10px;
+  width: 3px;
+  height: 3px;
+  animation-duration: 16s;
+  background-color: gray;
+`;
+
+export const MediumStarSC = styled(StarSC)`
+  top: 50px;
+  width: 4px;
+  height: 4px;
+  animation-duration: 14s;
+`;
+
+export const BigStartSC = styled(StarSC)`
+  left: 0px;
+  top: 100px;
+  width: 5px;
+  height: 5px;
+  animation-duration: 12s;
+`;
+
+export const moveX = keyframes`
+  from {
+    transform: translateY(-10vh);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+`;
