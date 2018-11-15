@@ -7,47 +7,30 @@ class Ship extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			y: 100,
 			x: 500,
-			leftVelocity: 0,
-			rightVelocity: 0,
-
-			isVisible: true,
+			lVelocity: 0,
+			rVelocity: 0,
+			flame: true,
 		};
 	}
 
-	handleKeys = e => {
-		this.setState({ ...handleKeys(this.state, e) });
-	};
+	handleKeys = e => this.setState(state => ({ ...handleKeys(state, e) }));
 
-	decayVelocity = () => {
-		this.setState({ ...decayVelocity(this.state) });
-	};
+	decayVelocity = () => this.setState(state => ({ ...decayVelocity(state) }));
 
 	componentDidMount() {
-		setInterval(this.decayVelocity, 100);
-		window.addEventListener('keydown', this.handleKeys.bind(this));
-
-		setInterval(() => {
-			this.setState({ isVisible: !this.state.isVisible });
-		}, 200);
-	}
-
-	componentDidUpdate() {
-		const ship = document.querySelector('.ship-container');
-		ship.style.transform = `rotate(${(this.state.rightVelocity +
-			this.state.leftVelocity) *
-			2.5}deg)`;
+		setInterval(this.decayVelocity, 50);
+		window.addEventListener('keydown', this.handleKeys);
+		setInterval(() => this.setState({ flame: !this.state.flame }), 200);
 	}
 
 	render() {
+		const rotateDeg = this.state.rVelocity + this.state.lVelocity * 2.5;
+
 		return (
-			<ShipContainerSC
-				style={{ left: this.state.x, bottom: this.state.y }}
-				className="ship-container"
-			>
+			<ShipContainerSC style={{ left: this.state.x }} rotate={rotateDeg}>
 				<ShipSC />
-				<FirePoseSC pose={this.state.isVisible ? 'grow' : 'shrink'} />
+				<FirePoseSC pose={this.state.flame ? 'grow' : 'shrink'} />
 			</ShipContainerSC>
 		);
 	}

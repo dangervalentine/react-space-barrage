@@ -21,7 +21,7 @@ class Container extends React.Component {
 			newStars.push(
 				<SmStarSC key={'a' + i} x={random()} sp={12} delay={i * 333} />,
 				<MdStarSC key={'b' + i} x={random()} sp={9} delay={i * 333 + 333} />,
-				<LgStarSC key={'c' + i} x={random()} sp={6} delay={i * 333 + 666} />
+				<LgStarSC key={'c' + i} x={random()} sp={6} delay={i * 333 + 666} />,
 			);
 		}
 

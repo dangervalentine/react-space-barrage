@@ -1,34 +1,27 @@
 import { KEYS } from '../Resources';
 
 export const decayVelocity = newState => {
-	newState.leftVelocity =
-		newState.leftVelocity < 0 ? newState.leftVelocity + 2 : 0;
+	let { rVelocity, lVelocity, x } = newState;
 
-	newState.rightVelocity =
-		newState.rightVelocity > 0 ? newState.rightVelocity - 2 : 0;
+	newState.lVelocity = lVelocity < 0 ? lVelocity + 1 : 0;
 
-	newState.x =
-		newState.x > 0
-			? newState.x + newState.rightVelocity + newState.leftVelocity
-			: 0;
+	newState.rVelocity = rVelocity > 0 ? rVelocity - 1 : 0;
+
+	newState.x = x > 0 ? x + newState.rVelocity + newState.lVelocity : 0;
 
 	return newState;
 };
 
 export const handleKeys = (newState, e) => {
-	if (e.keyCode === KEYS.RIGHT || e.keyCode === KEYS.D) {
-		newState.rightVelocity =
-			newState.rightVelocity < 20 ? newState.rightVelocity + 2 : 20;
+	let { rVelocity, lVelocity, x } = newState;
 
-		newState.x = newState.x + newState.rightVelocity;
-	}
+	if (e.keyCode === KEYS.RIGHT || e.keyCode === KEYS.D)
+		newState.rVelocity = rVelocity < 20 ? rVelocity + 2 : 20;
 
-	if (e.keyCode === KEYS.LEFT || e.keyCode === KEYS.A) {
-		newState.leftVelocity =
-			newState.leftVelocity > -20 ? newState.leftVelocity - 2 : -20;
+	if (e.keyCode === KEYS.LEFT || e.keyCode === KEYS.A)
+		newState.lVelocity = lVelocity > -20 ? lVelocity - 2 : -20;
 
-		newState.x = newState.x > 0 ? newState.x + newState.leftVelocity : 0;
-	}
+	newState.x = x + newState.lVelocity + newState.rVelocity;
 
 	return newState;
 };

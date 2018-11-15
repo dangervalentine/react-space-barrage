@@ -43,12 +43,13 @@ export const ShipSC = styled.div`
 `;
 
 export const ShipContainerSC = styled.div`
-	bottom: 0;
+	bottom: 10vh;
 	left: 50%;
 	width: 10%;
 	height: 10%;
 	position: absolute;
 	transform: translate(-50%, 0%);
+	transform: rotate(${props => props.rotate}deg);
 `;
 
 export const FirePoseSC = styled(FirePose)`
