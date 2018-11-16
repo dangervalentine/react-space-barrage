@@ -5,71 +5,69 @@ import fire from '../../Assets/fire.svg';
 import a from '../../Assets/a.svg';
 import b from '../../Assets/b.svg';
 import c from '../../Assets/c.svg';
-
 import { FirePose } from '../Posed';
 
 const enemies = [a, b, c];
 
 export const AppSC = styled.div`
-  margin: 12vh;
+  margin: 10vh;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 `;
 
 export const ContainerSC = styled.div`
-  position: relative;
   width: 80vh;
   height: 80vh;
-  background: rgba(22, 11, 11, 0.4);
-  border-radius: 3vh;
   overflow: hidden;
+  position: relative;
+  border-radius: 3vh;
+  background: rgba(22, 11, 11, 0.4);
 `;
 
 export const EnemySC = styled.div`
   width: 10%;
   height: 10%;
   display: inline-block;
+  background-size: cover;
   background: ${props => `url(${enemies[props.color]})`} center;
-  background-size: cover;
-`;
-
-export const ShipSC = styled.div`
-  height: 100%;
-  width: 100%;
-  background: url(${rocket});
-  background-size: cover;
-  z-index: 500;
 `;
 
 export const ShipContainerSC = styled.div`
-  bottom: 10vh;
   left: 50%;
   width: 10%;
   height: 10%;
+  bottom: 10vh;
   position: absolute;
   transform: translate(-50%, 0%);
   transform: rotate(${props => props.rotate}deg);
 `;
 
-export const FirePoseSC = styled(FirePose)`
-  height: 100%;
+export const ShipSC = styled.div`
+  z-index: 5;
   width: 100%;
+  height: 100%;
+  background-size: cover;
+  background: url(${rocket});
+`;
+
+export const FirePoseSC = styled(FirePose)`
+  width: 100%;
+  height: 100%;
   margin-top: -0.15vh;
-  background: url(${fire});
+  transform-origin: top;
   background-size: cover;
   transform: translate(50%);
-  transform-origin: top;
+  background-image: url(${fire});
 `;
 
 const StarSC = styled.div`
-  position: absolute;
-  left: ${props => props.x}px;
-  background-color: white;
-  border-radius: 50%;
-  z-index: -1;
-  opacity: 1;
   top: -2vh;
+  z-index: -1;
+  position: absolute;
+  border-radius: 50%;
+  background-color: white;
+  left: ${props => props.x}px;
   animation: ${() => moveX} ${props => props.sp}s linear
     ${props => `${props.delay}s`} infinite normal;
 `;

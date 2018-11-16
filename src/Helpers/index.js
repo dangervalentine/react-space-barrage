@@ -1,28 +1,28 @@
 import { KEYS } from '../Resources';
 
-export const decayVelocity = newState => {
-  let { rVelocity, lVelocity, x } = newState;
+export const decayVelocity = state => {
+  let { rVelocity, lVelocity, x } = state;
 
-  newState.lVelocity = lVelocity < 0 ? lVelocity + 1 : 0;
+  state.lVelocity = lVelocity < 0 ? lVelocity + 1 : 0;
 
-  newState.rVelocity = rVelocity > 0 ? rVelocity - 1 : 0;
+  state.rVelocity = rVelocity > 0 ? rVelocity - 1 : 0;
 
-  newState.x = x > 0 ? x + newState.rVelocity + newState.lVelocity : 0;
+  state.x = x > 0 ? x + state.rVelocity + state.lVelocity : 0;
 
-  return newState;
+  return state;
 };
 
-export const handleKeys = (newState, e) => {
-  let { rVelocity, lVelocity, x } = newState;
+export const handleKeys = (state, e) => {
+  let { rVelocity, lVelocity, x } = state;
   let key = e.keyCode;
 
   if (key === KEYS.RIGHT || key === KEYS.D)
-    newState.rVelocity = rVelocity < 20 ? rVelocity + 2 : 20;
+    state.rVelocity = rVelocity < 20 ? rVelocity + 2 : 20;
 
   if (key === KEYS.LEFT || key === KEYS.A)
-    newState.lVelocity = lVelocity > -20 ? lVelocity - 2 : -20;
+    state.lVelocity = lVelocity > -20 ? lVelocity - 2 : -20;
 
-  newState.x = x + newState.lVelocity + newState.rVelocity;
+  state.x = x + state.lVelocity + state.rVelocity;
 
-  return newState;
+  return state;
 };
