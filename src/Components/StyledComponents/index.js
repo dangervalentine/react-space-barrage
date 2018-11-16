@@ -68,7 +68,7 @@ const StarSC = styled.div`
   background-color: white;
   border-radius: 50%;
   z-index: -1;
-  opacity: 0.5;
+  opacity: 1;
   top: -2vh;
   animation: ${() => moveX} ${props => props.sp}s linear
     ${props => `${props.delay}s`} infinite normal;
@@ -77,7 +77,6 @@ const StarSC = styled.div`
 export const SmStarSC = styled(StarSC)`
   width: 3px;
   height: 3px;
-  background-color: gray;
 `;
 
 export const MdStarSC = styled(StarSC)`
