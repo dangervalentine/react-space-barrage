@@ -55,6 +55,7 @@ export const ShipContainerSC = styled.div`
 export const FirePoseSC = styled(FirePose)`
   height: 100%;
   width: 100%;
+  margin-top: -0.15vh;
   background: url(${fire});
   background-size: cover;
   transform: translate(50%);
