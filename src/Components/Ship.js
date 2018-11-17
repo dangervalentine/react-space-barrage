@@ -14,9 +14,9 @@ class Ship extends React.Component {
     };
   }
 
-  handleKeys = e => this.setState(state => ({ ...handleKeys(state, e) }));
+  handleKeys = e => this.setState({ ...handleKeys(this, e) });
 
-  decayVelocity = () => this.setState(state => ({ ...decayVelocity(state) }));
+  decayVelocity = () => this.setState({ ...decayVelocity(this) });
 
   componentDidMount() {
     setInterval(this.decayVelocity, 50);
@@ -25,7 +25,7 @@ class Ship extends React.Component {
   }
 
   render() {
-    const rotateDeg = this.state.rVelocity + this.state.lVelocity * 2.5;
+    const rotateDeg = (this.state.rVelocity + this.state.lVelocity) * 2.5;
 
     return (
       <ShipContainerSC style={{ left: this.state.x }} rotate={rotateDeg}>
