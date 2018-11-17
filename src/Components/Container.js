@@ -9,7 +9,7 @@ const withSizeHOC = withSize();
 
 const Container = props => {
   const rX = () => Math.floor(Math.random() * props.size.width);
-  const rDelay = () => 0 - Math.floor(Math.random() * 1200) / 100;
+  const rDelay = () => 0 - Math.floor(Math.random() * 1200);
 
   const stars = [];
   for (var i = 0; i < 10; ++i) {

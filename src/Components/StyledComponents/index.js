@@ -47,8 +47,8 @@ export const ShipSC = styled.div`
   z-index: 5;
   width: 100%;
   height: 100%;
-  background-size: cover;
   background: url(${rocket});
+  background-size: cover;
 `;
 
 export const FirePoseSC = styled(FirePose)`
@@ -69,7 +69,7 @@ const StarSC = styled.div`
   background-color: white;
   left: ${props => props.x}px;
   animation: ${() => moveX} ${props => props.sp}s linear
-    ${props => `${props.delay}s`} infinite normal;
+    ${props => `${props.delay}ms`} infinite normal;
 `;
 
 export const SmStarSC = styled(StarSC)`
