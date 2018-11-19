@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ContainerSC } from './StyledComponents';
 import { withContext } from '../Context';
-import { createStars } from '../Helpers';
+import { createStars, createEnemies } from '../Helpers';
 
 import Ship from './Ship';
 
@@ -13,9 +13,11 @@ class Container extends React.Component {
 
   render() {
     const stars = createStars();
+    const enemies = createEnemies();
     return (
       <ContainerSC>
         {stars}
+        {enemies}
         <Ship />
       </ContainerSC>
     );

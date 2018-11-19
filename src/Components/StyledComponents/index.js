@@ -29,8 +29,12 @@ export const EnemySC = styled.div`
   width: 100px;
   height: 100px;
   display: inline-block;
-  background-size: cover;
   background: ${props => `url(${enemies[props.color]})`} center;
+  background-size: cover;
+  position: absolute;
+  left: ${props => props.x * 100}px;
+  animation: ${() => moveX} ${props => props.sp}s linear
+    ${props => `${props.delay}s`} infinite normal;
 `;
 
 export const ShipContainerSC = styled.div`
