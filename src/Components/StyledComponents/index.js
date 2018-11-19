@@ -35,8 +35,8 @@ export const EnemySC = styled.div`
 
 export const ShipContainerSC = styled.div`
   left: 50%;
-  width: 10%;
-  height: 10%;
+  width: 100px;
+  height: 100px;
   bottom: 10vh;
   position: absolute;
   transform: translate(-50%, 0%);

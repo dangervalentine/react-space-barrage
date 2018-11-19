@@ -46,9 +46,9 @@ export const createStars = maxSize => {
   const stars = [];
   for (var i = 0; i < 10; ++i) {
     stars.push(
-      <SmStarSC key={'a' + i} x={rX()} sp={9} delay={rDelay()} />,
-      <MdStarSC key={'b' + i} x={rX()} sp={7} delay={rDelay()} />,
-      <LgStarSC key={'c' + i} x={rX()} sp={5} delay={rDelay()} />
+      <SmStarSC key={'a' + i} x={rX()} sp={12} delay={rDelay()} />,
+      <MdStarSC key={'b' + i} x={rX()} sp={8} delay={rDelay()} />,
+      <LgStarSC key={'c' + i} x={rX()} sp={6} delay={rDelay()} />
     );
   }
   return stars;
