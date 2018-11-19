@@ -37,7 +37,6 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-pose": "^4.0.1",
-    "react-sizeme": "^2.5.2",
     "styled-components": "^4.0.3"
   }
 }

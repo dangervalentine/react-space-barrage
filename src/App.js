@@ -1,5 +1,4 @@
 import React from 'react';
-import { SizeMe } from 'react-sizeme';
 
 import Container from './Components/Container';
 import { AppSC } from './Components/StyledComponents';
@@ -14,7 +13,6 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      containerWidth: 0,
       shipX: 500,
       rVelocity: 0,
       lVelocity: 0
@@ -39,7 +37,7 @@ class App extends React.Component {
     return (
       <Context.Provider value={{ state, update }}>
         <AppSC>
-          <SizeMe>{({ size }) => <Container size={size} />}</SizeMe>
+          <Container />}
         </AppSC>
       </Context.Provider>
     );

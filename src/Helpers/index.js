@@ -4,9 +4,9 @@ import { SmStarSC, MdStarSC, LgStarSC } from '../Components/StyledComponents';
 import { KEYS } from '../Resources';
 
 export const decayVelocity = state => {
-  const maxX = state.containerWidth * 0.9;
   const { rVelocity, lVelocity, shipX } = state;
   const velocity = lVelocity + rVelocity;
+  const maxX = 900;
 
   state.lVelocity = lVelocity < 0 && shipX > 0 ? lVelocity + 1 : 0;
 
@@ -23,10 +23,9 @@ export const decayVelocity = state => {
 
 export const handleKeys = (state, e) => {
   const key = e.keyCode;
-  const maxX = state.containerWidth;
   const { rVelocity, lVelocity, shipX } = state;
 
-  if (!shipX >= 0 && !shipX <= maxX) {
+  if (!shipX >= 0 && !shipX <= 1000) {
     if (key === KEYS.RIGHT || key === KEYS.D)
       state.rVelocity = rVelocity < 20 ? rVelocity + 2 : 20;
 
@@ -39,8 +38,8 @@ export const handleKeys = (state, e) => {
   }
 };
 
-export const createStars = maxSize => {
-  const rX = () => Math.floor(Math.random() * maxSize);
+export const createStars = () => {
+  const rX = () => Math.floor(Math.random() * 1000);
   const rDelay = () => 0 - Math.floor(Math.random() * 2400);
 
   const stars = [];
