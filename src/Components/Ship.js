@@ -1,34 +1,26 @@
 import React from 'react';
 
 import { ShipSC, ShipContainerSC, FirePoseSC } from './StyledComponents';
-import { decayVelocity, handleKeys } from '../Helpers';
+import { withContext } from '../Context';
 
 class Ship extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      x: 500,
-      lVelocity: 0,
-      rVelocity: 0,
       flame: true
     };
   }
 
-  handleKeys = e => this.setState({ ...handleKeys(this, e) });
-
-  decayVelocity = () => this.setState({ ...decayVelocity(this) });
-
   componentDidMount() {
-    setInterval(this.decayVelocity, 50);
-    window.addEventListener('keydown', this.handleKeys);
     setInterval(() => this.setState({ flame: !this.state.flame }), 200);
   }
 
   render() {
-    const rotateDeg = (this.state.rVelocity + this.state.lVelocity) * 2.5;
-
+    const { shipX, rVelocity, lVelocity } = this.props.context.state;
+    const rotateDeg = (rVelocity + lVelocity) * 2.5;
     return (
-      <ShipContainerSC style={{ left: this.state.x }} rotate={rotateDeg}>
+      <ShipContainerSC style={{ left: shipX }} rotate={rotateDeg}>
         <ShipSC />
         <FirePoseSC pose={this.state.flame ? 'grow' : 'shrink'} />
       </ShipContainerSC>
@@ -36,4 +28,4 @@ class Ship extends React.Component {
   }
 }
 
-export default Ship;
+export default withContext(Ship);
