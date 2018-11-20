@@ -1,12 +1,8 @@
 import React from 'react';
 
-import {
-  SmStarSC,
-  MdStarSC,
-  LgStarSC,
-  EnemySC
-} from '../Components/StyledComponents';
+import { SmStarSC, MdStarSC, LgStarSC } from '../Components/StyledComponents';
 import { KEYS } from '../Resources';
+import Enemy from '../Components/Enemy';
 
 export const decayVelocity = state => {
   const { rVelocity, lVelocity, shipX } = state;
@@ -65,14 +61,14 @@ export const createEnemies = () => {
   const rDelay = () => 0 - randomUpTo(10);
 
   const enemies = [];
-  for (let i = 0; i < 10; ++i) {
+  for (let i = 0; i < 1; ++i) {
     enemies.push(
-      <EnemySC
+      <Enemy
         key={i}
         x={rX()}
-        sp={(color() + 1) * 3}
         color={color()}
         delay={rDelay()}
+        sp={(color() + 1) * 3}
       />
     );
   }

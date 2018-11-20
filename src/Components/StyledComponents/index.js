@@ -32,9 +32,7 @@ export const EnemySC = styled.div`
   background: ${props => `url(${enemies[props.color]})`} center;
   background-size: cover;
   position: absolute;
-  left: ${props => props.x * 100}px;
-  animation: ${() => moveX} ${props => props.sp}s linear
-    ${props => `${props.delay}s`} infinite normal;
+  left: 0px;
 `;
 
 export const ShipContainerSC = styled.div`

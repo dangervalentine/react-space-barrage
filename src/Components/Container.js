@@ -5,6 +5,7 @@ import { withContext } from '../Context';
 import { createStars, createEnemies } from '../Helpers';
 
 import Ship from './Ship';
+import Enemy from './Enemy';
 
 class Container extends React.Component {
   shouldComponentUpdate() {
@@ -13,11 +14,15 @@ class Container extends React.Component {
 
   render() {
     const stars = createStars();
-    const enemies = createEnemies();
     return (
       <ContainerSC>
         {stars}
-        {enemies}
+        <Enemy />
+        <Enemy />
+        <Enemy />
+        <Enemy />
+        <Enemy />
+        <Enemy />
         <Ship />
       </ContainerSC>
     );
