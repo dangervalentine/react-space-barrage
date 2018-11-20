@@ -6,13 +6,15 @@ import { EnemySC } from './StyledComponents';
 class Enemy extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      y: 0,
-      x: randomUpTo(10) * 100 - 100,
-      color: randomUpTo(3),
-      speed: randomUpTo(3) + 1
-    };
+    this.state = { ...this.createState() };
   }
+
+  createState = () => ({
+    y: 0,
+    color: randomUpTo(3),
+    speed: randomUpTo(3) + 1,
+    x: randomUpTo(10) * 100 - 100
+  });
 
   componentDidMount() {
     setInterval(() => {
@@ -23,23 +25,16 @@ class Enemy extends React.Component {
 
   componentDidUpdate() {
     if (this.state.y > 1000) {
-      const newX = randomUpTo(10) * 100;
-      const newY = 0;
-      const newColor = randomUpTo(3);
-      const newSpeed = randomUpTo(3) + 1;
-      this.setState({ x: newX, y: newY, color: newColor, speed: newSpeed });
+      this.setState({ ...this.createState() });
     }
   }
 
   render() {
     const { state } = this;
-    return (
-      <EnemySC
-        speed={state.sp}
-        color={state.color}
-        style={{ left: state.x, top: state.y }}
-      />
-    );
+    const { sp, color, x, y } = state;
+    const position = { left: x, top: y };
+
+    return <EnemySC speed={sp} color={color} style={position} />;
   }
 }
 
