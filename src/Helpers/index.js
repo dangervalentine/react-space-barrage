@@ -4,6 +4,39 @@ import { SmStarSC, MdStarSC, LgStarSC } from '../Components/StyledComponents';
 import { KEYS } from '../Resources';
 import Enemy from '../Components/Enemy';
 
+export const tick = state => {
+  let newState = { ...state };
+  newState = decayVelocity(newState);
+  newState.enemy1 = updateEnemies(newState.enemy1);
+  newState.enemy2 = updateEnemies(newState.enemy2);
+  newState.enemy3 = updateEnemies(newState.enemy3);
+  newState.enemy4 = updateEnemies(newState.enemy4);
+  newState.enemy5 = updateEnemies(newState.enemy5);
+
+  return newState;
+};
+
+export const recreateEnemy = (key = 1) => ({
+  key,
+  y: 0,
+  index: key,
+  color: randomUpTo(3),
+  x: randomUpTo(10) * 100,
+  speed: randomUpTo(3) + 1
+});
+
+export const updateEnemies = enemy => {
+  // enemies.map(enemy => {
+  const { y, speed, index } = enemy;
+  enemy.y = y + speed * 10;
+  if (enemy.y > 1000) {
+    enemy = recreateEnemy(index);
+  }
+  // return enemy;
+  // });
+  return enemy;
+};
+
 export const decayVelocity = state => {
   const { rVelocity, lVelocity, shipX } = state;
   const velocity = lVelocity + rVelocity;
@@ -53,27 +86,6 @@ export const createStars = () => {
   }
 
   return stars;
-};
-
-export const createEnemies = () => {
-  const rX = () => randomUpTo(10);
-  const color = () => randomUpTo(3);
-  const rDelay = () => 0 - randomUpTo(10);
-
-  const enemies = [];
-  for (let i = 0; i < 1; ++i) {
-    enemies.push(
-      <Enemy
-        key={i}
-        x={rX()}
-        color={color()}
-        delay={rDelay()}
-        sp={(color() + 1) * 3}
-      />
-    );
-  }
-
-  return enemies;
 };
 
 export const randomUpTo = upperLimit => Math.floor(Math.random() * upperLimit);

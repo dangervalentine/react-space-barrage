@@ -4,9 +4,10 @@ import Container from './Components/Container';
 import { AppSC } from './Components/StyledComponents';
 import { Context } from './Context';
 
-import { decayVelocity, handleKeys } from './Helpers';
+import { tick, handleKeys, recreateEnemy } from './Helpers';
 
 import './App.css';
+import Enemy from './Components/Enemy';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,8 +16,17 @@ class App extends React.Component {
     this.state = {
       shipX: 500,
       rVelocity: 0,
-      lVelocity: 0
+      lVelocity: 0,
+      enemy1: { ...recreateEnemy() },
+      enemy2: { ...recreateEnemy() },
+      enemy3: { ...recreateEnemy() },
+      enemy4: { ...recreateEnemy() },
+      enemy5: { ...recreateEnemy() }
     };
+
+    // for (let i = 1; i <= 10; i++) {
+    //   this.state.enemies.push({ ...Enemy.createState() });
+    // }
 
     this.update = (key, value) => {
       this.setState({ [key]: value });
@@ -24,13 +34,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(this.decayVelocity, 50);
+    setInterval(this.tick, 50);
     window.addEventListener('keydown', this.handleKeys);
   }
 
-  handleKeys = e => this.setState({ ...handleKeys(this.state, e) });
+  tick = () => this.setState(state => tick(state));
 
-  decayVelocity = () => this.setState({ ...decayVelocity(this.state) });
+  handleKeys = e => this.setState({ ...handleKeys(this.state, e) });
 
   render() {
     const { update, state } = this;
