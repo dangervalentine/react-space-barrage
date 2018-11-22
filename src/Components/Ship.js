@@ -17,7 +17,7 @@ class Ship extends React.Component {
   }
 
   render() {
-    const { shipX, rVelocity, lVelocity } = this.props.context.state;
+    const { shipX, rVelocity, lVelocity } = this.props.context;
     const rotateDeg = (rVelocity + lVelocity) * 2.5;
     return (
       <ShipContainerSC style={{ left: shipX }} rotate={rotateDeg}>

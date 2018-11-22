@@ -1,13 +1,12 @@
 import React from 'react';
 
+import { Context } from './Context';
 import Container from './Components/Container';
 import { AppSC } from './Components/StyledComponents';
-import { Context } from './Context';
 
-import { tick, handleKeys, recreateEnemy } from './Helpers';
+import { tick, handleKeys, createEnemy } from './Helpers';
 
 import './App.css';
-import Enemy from './Components/Enemy';
 
 class App extends React.Component {
   constructor(props) {
@@ -17,19 +16,11 @@ class App extends React.Component {
       shipX: 500,
       rVelocity: 0,
       lVelocity: 0,
-      enemy1: { ...recreateEnemy() },
-      enemy2: { ...recreateEnemy() },
-      enemy3: { ...recreateEnemy() },
-      enemy4: { ...recreateEnemy() },
-      enemy5: { ...recreateEnemy() }
-    };
-
-    // for (let i = 1; i <= 10; i++) {
-    //   this.state.enemies.push({ ...Enemy.createState() });
-    // }
-
-    this.update = (key, value) => {
-      this.setState({ [key]: value });
+      enemy1: { ...createEnemy() },
+      enemy2: { ...createEnemy() },
+      enemy3: { ...createEnemy() },
+      enemy4: { ...createEnemy() },
+      enemy5: { ...createEnemy() }
     };
   }
 
@@ -43,9 +34,9 @@ class App extends React.Component {
   handleKeys = e => this.setState({ ...handleKeys(this.state, e) });
 
   render() {
-    const { update, state } = this;
+    const { state } = this;
     return (
-      <Context.Provider value={{ state, update }}>
+      <Context.Provider value={{ ...state }}>
         <AppSC>
           <Container />}
         </AppSC>

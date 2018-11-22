@@ -2,38 +2,25 @@ import React from 'react';
 
 import { SmStarSC, MdStarSC, LgStarSC } from '../Components/StyledComponents';
 import { KEYS } from '../Resources';
-import Enemy from '../Components/Enemy';
 
 export const tick = state => {
-  let newState = { ...state };
-  newState = decayVelocity(newState);
-  newState.enemy1 = updateEnemies(newState.enemy1);
-  newState.enemy2 = updateEnemies(newState.enemy2);
-  newState.enemy3 = updateEnemies(newState.enemy3);
-  newState.enemy4 = updateEnemies(newState.enemy4);
-  newState.enemy5 = updateEnemies(newState.enemy5);
+  state = decayVelocity(state);
 
-  return newState;
+  state.enemy1 = updateEnemy(state.enemy1);
+  state.enemy2 = updateEnemy(state.enemy2);
+  state.enemy3 = updateEnemy(state.enemy3);
+  state.enemy4 = updateEnemy(state.enemy4);
+  state.enemy5 = updateEnemy(state.enemy5);
+
+  return state;
 };
 
-export const recreateEnemy = (key = 1) => ({
-  key,
-  y: 0,
-  index: key,
-  color: randomUpTo(3),
-  x: randomUpTo(10) * 100,
-  speed: randomUpTo(3) + 1
-});
-
-export const updateEnemies = enemy => {
-  // enemies.map(enemy => {
+export const updateEnemy = enemy => {
   const { y, speed, index } = enemy;
+
   enemy.y = y + speed * 10;
-  if (enemy.y > 1000) {
-    enemy = recreateEnemy(index);
-  }
-  // return enemy;
-  // });
+  enemy = enemy.y > 1000 ? createEnemy(index) : enemy;
+
   return enemy;
 };
 
@@ -87,5 +74,14 @@ export const createStars = () => {
 
   return stars;
 };
+
+export const createEnemy = (key = 1) => ({
+  key,
+  y: 0,
+  index: key,
+  color: randomUpTo(3),
+  x: randomUpTo(10) * 100,
+  speed: randomUpTo(3) + 1
+});
 
 export const randomUpTo = upperLimit => Math.floor(Math.random() * upperLimit);
