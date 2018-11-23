@@ -10,15 +10,19 @@ import { FirePose } from '../Posed';
 const enemies = [a, b, c];
 
 export const AppSC = styled.div`
-  margin: 100px;
+  margin: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 1440px) {
+    margin-top: 50px;
+  }
 `;
 
 export const ContainerSC = styled.div`
-  width: 1000px;
-  height: 1000px;
+  width: 800px;
+  height: 800px;
   overflow: hidden;
   position: relative;
   border-radius: 8px;
@@ -26,8 +30,8 @@ export const ContainerSC = styled.div`
 `;
 
 export const EnemySC = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   display: inline-block;
   background: ${props => `url(${enemies[props.color]})`} center;
   background-size: cover;
@@ -37,9 +41,9 @@ export const EnemySC = styled.div`
 
 export const ShipContainerSC = styled.div`
   left: 50%;
-  width: 100px;
-  height: 100px;
-  bottom: 100px;
+  width: 80px;
+  height: 80px;
+  bottom: 80px;
   position: absolute;
   transform: translate(-50%, 0%);
   transform: rotate(${props => props.rotate}deg);
@@ -47,15 +51,15 @@ export const ShipContainerSC = styled.div`
 
 export const ShipSC = styled.div`
   z-index: 5;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   background: url(${rocket});
   background-size: cover;
 `;
 
 export const FirePoseSC = styled(FirePose)`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   margin-top: -3px;
   transform-origin: top;
   background-size: cover;

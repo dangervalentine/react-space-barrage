@@ -24,8 +24,8 @@ export const tick = state => {
 export const decayVelocity = state => {
   const { rVelocity, lVelocity, shipX } = state;
   const velocity = lVelocity + rVelocity;
-  const maxX = 950;
-  const minX = -50;
+  const maxX = 760;
+  const minX = -40;
 
   state.lVelocity = lVelocity < 0 ? lVelocity + 1 : 0;
 
@@ -45,7 +45,7 @@ export const updateEnemy = enemy => {
   const { y, speed, index } = enemy;
 
   enemy.y = y + speed * 10;
-  enemy = enemy.y > 1000 ? createEnemy(index) : enemy;
+  enemy = enemy.y > 800 ? createEnemy(index) : enemy;
 
   return enemy;
 };
@@ -80,7 +80,7 @@ export const handleKeys = (state, e) => {
 // Creates 30 star elements with animation
 // Returns array of stars
 export const createStars = () => {
-  const rX = () => randomUpTo(1000);
+  const rX = () => randomUpTo(800);
   const rDelay = () => 0 - randomUpTo(4800);
 
   const stars = [];
