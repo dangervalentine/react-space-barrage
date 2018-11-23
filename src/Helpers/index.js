@@ -3,6 +3,11 @@ import React from 'react';
 import { SmStarSC, MdStarSC, LgStarSC } from '../Components/StyledComponents';
 import { KEYS } from '../Resources';
 
+//////////////////////
+// Helper Functions //
+//////////////////////
+
+// Runs every 50ms in order to assess and adjust state
 export const tick = state => {
   state = decayVelocity(state);
 
@@ -15,6 +20,27 @@ export const tick = state => {
   return state;
 };
 
+// Lower the inertia of a moving ship
+export const decayVelocity = state => {
+  const { rVelocity, lVelocity, shipX } = state;
+  const velocity = lVelocity + rVelocity;
+  const maxX = 950;
+  const minX = -50;
+
+  state.lVelocity = lVelocity < 0 ? lVelocity + 1 : 0;
+
+  state.rVelocity = rVelocity > 0 ? rVelocity - 1 : 0;
+
+  if (velocity >= 0) {
+    state.shipX = shipX <= maxX ? shipX + velocity : minX;
+  } else if (velocity <= 0) {
+    state.shipX = shipX >= minX ? shipX + velocity : maxX;
+  }
+
+  return state;
+};
+
+// Update and reset position of enemies
 export const updateEnemy = enemy => {
   const { y, speed, index } = enemy;
 
@@ -24,41 +50,35 @@ export const updateEnemy = enemy => {
   return enemy;
 };
 
-export const decayVelocity = state => {
+// Randomly re-creates and places an enemy at the top
+export const createEnemy = (key = 1) => ({
+  key,
+  y: 0,
+  x: randomUpTo(10) * 100,
+
+  index: key,
+  color: randomUpTo(3),
+  speed: randomUpTo(3) + 1
+});
+
+// Move the ship through keyboard input
+export const handleKeys = (state, e) => {
   const { rVelocity, lVelocity, shipX } = state;
-  const velocity = lVelocity + rVelocity;
-  const maxX = 900;
+  const key = e.keyCode;
 
-  state.lVelocity = lVelocity < 0 && shipX > 0 ? lVelocity + 1 : 0;
+  if (key === KEYS.RIGHT || key === KEYS.D)
+    state.rVelocity = rVelocity < 20 ? rVelocity + 2 : 20;
 
-  state.rVelocity = rVelocity > 0 && shipX < maxX ? rVelocity - 1 : 0;
+  if (key === KEYS.LEFT || key === KEYS.A)
+    state.lVelocity = lVelocity > -20 ? lVelocity - 2 : -20;
 
-  if (velocity >= 0) {
-    state.shipX = shipX <= maxX ? shipX + velocity : maxX;
-  } else if (velocity <= 0) {
-    state.shipX = shipX >= 0 ? shipX + velocity : 0;
-  }
+  state.shipX = shipX + state.lVelocity + state.rVelocity;
 
   return state;
 };
 
-export const handleKeys = (state, e) => {
-  const key = e.keyCode;
-  const { rVelocity, lVelocity, shipX } = state;
-
-  if (!shipX >= 0 && !shipX <= 1000) {
-    if (key === KEYS.RIGHT || key === KEYS.D)
-      state.rVelocity = rVelocity < 20 ? rVelocity + 2 : 20;
-
-    if (key === KEYS.LEFT || key === KEYS.A)
-      state.lVelocity = lVelocity > -20 ? lVelocity - 2 : -20;
-
-    state.shipX = shipX + state.lVelocity + state.rVelocity;
-
-    return state;
-  }
-};
-
+// Creates 30 star elements with animation
+// Returns array of stars
 export const createStars = () => {
   const rX = () => randomUpTo(1000);
   const rDelay = () => 0 - randomUpTo(4800);
@@ -75,13 +95,5 @@ export const createStars = () => {
   return stars;
 };
 
-export const createEnemy = (key = 1) => ({
-  key,
-  y: 0,
-  index: key,
-  color: randomUpTo(3),
-  x: randomUpTo(10) * 100,
-  speed: randomUpTo(3) + 1
-});
-
+// Random number from one up to the parameter
 export const randomUpTo = upperLimit => Math.floor(Math.random() * upperLimit);

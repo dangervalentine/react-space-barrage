@@ -89,7 +89,7 @@ export const LgStarSC = styled(StarSC)`
   height: 5px;
 `;
 
-export const moveX = keyframes`
+const moveX = keyframes`
   0% {
     transform: translateY(0px);
   }
