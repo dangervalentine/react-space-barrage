@@ -17,11 +17,13 @@ export const tick = state => {
   state.enemy4 = updateEnemy(state.enemy4);
   state.enemy5 = updateEnemy(state.enemy5);
 
+  state = hitDection(state);
+
   return state;
 };
 
 // Lower the inertia of a moving ship
-export const decayVelocity = state => {
+const decayVelocity = state => {
   const { rVelocity, lVelocity, shipX } = state;
   const velocity = lVelocity + rVelocity;
   const maxX = 760;
@@ -41,13 +43,39 @@ export const decayVelocity = state => {
 };
 
 // Update and reset position of enemies
-export const updateEnemy = enemy => {
+const updateEnemy = enemy => {
   const { y, speed, index } = enemy;
 
   enemy.y = y + speed * 10;
   enemy = enemy.y > 800 ? createEnemy(index) : enemy;
 
   return enemy;
+};
+
+const hitDection = state => {
+  const { shipX } = state;
+  const enemies = Array.from([
+    state.enemy1,
+    state.enemy2,
+    state.enemy3,
+    state.enemy4,
+    state.enemy5
+  ]);
+
+  let isShipHit = false;
+  enemies.forEach(enemy => {
+    let { y, x } = enemy;
+    isShipHit =
+      y > 560 && y < 720 && x >= shipX - 60 && x <= shipX + 60
+        ? true
+        : isShipHit;
+  });
+
+  if (isShipHit) {
+    console.log('WHAM!');
+  }
+
+  return state;
 };
 
 // Randomly re-creates and places an enemy at the top
@@ -96,4 +124,4 @@ export const createStars = () => {
 };
 
 // Random number from one up to the parameter
-export const randomUpTo = upperLimit => Math.floor(Math.random() * upperLimit);
+const randomUpTo = upperLimit => Math.floor(Math.random() * upperLimit);
