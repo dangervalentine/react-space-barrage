@@ -1,3 +1,20 @@
 body {
   background-image: url('./Assets/background.jpg');
 }
+
+/* .guide {
+  opacity: 0.5;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  position: absolute;
+  bottom: 10px;
+  color: #cddcfe;
+}
+
+span.keycap {
+  border: 1px solid mediumorchid;
+  border-radius: 4px;
+  padding: 0px 3px 1px 3px;
+  line-height: 1.8em;
+  background: transparent;
+  color: mediumorchid;
+} */

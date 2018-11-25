@@ -64,7 +64,7 @@ const hitDection = state => {
 
   let isShipHit = false;
   enemies.forEach(enemy => {
-    let { y, x } = enemy;
+    const { y, x } = enemy;
     isShipHit =
       y > 560 && y < 720 && x >= shipX - 60 && x <= shipX + 60
         ? true

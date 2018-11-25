@@ -10,14 +10,10 @@ import { FirePose } from '../Posed';
 const enemies = [a, b, c];
 
 export const AppSC = styled.div`
-  margin: 200px;
+  margin: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  @media (max-width: 1440px) {
-    margin-top: 50px;
-  }
 `;
 
 export const ContainerSC = styled.div`
@@ -91,6 +87,23 @@ export const MdStarSC = styled(StarSC)`
 export const LgStarSC = styled(StarSC)`
   width: 5px;
   height: 5px;
+`;
+
+export const GuideSC = styled.div`
+  opacity: 0.5;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  position: absolute;
+  bottom: 10px;
+  color: #cddcfe;
+`;
+
+export const KeycapSC = styled.span`
+  border: 1px solid mediumorchid;
+  border-radius: 4px;
+  padding: 0px 3px 1px 3px;
+  line-height: 1.8em;
+  background: transparent;
+  color: mediumorchid;
 `;
 
 const moveX = keyframes`

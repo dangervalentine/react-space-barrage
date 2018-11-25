@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Context } from './Context';
 import Container from './Components/Container';
+import Guide from './Components/Guide';
 import { AppSC } from './Components/StyledComponents';
 
 import { tick, handleKeys, createEnemy } from './Helpers';
@@ -16,11 +17,11 @@ class App extends React.Component {
       shipX: 500,
       rVelocity: 0,
       lVelocity: 0,
-      enemy1: { ...createEnemy() },
-      enemy2: { ...createEnemy() },
-      enemy3: { ...createEnemy() },
-      enemy4: { ...createEnemy() },
-      enemy5: { ...createEnemy() }
+      enemy1: createEnemy(),
+      enemy2: createEnemy(),
+      enemy3: createEnemy(),
+      enemy4: createEnemy(),
+      enemy5: createEnemy()
     };
   }
 
@@ -34,11 +35,11 @@ class App extends React.Component {
   handleKeys = e => this.setState({ ...handleKeys(this.state, e) });
 
   render() {
-    const { state } = this;
     return (
-      <Context.Provider value={{ ...state }}>
+      <Context.Provider value={this.state}>
         <AppSC>
-          <Container />}
+          <Container />
+          <Guide />
         </AppSC>
       </Context.Provider>
     );
