@@ -104,6 +104,8 @@ export const KeycapSC = styled.span`
   line-height: 1.8em;
   background: transparent;
   color: mediumorchid;
+  margin-right: 4px;
+  margin-left: 4px;
 `;
 
 const moveX = keyframes`
