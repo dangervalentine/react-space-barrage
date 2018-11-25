@@ -9,15 +9,9 @@ import { KEYS } from '../Resources';
 
 // Runs every 50ms in order to assess and adjust state
 export const tick = state => {
-  state = decayVelocity(state);
-
-  state.enemy1 = updateEnemy(state.enemy1);
-  state.enemy2 = updateEnemy(state.enemy2);
-  state.enemy3 = updateEnemy(state.enemy3);
-  state.enemy4 = updateEnemy(state.enemy4);
-  state.enemy5 = updateEnemy(state.enemy5);
-
   state = hitDection(state);
+  state = decayVelocity(state);
+  state = updateEnemies(state);
 
   return state;
 };
@@ -43,24 +37,33 @@ const decayVelocity = state => {
 };
 
 // Update and reset position of enemies
-const updateEnemy = enemy => {
-  const { y, speed, index } = enemy;
+const updateEnemies = state => {
+  const { enemy1, enemy2, enemy3, enemy4, enemy5 } = state;
+  let enemies = Array.from([enemy1, enemy2, enemy3, enemy4, enemy5]);
 
-  enemy.y = y + speed * 10;
-  enemy = enemy.y > 800 ? createEnemy(index) : enemy;
+  enemies = enemies.map(enemy => {
+    const { y, speed, index } = enemy;
 
-  return enemy;
+    enemy.y = y + speed * 10;
+    if (enemy.y > 800) {
+      enemy = createEnemy(index);
+      state.score = state.score + 1;
+    }
+    return enemy;
+  });
+
+  state.enemy1 = enemies[0];
+  state.enemy2 = enemies[1];
+  state.enemy3 = enemies[2];
+  state.enemy4 = enemies[3];
+  state.enemy5 = enemies[4];
+
+  return state;
 };
 
 const hitDection = state => {
-  const { shipX } = state;
-  const enemies = Array.from([
-    state.enemy1,
-    state.enemy2,
-    state.enemy3,
-    state.enemy4,
-    state.enemy5
-  ]);
+  const { shipX, enemy1, enemy2, enemy3, enemy4, enemy5 } = state;
+  const enemies = Array.from([enemy1, enemy2, enemy3, enemy4, enemy5]);
 
   enemies.forEach(enemy => {
     const { y, x } = enemy;
@@ -74,15 +77,16 @@ const hitDection = state => {
 };
 
 // Randomly re-creates and places an enemy at the top
-export const createEnemy = (key = 1) => ({
-  key,
-  y: 0,
-  x: randomUpTo(8) * 100,
+export const createEnemy = (key = 1) => {
+  return {
+    y: 0,
+    x: randomUpTo(8) * 100,
 
-  index: key,
-  color: randomUpTo(3),
-  speed: randomUpTo(3) + 1
-});
+    index: key,
+    color: randomUpTo(3),
+    speed: randomUpTo(3) + 1
+  };
+};
 
 // Move the ship through keyboard input
 export const handleKeys = (state, e) => {

@@ -13,7 +13,7 @@ export const AppSC = styled.div`
   margin: 50px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex-direction: column;
 `;
 
 export const ContainerSC = styled.div`
@@ -111,7 +111,12 @@ export const KeycapSC = styled.span`
 export const ScoreSC = styled.div`
   height: 50px;
   width: 100px;
-  background-color: red;
+  background: rgba(22, 11, 11, 0.4);
+  color: white;
+  font-size: 2em;
+  font-family: sans-serif;
+  text-align: center;
+  align-self: start;
 `;
 
 const moveX = keyframes`

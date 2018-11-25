@@ -20,20 +20,26 @@ class App extends React.Component {
       rVelocity: 0,
       lVelocity: 0,
       isShipHit: false,
-      enemy1: createEnemy(),
-      enemy2: createEnemy(),
-      enemy3: createEnemy(),
-      enemy4: createEnemy(),
-      enemy5: createEnemy()
+      enemy1: createEnemy(1),
+      enemy2: createEnemy(2),
+      enemy3: createEnemy(3),
+      enemy4: createEnemy(4),
+      enemy5: createEnemy(5)
     };
   }
 
   componentDidMount() {
-    setInterval(this.tick, 50);
+    this.isPlaying = setInterval(this.tick, 50);
     window.addEventListener('keydown', this.handleKeys);
   }
 
-  tick = () => this.setState(state => tick(state));
+  tick = () => {
+    if (!this.state.isShipHit) {
+      this.setState(state => tick(state));
+    } else {
+      clearInterval(this.isPlaying);
+    }
+  };
 
   handleKeys = e => this.setState({ ...handleKeys(this.state, e) });
 
@@ -41,8 +47,8 @@ class App extends React.Component {
     return (
       <Context.Provider value={this.state}>
         <AppSC>
-          <Container />
           <Score />
+          <Container />
           <Guide />
         </AppSC>
       </Context.Provider>
