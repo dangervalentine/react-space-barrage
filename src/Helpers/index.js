@@ -62,18 +62,13 @@ const hitDection = state => {
     state.enemy5
   ]);
 
-  let isShipHit = false;
   enemies.forEach(enemy => {
     const { y, x } = enemy;
-    isShipHit =
-      y > 560 && y < 720 && x >= shipX - 60 && x <= shipX + 60
-        ? true
-        : isShipHit;
+    if (y > 560 && y < 720 && x >= shipX - 60 && x <= shipX + 60) {
+      state.isShipHit = true;
+      return;
+    }
   });
-
-  if (isShipHit) {
-    console.log('WHAM!');
-  }
 
   return state;
 };
@@ -82,7 +77,7 @@ const hitDection = state => {
 export const createEnemy = (key = 1) => ({
   key,
   y: 0,
-  x: randomUpTo(10) * 100,
+  x: randomUpTo(8) * 100,
 
   index: key,
   color: randomUpTo(3),

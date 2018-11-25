@@ -108,11 +108,17 @@ export const KeycapSC = styled.span`
   margin-left: 4px;
 `;
 
+export const ScoreSC = styled.div`
+  height: 50px;
+  width: 100px;
+  background-color: red;
+`;
+
 const moveX = keyframes`
   0% {
     transform: translateY(0px);
   }
   100% {
-    transform: translateY(1000px);
+    transform: translateY(800px);
   }
 `;
