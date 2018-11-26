@@ -22,7 +22,7 @@ export const ContainerSC = styled.div`
   overflow: hidden;
   position: relative;
   border-radius: 8px;
-  background: rgba(22, 11, 11, 0.4);
+  background: rgba(11, 11, 11, 0.4);
 `;
 
 export const EnemySC = styled.div`
@@ -67,7 +67,6 @@ const StarSC = styled.div`
   top: -10px;
   z-index: -1;
   position: absolute;
-  border-radius: 50%;
   background-color: white;
   left: ${props => props.x}px;
   animation: ${() => moveX} ${props => props.sp}s linear
@@ -91,16 +90,15 @@ export const LgStarSC = styled(StarSC)`
 
 export const GuideSC = styled.div`
   opacity: 0.5;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   position: absolute;
   bottom: 10px;
-  color: #cddcfe;
+  font-size: 0.7rem;
 `;
 
 export const KeycapSC = styled.span`
   border: 1px solid mediumorchid;
   border-radius: 4px;
-  padding: 0px 3px 1px 3px;
+  padding: 5px;
   line-height: 1.8em;
   background: transparent;
   color: mediumorchid;
@@ -111,12 +109,20 @@ export const KeycapSC = styled.span`
 export const ScoreSC = styled.div`
   height: 50px;
   width: 100px;
-  background: rgba(22, 11, 11, 0.4);
-  color: white;
+  background: rgba(11, 11, 11, 0.4);
   font-size: 2em;
-  font-family: sans-serif;
   text-align: center;
   align-self: start;
+`;
+
+export const GameOverSC = styled.div`
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: rgba(11, 11, 11, 1);
 `;
 
 const moveX = keyframes`

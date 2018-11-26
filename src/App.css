@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'PressStart2P-Regular';
+  src: url(./Assets/PressStart2P-Regular.ttf);
+}
+
 body {
   background-image: url('./Assets/background.jpg');
+  font-family: 'PressStart2P-Regular', monospace;
+  color: white;
 }

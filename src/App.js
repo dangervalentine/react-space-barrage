@@ -37,6 +37,7 @@ class App extends React.Component {
     if (!this.state.isShipHit) {
       this.setState(state => tick(state));
     } else {
+      window.removeEventListener('keydown', this.handleKeys);
       clearInterval(this.isPlaying);
     }
   };
