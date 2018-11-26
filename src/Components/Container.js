@@ -18,18 +18,17 @@ class Container extends React.Component {
 
   render() {
     const stars = createStars();
+
     return (
       <ContainerSC>
         {this.props.context.isShipHit && <GameOver />}
-        <React.Fragment>
-          {stars}
-          <Enemy index={1} />
-          <Enemy index={2} />
-          <Enemy index={3} />
-          <Enemy index={4} />
-          <Enemy index={5} />
-          <Ship />
-        </React.Fragment>
+        {stars}
+        <Enemy index={1} />
+        <Enemy index={2} />
+        <Enemy index={3} />
+        <Enemy index={4} />
+        <Enemy index={5} />
+        <Ship />
       </ContainerSC>
     );
   }

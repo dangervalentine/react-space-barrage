@@ -16,7 +16,7 @@ class App extends React.Component {
 
     this.state = {
       score: 0,
-      shipX: 500,
+      shipX: 400,
       rVelocity: 0,
       lVelocity: 0,
       isShipHit: false,
@@ -37,8 +37,8 @@ class App extends React.Component {
     if (!this.state.isShipHit) {
       this.setState(state => tick(state));
     } else {
-      window.removeEventListener('keydown', this.handleKeys);
       clearInterval(this.isPlaying);
+      window.removeEventListener('keydown', this.handleKeys);
     }
   };
 

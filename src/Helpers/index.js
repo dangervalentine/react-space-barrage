@@ -111,7 +111,7 @@ export const createStars = () => {
   const rDelay = () => 0 - randomUpTo(4800);
 
   const stars = [];
-  for (let i = 0; i < 10; ++i) {
+  for (let i = 0; i < 5; ++i) {
     stars.push(
       <SmStarSC key={'a' + i} x={rX()} sp={12} delay={rDelay()} />,
       <MdStarSC key={'b' + i} x={rX()} sp={8} delay={rDelay()} />,
