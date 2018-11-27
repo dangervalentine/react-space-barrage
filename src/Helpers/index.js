@@ -9,11 +9,11 @@ import { KEYS } from '../Resources';
 
 // Runs every 50ms in order to assess and adjust state
 export const tick = state => {
-  state = hitDection(state);
-  state = decayVelocity(state);
-  state = updateEnemies(state);
+  const hitDetectionState = hitDection(state);
+  const decayVelocityState = decayVelocity(hitDetectionState);
+  const updateEnemyState = updateEnemies(decayVelocityState);
 
-  return state;
+  return updateEnemyState;
 };
 
 // Lower the inertia of a moving ship
@@ -46,11 +46,12 @@ const updateEnemies = state => {
   enemies = enemies.map(enemy => {
     const { y, speed, index } = enemy;
 
-    enemy.y = y + speed * 10;
+    enemy.y = y + speed * 7.5;
     if (enemy.y > 800) {
       enemy = createEnemy(index);
       newState.score = newState.score + 1;
     }
+
     return enemy;
   });
 
@@ -84,7 +85,6 @@ export const createEnemy = (key = 1) => {
   return {
     y: 0,
     x: randomUpTo(8) * 100,
-
     index: key,
     color: randomUpTo(3),
     speed: randomUpTo(3) + 1
