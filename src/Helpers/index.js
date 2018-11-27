@@ -39,7 +39,7 @@ const decayVelocity = state => {
 // Update and reset position of enemies
 const updateEnemies = state => {
   const { enemy1, enemy2, enemy3, enemy4, enemy5 } = state;
-  let enemies = Array.from([enemy1, enemy2, enemy3, enemy4, enemy5]);
+  let enemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 
   enemies = enemies.map(enemy => {
     const { y, speed, index } = enemy;
@@ -63,7 +63,7 @@ const updateEnemies = state => {
 
 const hitDection = state => {
   const { shipX, enemy1, enemy2, enemy3, enemy4, enemy5 } = state;
-  const enemies = Array.from([enemy1, enemy2, enemy3, enemy4, enemy5]);
+  const enemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 
   enemies.forEach(enemy => {
     const { y, x } = enemy;
