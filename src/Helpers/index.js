@@ -18,27 +18,29 @@ export const tick = state => {
 
 // Lower the inertia of a moving ship
 const decayVelocity = state => {
-  const { rVelocity, lVelocity, shipX } = state;
+  const newState = { ...state };
+  const { rVelocity, lVelocity, shipX } = newState;
   const velocity = lVelocity + rVelocity;
   const maxX = 760;
   const minX = -40;
 
-  state.lVelocity = lVelocity < 0 ? lVelocity + 1 : 0;
+  newState.lVelocity = lVelocity < 0 ? lVelocity + 1 : 0;
 
-  state.rVelocity = rVelocity > 0 ? rVelocity - 1 : 0;
+  newState.rVelocity = rVelocity > 0 ? rVelocity - 1 : 0;
 
   if (velocity >= 0) {
-    state.shipX = shipX <= maxX ? shipX + velocity : minX;
+    newState.shipX = shipX <= maxX ? shipX + velocity : minX;
   } else if (velocity <= 0) {
-    state.shipX = shipX >= minX ? shipX + velocity : maxX;
+    newState.shipX = shipX >= minX ? shipX + velocity : maxX;
   }
 
-  return state;
+  return newState;
 };
 
 // Update and reset position of enemies
 const updateEnemies = state => {
-  const { enemy1, enemy2, enemy3, enemy4, enemy5 } = state;
+  const newState = { ...state };
+  const { enemy1, enemy2, enemy3, enemy4, enemy5 } = newState;
   let enemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 
   enemies = enemies.map(enemy => {
@@ -47,33 +49,34 @@ const updateEnemies = state => {
     enemy.y = y + speed * 10;
     if (enemy.y > 800) {
       enemy = createEnemy(index);
-      state.score = state.score + 1;
+      newState.score = newState.score + 1;
     }
     return enemy;
   });
 
-  state.enemy1 = enemies[0];
-  state.enemy2 = enemies[1];
-  state.enemy3 = enemies[2];
-  state.enemy4 = enemies[3];
-  state.enemy5 = enemies[4];
+  newState.enemy1 = enemies[0];
+  newState.enemy2 = enemies[1];
+  newState.enemy3 = enemies[2];
+  newState.enemy4 = enemies[3];
+  newState.enemy5 = enemies[4];
 
-  return state;
+  return newState;
 };
 
 const hitDection = state => {
-  const { shipX, enemy1, enemy2, enemy3, enemy4, enemy5 } = state;
+  const newState = { ...state };
+  const { shipX, enemy1, enemy2, enemy3, enemy4, enemy5 } = newState;
   const enemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 
   enemies.forEach(enemy => {
     const { y, x } = enemy;
     if (y > 560 && y < 720 && x >= shipX - 60 && x <= shipX + 60) {
-      state.isShipHit = true;
+      newState.isShipHit = true;
       return;
     }
   });
 
-  return state;
+  return newState;
 };
 
 // Randomly re-creates and places an enemy at the top
@@ -90,18 +93,19 @@ export const createEnemy = (key = 1) => {
 
 // Move the ship through keyboard input
 export const handleKeys = (state, e) => {
-  const { rVelocity, lVelocity, shipX } = state;
+  const newState = { ...state };
+  const { rVelocity, lVelocity, shipX } = newState;
   const key = e.keyCode;
 
   if (key === KEYS.RIGHT || key === KEYS.D)
-    state.rVelocity = rVelocity < 20 ? rVelocity + 2 : 20;
+    newState.rVelocity = rVelocity < 20 ? rVelocity + 2 : 20;
 
   if (key === KEYS.LEFT || key === KEYS.A)
-    state.lVelocity = lVelocity > -20 ? lVelocity - 2 : -20;
+    newState.lVelocity = lVelocity > -20 ? lVelocity - 2 : -20;
 
-  state.shipX = shipX + state.lVelocity + state.rVelocity;
+  newState.shipX = shipX + newState.lVelocity + newState.rVelocity;
 
-  return state;
+  return newState;
 };
 
 // Creates 30 star elements with animation
