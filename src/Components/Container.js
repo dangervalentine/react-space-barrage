@@ -13,6 +13,7 @@ class Container extends React.Component {
     if (this.props.context.isShipHit) {
       return true;
     }
+
     return false;
   }
 
@@ -21,13 +22,14 @@ class Container extends React.Component {
 
     return (
       <ContainerSC>
-        {this.props.context.isShipHit && <GameOver />}
+        {/* <GameOver /> */}
+        {/* {this.props.context.isShipHit && <GameOver />} */}
         {stars}
         <Enemy index={1} />
-        <Enemy index={2} />
+        {/* <Enemy index={2} />
         <Enemy index={3} />
         <Enemy index={4} />
-        <Enemy index={5} />
+        <Enemy index={5} /> */}
         <Ship />
       </ContainerSC>
     );

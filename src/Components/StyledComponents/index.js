@@ -33,6 +33,7 @@ export const EnemySC = styled.div`
   background-size: cover;
   position: absolute;
   left: 0px;
+  animation: ${() => moveY} ${props => props.speed}s linear infinite;
 `;
 
 export const ShipContainerSC = styled.div`
@@ -69,7 +70,7 @@ const StarSC = styled.div`
   position: absolute;
   background-color: white;
   left: ${props => props.x}px;
-  animation: ${() => moveX} ${props => props.sp}s linear
+  animation: ${() => moveY} ${props => props.sp}s linear
     ${props => `${props.delay}ms`} infinite normal;
 `;
 
@@ -125,11 +126,11 @@ export const GameOverSC = styled.div`
   background: rgba(11, 11, 11, 1);
 `;
 
-const moveX = keyframes`
+const moveY = keyframes`
   0% {
     transform: translateY(0px);
   }
   100% {
-    transform: translateY(800px);
+    transform: translateY(820px);
   }
 `;

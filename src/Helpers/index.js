@@ -8,12 +8,17 @@ import { KEYS } from '../Resources';
 //////////////////////
 
 // Runs every 50ms in order to assess and adjust state
-export const tick = state => {
-  const hitDetectionState = hitDection(state);
-  const decayVelocityState = decayVelocity(hitDetectionState);
-  const updateEnemyState = updateEnemies(decayVelocityState);
+export const tick = App => {
+  const state = App.state;
+  updateEnemies(App);
+  // const hitDetectionState = hitDection(state);
+  // const updateEnemyState = updateEnemies(decayVelocityState);
+  // const decayVelocityState = decayVelocity(hitDetectionState);
 
-  return updateEnemyState;
+  const decayVelocityState = decayVelocity(state);
+
+  // return decayVelocityState;
+  return decayVelocityState;
 };
 
 // Lower the inertia of a moving ship
@@ -37,48 +42,61 @@ const decayVelocity = state => {
   return newState;
 };
 
-// Update and reset position of enemies
-const updateEnemies = state => {
-  const newState = { ...state };
-  const { enemy1, enemy2, enemy3, enemy4, enemy5 } = newState;
-  let enemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
-
-  enemies = enemies.map(enemy => {
-    const { y, speed, index } = enemy;
-
-    enemy.y = y + speed * 7.5;
-    if (enemy.y > 800) {
-      enemy = createEnemy(index);
-      newState.score = newState.score + 1;
+const updateEnemies = App => {
+  let { enemies } = App;
+  for (let i = 0; i < App.enemies.length; i++) {
+    const y = Math.floor(enemies[i].getBoundingClientRect().y);
+    if (y >= 900) {
+      let fdsa = randomUpTo(8) * 100;
+      console.log(fdsa);
+      enemies[i].style.left = `${fdsa}px`;
+      continue;
     }
-
-    return enemy;
-  });
-
-  newState.enemy1 = enemies[0];
-  newState.enemy2 = enemies[1];
-  newState.enemy3 = enemies[2];
-  newState.enemy4 = enemies[3];
-  newState.enemy5 = enemies[4];
-
-  return newState;
+  }
 };
 
-const hitDection = state => {
-  const newState = { ...state };
-  const { shipX, enemy1, enemy2, enemy3, enemy4, enemy5 } = newState;
-  const enemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
+// // Update and reset position of enemies
+// const updateEnemies = state => {
+//   const newState = { ...state };
+//   const { enemy1, enemy2, enemy3, enemy4, enemy5 } = newState;
+//   let enemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 
-  enemies.forEach(enemy => {
-    const { y, x } = enemy;
-    if (y > 560 && y < 720 && x >= shipX - 60 && x <= shipX + 60) {
-      newState.isShipHit = true;
-      return;
-    }
-  });
+//   enemies = enemies.map(enemy => {
+//     const { y, speed, index } = enemy;
 
-  return newState;
-};
+//     enemy.y = y + speed * 7.5;
+//     if (enemy.y > 800) {
+//       enemy = createEnemy(index);
+//       newState.score = newState.score + 1;
+//     }
+
+//     return enemy;
+//   });
+
+//   newState.enemy1 = enemies[0];
+//   newState.enemy2 = enemies[1];
+//   newState.enemy3 = enemies[2];
+//   newState.enemy4 = enemies[3];
+//   newState.enemy5 = enemies[4];
+
+//   return newState;
+// };
+
+// const hitDection = state => {
+//   const newState = { ...state };
+//   const { shipX, enemy1, enemy2, enemy3, enemy4, enemy5 } = newState;
+//   const enemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
+
+//   enemies.forEach(enemy => {
+//     const { y, x } = enemy;
+//     if (y > 560 && y < 720 && x >= shipX - 60 && x <= shipX + 60) {
+//       newState.isShipHit = true;
+//       return;
+//     }
+//   });
+
+//   return newState;
+// };
 
 // Randomly re-creates and places an enemy at the top
 export const createEnemy = (key = 1) => {
@@ -87,7 +105,7 @@ export const createEnemy = (key = 1) => {
     x: randomUpTo(8) * 100,
     index: key,
     color: randomUpTo(3),
-    speed: randomUpTo(3) + 1
+    speed: randomUpTo(3) + 1,
   };
 };
 
@@ -119,7 +137,7 @@ export const createStars = () => {
     stars.push(
       <SmStarSC key={'a' + i} x={rX()} sp={12} delay={rDelay()} />,
       <MdStarSC key={'b' + i} x={rX()} sp={8} delay={rDelay()} />,
-      <LgStarSC key={'c' + i} x={rX()} sp={6} delay={rDelay()} />
+      <LgStarSC key={'c' + i} x={rX()} sp={6} delay={rDelay()} />,
     );
   }
 

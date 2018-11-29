@@ -4,10 +4,12 @@ import { EnemySC } from './StyledComponents';
 import { withContext } from '../Context';
 
 const Enemy = props => {
-  const { speed, color, x, y } = props.context[`enemy${props.index}`];
-  const position = { left: x, top: y };
+  const { speed, color, x } = props.context[`enemy${props.index}`];
+  const position = { left: x };
 
-  return <EnemySC speed={speed} color={color} style={position} />;
+  return (
+    <EnemySC className="Enemy" speed={speed} color={color} style={position} />
+  );
 };
 
 export default withContext(Enemy);
