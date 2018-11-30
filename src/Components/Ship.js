@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ShipSC, ShipContainerSC, FirePoseSC } from './StyledComponents';
+import { ShipSC, ShipContainerSC, FireSC } from './StyledComponents';
 import { withContext } from '../Context';
 
 const Ship = props => {
@@ -10,7 +10,7 @@ const Ship = props => {
   return (
     <ShipContainerSC style={{ left: shipX }} rotate={rotateDeg}>
       <ShipSC />
-      <FirePoseSC />
+      <FireSC />
     </ShipContainerSC>
   );
 };

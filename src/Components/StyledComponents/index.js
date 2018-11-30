@@ -5,7 +5,6 @@ import fire from '../../Assets/fire.svg';
 import a from '../../Assets/a.svg';
 import b from '../../Assets/b.svg';
 import c from '../../Assets/c.svg';
-// import { FirePose } from '../Posed';
 
 const enemies = [a, b, c];
 
@@ -54,7 +53,7 @@ export const ShipSC = styled.div`
   background-size: cover;
 `;
 
-export const FirePoseSC = styled.div`
+export const FireSC = styled.div`
   width: 80px;
   height: 80px;
   margin-top: -3px;

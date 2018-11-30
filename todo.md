@@ -13,15 +13,15 @@
 1. **Move State**
    ~~from the ship into the main Context~~
 2. **Utilize State**
-   - for enemy hit-detection
-   - to prevent leaving the Container
+   - ~~for enemy hit-detection~~
+   - ~~to prevent leaving the Container~~
 
 ### Enemy
 
 1. **Provide Move Animation**
-   - repeat Y (top-to-bottom) movement
-   - introduce slight side-to-side movement
-2. **Introduce State**
+   - ~~repeat Y (top-to-bottom) movement~~
+   - introduce slight side-to-side movement _(do not want this behavior any longer)_
+2. ~~**Introduce State**
    - X location
    - Y location
-   - Speed (for the different enemy-types)
+   - Speed (for the different enemy-types)~~
