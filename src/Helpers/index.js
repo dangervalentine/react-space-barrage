@@ -10,12 +10,13 @@ import { KEYS } from '../Resources';
 // Runs every 50ms in order to assess and adjust state
 export const tick = App => {
   const state = App.state;
-  updateEnemies(App);
+  App = updateEnemies(App);
   // const hitDetectionState = hitDection(state);
   // const updateEnemyState = updateEnemies(decayVelocityState);
   // const decayVelocityState = decayVelocity(hitDetectionState);
 
   const decayVelocityState = decayVelocity(state);
+  // App.state = decayVelocityState;
 
   // return decayVelocityState;
   return decayVelocityState;
@@ -47,9 +48,8 @@ const updateEnemies = App => {
   for (let i = 0; i < App.enemies.length; i++) {
     const y = Math.floor(enemies[i].getBoundingClientRect().y);
     if (y >= 900) {
-      let fdsa = randomUpTo(8) * 100;
-      console.log(fdsa);
-      enemies[i].style.left = `${fdsa}px`;
+      let randomX = randomUpTo(8) * 100;
+      enemies[i].style.left = `${randomX}px`;
       continue;
     }
   }

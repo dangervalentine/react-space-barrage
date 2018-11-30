@@ -5,7 +5,7 @@ import fire from '../../Assets/fire.svg';
 import a from '../../Assets/a.svg';
 import b from '../../Assets/b.svg';
 import c from '../../Assets/c.svg';
-import { FirePose } from '../Posed';
+// import { FirePose } from '../Posed';
 
 const enemies = [a, b, c];
 
@@ -54,14 +54,14 @@ export const ShipSC = styled.div`
   background-size: cover;
 `;
 
-export const FirePoseSC = styled(FirePose)`
+export const FirePoseSC = styled.div`
   width: 80px;
   height: 80px;
   margin-top: -3px;
   transform-origin: top;
   background-size: cover;
-  transform: translate(50%);
   background-image: url(${fire});
+  animation: ${() => flame} 400ms linear 0ms infinite normal;
 `;
 
 const StarSC = styled.div`
@@ -133,4 +133,13 @@ const moveY = keyframes`
   100% {
     transform: translateY(820px);
   }
+`;
+
+const flame = keyframes`
+0% {
+  transform: scaleY(1);
+}
+50% {
+  transform: scaleY(0.8);
+}
 `;
