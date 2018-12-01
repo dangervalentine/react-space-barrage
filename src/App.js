@@ -19,16 +19,6 @@ class App extends React.Component {
       rVelocity: 0,
       lVelocity: 0,
       isShipHit: false,
-      enemy0: createEnemy(1),
-      enemy1: createEnemy(2),
-      enemy2: createEnemy(3),
-      enemy3: createEnemy(4),
-      enemy4: createEnemy(5),
-      enemy5: createEnemy(6),
-      enemy6: createEnemy(7),
-      enemy7: createEnemy(8),
-      enemy8: createEnemy(9),
-      enemy9: createEnemy(10),
     };
   }
 
