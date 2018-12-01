@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Context } from './Context';
-import Score from './Components/Score';
 import Guide from './Components/Guide';
 import Container from './Components/Container';
 import { AppSC } from './Components/StyledComponents';
@@ -28,6 +27,8 @@ class App extends React.Component {
       enemy5: createEnemy(6),
       enemy6: createEnemy(7),
       enemy7: createEnemy(8),
+      enemy8: createEnemy(9),
+      enemy9: createEnemy(10),
     };
   }
 
@@ -53,7 +54,6 @@ class App extends React.Component {
     return (
       <Context.Provider value={this.state}>
         <AppSC>
-          <Score />
           <Container />
           <Guide />
         </AppSC>

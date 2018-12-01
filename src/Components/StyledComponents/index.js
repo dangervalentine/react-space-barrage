@@ -18,12 +18,11 @@ export const AppSC = styled.div`
 `;
 
 export const ContainerSC = styled.div`
-  width: 800px;
+  width: 1066px;
   height: 800px;
   overflow: hidden;
   position: relative;
-  border-radius: 8px;
-  background: rgba(11, 11, 11, 0.4);
+  background: rgba(144, 238, 144, 0.05);
 `;
 
 export const EnemySC = styled.div`
@@ -114,11 +113,14 @@ export const KeycapSC = styled.span`
 
 export const ScoreSC = styled.div`
   height: 50px;
-  width: 100px;
-  background: rgba(11, 11, 11, 0.4);
+  width: 50px;
   font-size: 2em;
   text-align: center;
   align-self: start;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px;
 `;
 
 export const GameOverSC = styled.div`

@@ -8,6 +8,8 @@ import b from '../Assets/b.svg';
 import c from '../Assets/c.svg';
 
 const enemiesSVGS = [a, b, c];
+const maxX = 1000;
+const minX = -40;
 
 //////////////////////
 // Helper Functions //
@@ -29,8 +31,6 @@ const decayVelocity = state => {
   const newState = { ...state };
   const { rVelocity, lVelocity, shipX } = newState;
   const velocity = lVelocity + rVelocity;
-  const maxX = 760;
-  const minX = -40;
 
   newState.lVelocity = lVelocity < 0 ? lVelocity + 1 : 0;
 
@@ -59,18 +59,17 @@ const updateEnemies = (enemies, state) => {
         state.isShipHit = true;
       }
     }
-    if (y >= 900) {
+    if (y >= 825) {
       enemy.style.webkitAnimation = 'none';
       enemy.style.animation = 'none';
       setTimeout(function() {
         enemy.style.webkitAnimation = '';
         enemy.style.animation = '';
         enemy.style.animationDuration = `${(randomUpTo(3) + 1) * 2}s`;
-        enemy.style.left = `${randomUpTo(8) * 100}px`;
+        enemy.style.left = `${randomUpTo(10) * 100}px`;
         enemy.style.background = `url(${enemiesSVGS[randomUpTo(3)]})`;
         enemy.style.backgroundSize = 'cover';
       }, 10);
-
       state.score = state.score + 1;
     }
   });
@@ -80,7 +79,7 @@ const updateEnemies = (enemies, state) => {
 export const createEnemy = (key = 1) => {
   return {
     y: 0,
-    x: randomUpTo(8) * 100,
+    x: randomUpTo(10) * 100,
     index: key,
     color: randomUpTo(3),
     speed: (randomUpTo(3) + 1) * 4,
@@ -107,7 +106,7 @@ export const handleKeys = (state, e) => {
 // Creates 30 star elements with animation
 // Returns array of stars
 export const createStars = () => {
-  const rX = () => randomUpTo(800);
+  const rX = () => randomUpTo(maxX);
   const rDelay = () => 0 - randomUpTo(4800);
 
   const stars = [];

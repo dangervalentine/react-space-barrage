@@ -9,7 +9,9 @@ class Enemy extends React.Component {
   }
 
   render() {
-    return <EnemySC className="Enemy" />;
+    return (
+      <EnemySC onAnimationEnd={() => console.log('fffff')} className="Enemy" />
+    );
   }
 }
 

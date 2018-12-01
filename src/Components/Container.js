@@ -6,6 +6,7 @@ import { createStars } from '../Helpers';
 
 import Ship from './Ship';
 import Enemy from './Enemy';
+import Score from './Score';
 import GameOver from './GameOver';
 
 class Container extends React.Component {
@@ -30,6 +31,7 @@ class Container extends React.Component {
 
     return (
       <ContainerSC>
+        <Score />
         {this.props.context.isShipHit && <GameOver />}
         {stars}
         <Enemy index={0} />
@@ -40,6 +42,9 @@ class Container extends React.Component {
         <Enemy index={5} />
         <Enemy index={6} />
         <Enemy index={7} />
+        <Enemy index={8} />
+        <Enemy index={9} />
+        <Enemy index={10} />
         <Ship />
       </ContainerSC>
     );
