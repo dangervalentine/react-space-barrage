@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { ContainerSC } from './StyledComponents';
+import { ContainerSC, ScreenSC } from './StyledComponents';
 import { withContext } from '../Context';
 import { createStars, createEnemies } from '../Helpers';
 
 import Ship from './Ship';
-import Enemy from './Enemy';
 import Score from './Score';
 import GameOver from './GameOver';
 
@@ -31,13 +30,15 @@ class Container extends React.Component {
     const enemies = createEnemies(10);
 
     return (
-      <ContainerSC>
-        <Score />
-        {this.props.context.isShipHit && <GameOver />}
-        {stars}
-        {enemies}
-        <Ship />
-      </ContainerSC>
+      <ScreenSC>
+        <ContainerSC>
+          <Score />
+          {this.props.context.isShipHit && <GameOver />}
+          {stars}
+          {enemies}
+          <Ship />
+        </ContainerSC>
+      </ScreenSC>
     );
   }
 }

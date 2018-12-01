@@ -49,42 +49,36 @@ const decayVelocity = state => {
 const updateEnemies = (enemies, state) => {
   const shipX = document.querySelector('.Ship').getBoundingClientRect().x;
 
-  enemies.forEach((enemy, i) => {
+  enemies.forEach(enemy => {
     const enemyDim = enemy.getBoundingClientRect();
-    const y = Math.floor(enemyDim.y);
+    const { y, x } = enemyDim;
 
     if (y > 660 && y < 820) {
-      const x = Math.floor(enemyDim.left);
-
       if (x >= shipX - 60 && x <= shipX + 60) {
         state.isShipHit = true;
       }
     }
+
     if (y >= 825) {
-      enemy.style.webkitAnimation = 'none';
-      enemy.style.animation = 'none';
-      setTimeout(function() {
-        enemy.style.webkitAnimation = '';
-        enemy.style.animation = '';
-        enemy.style.animationDuration = `${(randomUpTo(3) + 1) * 2}s`;
-        enemy.style.left = `${randomUpTo(10) * 100}px`;
-        enemy.style.background = `url(${enemiesSVGS[randomUpTo(3)]})`;
-        enemy.style.backgroundSize = 'cover';
-      }, 10);
+      resetEnemy(enemy);
       state.score = state.score + 1;
     }
   });
 };
 
 // Randomly re-creates and places an enemy at the top
-export const createEnemy = (key = 1) => {
-  return {
-    y: 0,
-    x: randomUpTo(10) * 100,
-    index: key,
-    color: randomUpTo(3),
-    speed: (randomUpTo(3) + 1) * 4,
-  };
+const resetEnemy = enemy => {
+  enemy.style.webkitAnimation = 'none';
+  enemy.style.animation = 'none';
+
+  setTimeout(function() {
+    enemy.style.animation = '';
+    enemy.style.webkitAnimation = '';
+    enemy.style.left = `${randomUpTo(10) * 100}px`;
+    enemy.style.animationDuration = `${(randomUpTo(3) + 1) * 2}s`;
+    enemy.style.background = `url(${enemiesSVGS[randomUpTo(3)]})`;
+    enemy.style.backgroundSize = 'cover';
+  }, 10);
 };
 
 // Move the ship through keyboard input

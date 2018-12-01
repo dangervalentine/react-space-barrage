@@ -9,21 +9,31 @@ import c from '../../Assets/c.svg';
 const enemies = [a, b, c];
 
 export const AppSC = styled.div`
+  height: 100%
+  width: 100%;
+  color: lime;
   margin: 50px;
   display: flex;
-  filter: blur(1px);
+  position: relative;
   align-items: center;
   flex-direction: column;
-  color: lime;
-  animation: ${() => linkShudder} 1s linear infinite;
+  filter: blur(1px);
 `;
 
-export const ContainerSC = styled.div`
+export const ScreenSC = styled.div`
   width: 1066px;
   height: 800px;
   overflow: hidden;
-  position: relative;
+  border: 5px solid SlateGray;
   background: rgba(144, 238, 144, 0.05);
+  border-radius: 120px 123px 123px 123px / 25px 25px 25px 25px;
+`;
+
+export const ContainerSC = styled.div`
+  height: 100%;
+  width: 100%;
+  position: relative;
+  animation: ${() => linkShudder} 3s linear infinite;
 `;
 
 export const EnemySC = styled.div`
@@ -80,26 +90,27 @@ const StarSC = styled.div`
 `;
 
 export const SmStarSC = styled(StarSC)`
+  width: 1px;
+  height: 1px;
+`;
+
+export const MdStarSC = styled(StarSC)`
+  width: 2px;
+  height: 2px;
+`;
+
+export const LgStarSC = styled(StarSC)`
   width: 3px;
   height: 3px;
 `;
 
-export const MdStarSC = styled(StarSC)`
-  width: 4px;
-  height: 4px;
-`;
-
-export const LgStarSC = styled(StarSC)`
-  width: 5px;
-  height: 5px;
-`;
-
 export const GuideSC = styled.div`
-  opacity: 0.5;
-  bottom: 10px;
-  color: #00ffff;
+  color: Cyan;
+  bottom: 20px;
+  opacity: 1;
   font-size: 0.7rem;
   position: absolute;
+  z-index: 9;
 `;
 
 export const KeycapSC = styled.span`
@@ -108,9 +119,9 @@ export const KeycapSC = styled.span`
   margin-right: 4px;
   border-radius: 4px;
   line-height: 1.8em;
-  color: mediumorchid;
+  color: MediumOrchid;
   background: transparent;
-  border: 1px solid mediumorchid;
+  border: 1px solid MediumOrchid;
 `;
 
 export const ScoreSC = styled.div`
@@ -118,9 +129,9 @@ export const ScoreSC = styled.div`
   left: 0;
   width: 50px;
   height: 50px;
-  padding: 20px;
   font-size: 2em;
   align-self: start;
+  padding: 40px 30px;
   position: absolute;
   text-align: center;
 `;
@@ -150,17 +161,17 @@ const flame = keyframes`
 `;
 
 const linkShudder = keyframes`
-10%  {                                        filter:blur(1px);   }
-15%  {                                        filter:blur(1.5px); }
-20%  {                                        filter:blur(1px);   }
+10%  {                                        filter:blur(0.5px);   }
+15%  {                                        filter:blur(1px); }
+20%  {                                        filter:blur(0.5px);   }
 27%  { transform: translate(0px,0px);                             }
 28%  { transform: translate(1.5px,0px);                           }
 29%  { transform: translate(0px,0px);                             }
 35%  { transform: translate(0px,0px);                             }
 36%  { transform: translate(1px,1px);                             }
 37%  { transform: translate(0px,0px);                             }
-42%  { transform: translate(0px,0px);         filter:blur(1px);   }
-43%  { transform: translate(0px,1px);         filter:blur(1.5px);   }
-44%  { transform: translate(0px,0px);         filter:blur(1px);   }
+42%  { transform: translate(0px,0px);         filter:blur(0.5px);   }
+43%  { transform: translate(0px,1px);         filter:blur(1px);   }
+44%  { transform: translate(0px,0px);         filter:blur(0.5px);   }
 100% { transform: translate(0px,0px);                             }
 `;

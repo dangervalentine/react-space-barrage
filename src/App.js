@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Context } from './Context';
 import Guide from './Components/Guide';
 import Container from './Components/Container';
-import { AppSC } from './Components/StyledComponents';
 
-import { tick, handleKeys, createEnemy } from './Helpers';
+import { Context } from './Context';
+import { tick, handleKeys } from './Helpers';
+import { AppSC } from './Components/StyledComponents';
 
 import './App.css';
 
