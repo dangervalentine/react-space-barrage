@@ -20,19 +20,22 @@ class App extends React.Component {
       rVelocity: 0,
       lVelocity: 0,
       isShipHit: false,
-      enemy1: createEnemy(1),
-      // enemy2: createEnemy(2),
-      // enemy3: createEnemy(3),
-      // enemy4: createEnemy(4),
-      // enemy5: createEnemy(5),
+      enemy0: createEnemy(1),
+      enemy1: createEnemy(2),
+      enemy2: createEnemy(3),
+      enemy3: createEnemy(4),
+      enemy4: createEnemy(5),
+      enemy5: createEnemy(6),
+      enemy6: createEnemy(7),
+      enemy7: createEnemy(8),
     };
   }
 
   componentDidMount() {
+    this.ship = document.querySelector('.Ship');
     this.isPlaying = setInterval(this.tick, 50);
-    window.addEventListener('keydown', this.handleKeys);
     this.enemies = document.querySelectorAll('.Enemy');
-    console.log(this.enemies);
+    window.addEventListener('keydown', this.handleKeys);
   }
 
   tick = () => {

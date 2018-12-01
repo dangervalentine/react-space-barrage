@@ -1,5 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 
+import { randomUpTo } from '../../Helpers';
+
 import rocket from '../../Assets/rocket.svg';
 import fire from '../../Assets/fire.svg';
 import a from '../../Assets/a.svg';
@@ -28,11 +30,15 @@ export const EnemySC = styled.div`
   width: 80px;
   height: 80px;
   display: inline-block;
-  background: ${props => `url(${enemies[props.color]})`} center;
+  background: url(${enemies[0]}) center;
   background-size: cover;
   position: absolute;
   left: 0px;
-  animation: ${() => moveY} ${props => props.speed}s linear infinite;
+  top: -100px;
+  animation: ${() => moveY};
+  animation-duration: 3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 `;
 
 export const ShipContainerSC = styled.div`
@@ -122,23 +128,25 @@ export const GameOverSC = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;
+  padding: 350px 100px;
+  font-size: 4rem;
   background: rgba(11, 11, 11, 1);
 `;
 
 const moveY = keyframes`
   0% {
-    transform: translateY(0px);
+    transform: translateY(-100px);
   }
   100% {
-    transform: translateY(820px);
+    transform: translateY(950px);
   }
 `;
 
 const flame = keyframes`
-0% {
-  transform: scaleY(1);
-}
-50% {
-  transform: scaleY(0.8);
-}
+  0% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.8);
+  }
 `;

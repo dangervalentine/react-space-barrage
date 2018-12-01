@@ -9,8 +9,16 @@ import Enemy from './Enemy';
 import GameOver from './GameOver';
 
 class Container extends React.Component {
-  shouldComponentUpdate() {
-    if (this.props.context.isShipHit) {
+  constructor(props) {
+    super(props);
+    this.state = {
+      gameOver: false,
+    };
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.context.isShipHit && !this.state.gameOver) {
+      this.setState({ gameOver: true });
       return true;
     }
 
@@ -22,14 +30,16 @@ class Container extends React.Component {
 
     return (
       <ContainerSC>
-        {/* <GameOver /> */}
-        {/* {this.props.context.isShipHit && <GameOver />} */}
+        {this.props.context.isShipHit && <GameOver />}
         {stars}
+        <Enemy index={0} />
         <Enemy index={1} />
-        {/* <Enemy index={2} />
+        <Enemy index={2} />
         <Enemy index={3} />
         <Enemy index={4} />
-        <Enemy index={5} /> */}
+        <Enemy index={5} />
+        <Enemy index={6} />
+        <Enemy index={7} />
         <Ship />
       </ContainerSC>
     );

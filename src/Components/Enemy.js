@@ -3,13 +3,14 @@ import React from 'react';
 import { EnemySC } from './StyledComponents';
 import { withContext } from '../Context';
 
-const Enemy = props => {
-  const { speed, color, x } = props.context[`enemy${props.index}`];
-  const position = { left: x };
+class Enemy extends React.Component {
+  shouldComponentUpdate() {
+    return false;
+  }
 
-  return (
-    <EnemySC className="Enemy" speed={speed} color={color} style={position} />
-  );
-};
+  render() {
+    return <EnemySC className="Enemy" />;
+  }
+}
 
 export default withContext(Enemy);

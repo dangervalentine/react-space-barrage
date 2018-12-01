@@ -3,6 +3,12 @@ import React from 'react';
 import { SmStarSC, MdStarSC, LgStarSC } from '../Components/StyledComponents';
 import { KEYS } from '../Resources';
 
+import a from '../Assets/a.svg';
+import b from '../Assets/b.svg';
+import c from '../Assets/c.svg';
+
+const enemiesSVGS = [a, b, c];
+
 //////////////////////
 // Helper Functions //
 //////////////////////
@@ -10,15 +16,11 @@ import { KEYS } from '../Resources';
 // Runs every 50ms in order to assess and adjust state
 export const tick = App => {
   const state = App.state;
-  App = updateEnemies(App);
-  // const hitDetectionState = hitDection(state);
-  // const updateEnemyState = updateEnemies(decayVelocityState);
-  // const decayVelocityState = decayVelocity(hitDetectionState);
+  const enemies = App.enemies;
 
+  updateEnemies(enemies, state);
   const decayVelocityState = decayVelocity(state);
-  // App.state = decayVelocityState;
 
-  // return decayVelocityState;
   return decayVelocityState;
 };
 
@@ -43,60 +45,36 @@ const decayVelocity = state => {
   return newState;
 };
 
-const updateEnemies = App => {
-  let { enemies } = App;
-  for (let i = 0; i < App.enemies.length; i++) {
-    const y = Math.floor(enemies[i].getBoundingClientRect().y);
-    if (y >= 900) {
-      let randomX = randomUpTo(8) * 100;
-      enemies[i].style.left = `${randomX}px`;
-      continue;
+const updateEnemies = (enemies, state) => {
+  const shipX = document.querySelector('.Ship').getBoundingClientRect().x;
+
+  enemies.forEach((enemy, i) => {
+    const enemyDim = enemy.getBoundingClientRect();
+    const y = Math.floor(enemyDim.y);
+
+    if (y > 660 && y < 820) {
+      const x = Math.floor(enemyDim.left);
+
+      if (x >= shipX - 60 && x <= shipX + 60) {
+        state.isShipHit = true;
+      }
     }
-  }
+    if (y >= 900) {
+      enemy.style.webkitAnimation = 'none';
+      enemy.style.animation = 'none';
+      setTimeout(function() {
+        enemy.style.webkitAnimation = '';
+        enemy.style.animation = '';
+        enemy.style.animationDuration = `${(randomUpTo(3) + 1) * 2}s`;
+        enemy.style.left = `${randomUpTo(8) * 100}px`;
+        enemy.style.background = `url(${enemiesSVGS[randomUpTo(3)]})`;
+        enemy.style.backgroundSize = 'cover';
+      }, 10);
+
+      state.score = state.score + 1;
+    }
+  });
 };
-
-// // Update and reset position of enemies
-// const updateEnemies = state => {
-//   const newState = { ...state };
-//   const { enemy1, enemy2, enemy3, enemy4, enemy5 } = newState;
-//   let enemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
-
-//   enemies = enemies.map(enemy => {
-//     const { y, speed, index } = enemy;
-
-//     enemy.y = y + speed * 7.5;
-//     if (enemy.y > 800) {
-//       enemy = createEnemy(index);
-//       newState.score = newState.score + 1;
-//     }
-
-//     return enemy;
-//   });
-
-//   newState.enemy1 = enemies[0];
-//   newState.enemy2 = enemies[1];
-//   newState.enemy3 = enemies[2];
-//   newState.enemy4 = enemies[3];
-//   newState.enemy5 = enemies[4];
-
-//   return newState;
-// };
-
-// const hitDection = state => {
-//   const newState = { ...state };
-//   const { shipX, enemy1, enemy2, enemy3, enemy4, enemy5 } = newState;
-//   const enemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
-
-//   enemies.forEach(enemy => {
-//     const { y, x } = enemy;
-//     if (y > 560 && y < 720 && x >= shipX - 60 && x <= shipX + 60) {
-//       newState.isShipHit = true;
-//       return;
-//     }
-//   });
-
-//   return newState;
-// };
 
 // Randomly re-creates and places an enemy at the top
 export const createEnemy = (key = 1) => {
@@ -105,7 +83,7 @@ export const createEnemy = (key = 1) => {
     x: randomUpTo(8) * 100,
     index: key,
     color: randomUpTo(3),
-    speed: randomUpTo(3) + 1,
+    speed: (randomUpTo(3) + 1) * 4,
   };
 };
 
@@ -145,4 +123,4 @@ export const createStars = () => {
 };
 
 // Random number from one up to the parameter
-const randomUpTo = upperLimit => Math.floor(Math.random() * upperLimit);
+export const randomUpTo = upperLimit => Math.floor(Math.random() * upperLimit);
