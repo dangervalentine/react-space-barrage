@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ContainerSC } from './StyledComponents';
 import { withContext } from '../Context';
-import { createStars } from '../Helpers';
+import { createStars, createEnemies } from '../Helpers';
 
 import Ship from './Ship';
 import Enemy from './Enemy';
@@ -27,24 +27,15 @@ class Container extends React.Component {
   }
 
   render() {
-    const stars = createStars();
+    const stars = createStars(10);
+    const enemies = createEnemies(10);
 
     return (
       <ContainerSC>
         <Score />
         {this.props.context.isShipHit && <GameOver />}
         {stars}
-        <Enemy index={0} />
-        <Enemy index={1} />
-        <Enemy index={2} />
-        <Enemy index={3} />
-        <Enemy index={4} />
-        <Enemy index={5} />
-        <Enemy index={6} />
-        <Enemy index={7} />
-        <Enemy index={8} />
-        <Enemy index={9} />
-        <Enemy index={10} />
+        {enemies}
         <Ship />
       </ContainerSC>
     );

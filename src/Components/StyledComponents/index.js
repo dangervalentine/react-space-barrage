@@ -1,7 +1,5 @@
 import styled, { keyframes } from 'styled-components';
 
-import { randomUpTo } from '../../Helpers';
-
 import rocket from '../../Assets/rocket.svg';
 import fire from '../../Assets/fire.svg';
 import a from '../../Assets/a.svg';
@@ -15,6 +13,7 @@ export const AppSC = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  color: lime;
 `;
 
 export const ContainerSC = styled.div`
@@ -97,6 +96,7 @@ export const GuideSC = styled.div`
   opacity: 0.5;
   position: absolute;
   bottom: 10px;
+  color: #00ffff;
   font-size: 0.7rem;
 `;
 
@@ -129,9 +129,11 @@ export const GameOverSC = styled.div`
   z-index: 10;
   width: 100%;
   height: 100%;
-  position: absolute;
-  padding: 350px 100px;
+  display: flex;
   font-size: 4rem;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
   background: rgba(11, 11, 11, 1);
 `;
 

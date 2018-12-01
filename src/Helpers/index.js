@@ -6,6 +6,7 @@ import { KEYS } from '../Resources';
 import a from '../Assets/a.svg';
 import b from '../Assets/b.svg';
 import c from '../Assets/c.svg';
+import Enemy from '../Components/Enemy';
 
 const enemiesSVGS = [a, b, c];
 const maxX = 1000;
@@ -103,14 +104,14 @@ export const handleKeys = (state, e) => {
   return newState;
 };
 
-// Creates 30 star elements with animation
+// Creates 'n' star elements with animation
 // Returns array of stars
-export const createStars = () => {
+export const createStars = n => {
   const rX = () => randomUpTo(maxX);
   const rDelay = () => 0 - randomUpTo(4800);
 
   const stars = [];
-  for (let i = 0; i < 5; ++i) {
+  for (let i = 0; i < n; ++i) {
     stars.push(
       <SmStarSC key={'a' + i} x={rX()} sp={12} delay={rDelay()} />,
       <MdStarSC key={'b' + i} x={rX()} sp={8} delay={rDelay()} />,
@@ -119,6 +120,15 @@ export const createStars = () => {
   }
 
   return stars;
+};
+
+// Create 'n' amount of enemies for the game
+// Returns an array of Enemy components
+export const createEnemies = n => {
+  const tenArr = [...Array(n).keys()];
+  const enemies = tenArr.map(val => <Enemy key={val} index={val} />);
+
+  return enemies;
 };
 
 // Random number from one up to the parameter
