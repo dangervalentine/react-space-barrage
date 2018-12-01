@@ -11,9 +11,11 @@ const enemies = [a, b, c];
 export const AppSC = styled.div`
   margin: 50px;
   display: flex;
+  filter: blur(1px);
   align-items: center;
   flex-direction: column;
   color: lime;
+  animation: ${() => linkShudder} 1s linear infinite;
 `;
 
 export const ContainerSC = styled.div`
@@ -71,7 +73,7 @@ const StarSC = styled.div`
   top: -10px;
   z-index: -1;
   position: absolute;
-  background-color: white;
+  background-color: Cyan;
   left: ${props => props.x}px;
   animation: ${() => moveY} ${props => props.sp}s linear
     ${props => `${props.delay}ms`} infinite normal;
@@ -94,33 +96,33 @@ export const LgStarSC = styled(StarSC)`
 
 export const GuideSC = styled.div`
   opacity: 0.5;
-  position: absolute;
   bottom: 10px;
   color: #00ffff;
   font-size: 0.7rem;
+  position: absolute;
 `;
 
 export const KeycapSC = styled.span`
-  border: 1px solid mediumorchid;
-  border-radius: 4px;
   padding: 5px;
-  line-height: 1.8em;
-  background: transparent;
-  color: mediumorchid;
-  margin-right: 4px;
   margin-left: 4px;
+  margin-right: 4px;
+  border-radius: 4px;
+  line-height: 1.8em;
+  color: mediumorchid;
+  background: transparent;
+  border: 1px solid mediumorchid;
 `;
 
 export const ScoreSC = styled.div`
-  height: 50px;
-  width: 50px;
-  font-size: 2em;
-  text-align: center;
-  align-self: start;
-  position: absolute;
   top: 0;
   left: 0;
+  width: 50px;
+  height: 50px;
   padding: 20px;
+  font-size: 2em;
+  align-self: start;
+  position: absolute;
+  text-align: center;
 `;
 
 export const GameOverSC = styled.div`
@@ -138,19 +140,27 @@ export const GameOverSC = styled.div`
 `;
 
 const moveY = keyframes`
-  0% {
-    transform: translateY(-100px);
-  }
-  100% {
-    transform: translateY(950px);
-  }
+  0%    { transform: translateY(-100px);  }
+  100%  { transform: translateY(950px);   }
 `;
 
 const flame = keyframes`
-  0% {
-    transform: scaleY(1);
-  }
-  50% {
-    transform: scaleY(0.8);
-  }
+  0%  { transform: scaleY(1);   }
+  50% { transform: scaleY(0.8); }
+`;
+
+const linkShudder = keyframes`
+10%  {                                        filter:blur(1px);   }
+15%  {                                        filter:blur(1.5px); }
+20%  {                                        filter:blur(1px);   }
+27%  { transform: translate(0px,0px);                             }
+28%  { transform: translate(1.5px,0px);                           }
+29%  { transform: translate(0px,0px);                             }
+35%  { transform: translate(0px,0px);                             }
+36%  { transform: translate(1px,1px);                             }
+37%  { transform: translate(0px,0px);                             }
+42%  { transform: translate(0px,0px);         filter:blur(1px);   }
+43%  { transform: translate(0px,1px);         filter:blur(1.5px);   }
+44%  { transform: translate(0px,0px);         filter:blur(1px);   }
+100% { transform: translate(0px,0px);                             }
 `;
