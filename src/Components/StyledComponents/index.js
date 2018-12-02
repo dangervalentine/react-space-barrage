@@ -5,6 +5,7 @@ import fire from '../../Assets/fire.svg';
 import a from '../../Assets/a.svg';
 import b from '../../Assets/b.svg';
 import c from '../../Assets/c.svg';
+import { randomUpTo } from '../../Helpers';
 
 const enemies = [a, b, c];
 
@@ -26,7 +27,7 @@ export const ScreenSC = styled.div`
   overflow: hidden;
   text-align: center;
   border: 5px solid SlateGray;
-  background: rgba(144, 238, 144, 0.05);
+  background: rgba(124, 252, 0, 0.02);
   border-radius: 120px 123px 123px 123px / 25px 25px 25px 25px;
   animation: ${() => linkShudder} 3s linear infinite;
 `;
@@ -62,7 +63,7 @@ export const EnemySC = styled.div`
   left: 0px;
   top: -100px;
   animation: ${() => moveY};
-  animation-duration: 3s;
+  animation-duration: ${() => `${randomUpTo(8)}s`};
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 `;
@@ -166,16 +167,16 @@ const flame = keyframes`
 
 const linkShudder = keyframes`
   10%  {                                        filter:blur(0.5px); }
-  15%  {                                        filter:blur(2px);   }
+  15%  {                                        filter:blur(1px);   }
   20%  {                                        filter:blur(0.5px); }
   27%  { transform: translate(0px,0px);                             }
-  28%  { transform: translate(3px,0px);                             }
+  28%  { transform: translate(1px,0px);                             }
   29%  { transform: translate(0px,0px);                             }
   35%  { transform: translate(0px,0px);                             }
-  36%  { transform: translate(1px,1px);                             }
+  36%  { transform: translate(.5px,.5px);                           }
   37%  { transform: translate(0px,0px);                             }
   42%  { transform: translate(0px,0px);         filter:blur(0.5px); }
-  43%  { transform: translate(0px,3px);         filter:blur(1px);   }
+  43%  { transform: translate(0px,0.5px);       filter:blur(1px);   }
   44%  { transform: translate(0px,0px);         filter:blur(0.5px); }
   100% { transform: translate(0px,0px);                             }
 `;

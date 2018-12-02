@@ -10,7 +10,7 @@ import Guide from './Guide';
 class Container extends React.Component {
   render() {
     const stars = createStars(10);
-    const enemies = createEnemies(10);
+    const enemies = createEnemies(15);
 
     return (
       <ContainerSC>

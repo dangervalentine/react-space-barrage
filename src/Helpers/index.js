@@ -54,7 +54,7 @@ const updateEnemies = (enemies, state) => {
     const enemyDim = enemy.getBoundingClientRect();
     const { y, x } = enemyDim;
 
-    if (y > 660 && y < 820) {
+    if (y > 625 && y < 775) {
       if (x >= shipX - 60 && x <= shipX + 60) {
         state.isShipHit = true;
       }
@@ -71,13 +71,14 @@ const updateEnemies = (enemies, state) => {
 const resetEnemy = enemy => {
   enemy.style.webkitAnimation = 'none';
   enemy.style.animation = 'none';
+  enemy.style.animationDuration = `0s`;
 
   setTimeout(function() {
     enemy.style.animation = '';
     enemy.style.webkitAnimation = '';
     enemy.style.left = `${randomUpTo(10) * 100}px`;
-    enemy.style.animationDuration = `${(randomUpTo(3) + 1) * 2}s`;
     enemy.style.background = `url(${enemiesSVGS[randomUpTo(3)]})`;
+    enemy.style.animationDuration = `3s`;
     enemy.style.backgroundSize = 'cover';
   }, 10);
 };
@@ -124,7 +125,7 @@ export const createStars = n => {
 // Create 'n' amount of enemies for the game
 // Returns an array of Enemy components
 export const createEnemies = n =>
-  [...Array(n).keys()].map(i => <Enemy key={i} index={i} />);
+  [...Array(n).keys()].map(i => <Enemy key={i} />);
 
 // Random number from one up to the parameter
 export const randomUpTo = upperLimit => Math.floor(Math.random() * upperLimit);
