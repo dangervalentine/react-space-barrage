@@ -46,6 +46,7 @@ const decayVelocity = state => {
   return newState;
 };
 
+// Update enemies and conduct hit-detection on them and the ship
 const updateEnemies = (enemies, state) => {
   const shipX = document.querySelector('.Ship').getBoundingClientRect().x;
 
@@ -83,7 +84,7 @@ const resetEnemy = enemy => {
 
 // Move the ship through keyboard input
 export const handleKeys = (state, e) => {
-  const newState = { ...state };
+  let newState = { ...state };
   const { rVelocity, lVelocity, shipX } = newState;
   const key = e.keyCode;
 
@@ -94,6 +95,10 @@ export const handleKeys = (state, e) => {
     newState.lVelocity = lVelocity > -20 ? lVelocity - 2 : -20;
 
   newState.shipX = shipX + newState.lVelocity + newState.rVelocity;
+
+  if (key === KEYS.SPACE) {
+    window.location.reload();
+  }
 
   return newState;
 };
@@ -118,12 +123,16 @@ export const createStars = n => {
 
 // Create 'n' amount of enemies for the game
 // Returns an array of Enemy components
-export const createEnemies = n => {
-  const tenArr = [...Array(n).keys()];
-  const enemies = tenArr.map(val => <Enemy key={val} index={val} />);
-
-  return enemies;
-};
+export const createEnemies = n =>
+  [...Array(n).keys()].map(i => <Enemy key={i} index={i} />);
 
 // Random number from one up to the parameter
 export const randomUpTo = upperLimit => Math.floor(Math.random() * upperLimit);
+
+export const initialState = () => ({
+  score: 0,
+  shipX: 490,
+  rVelocity: 0,
+  lVelocity: 0,
+  isShipHit: false,
+});

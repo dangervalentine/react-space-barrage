@@ -14,26 +14,42 @@ export const AppSC = styled.div`
   color: lime;
   margin: 50px;
   display: flex;
+  filter: blur(1px);
   position: relative;
   align-items: center;
   flex-direction: column;
-  filter: blur(1px);
 `;
 
 export const ScreenSC = styled.div`
   width: 1066px;
   height: 800px;
   overflow: hidden;
+  text-align: center;
   border: 5px solid SlateGray;
   background: rgba(144, 238, 144, 0.05);
   border-radius: 120px 123px 123px 123px / 25px 25px 25px 25px;
+  animation: ${() => linkShudder} 3s linear infinite;
 `;
 
 export const ContainerSC = styled.div`
   height: 100%;
   width: 100%;
   position: relative;
-  animation: ${() => linkShudder} 3s linear infinite;
+`;
+
+export const GameOverSC = styled.div`
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  font-size: 2rem;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(11, 11, 11, 1);
 `;
 
 export const EnemySC = styled.div`
@@ -105,12 +121,14 @@ export const LgStarSC = styled(StarSC)`
 `;
 
 export const GuideSC = styled.div`
-  color: Cyan;
-  bottom: 20px;
+  z-index: 9;
   opacity: 1;
+  bottom: 0;
+  color: Cyan;
+  width: 100%;
+  margin-bottom: 20px;
   font-size: 0.7rem;
   position: absolute;
-  z-index: 9;
 `;
 
 export const KeycapSC = styled.span`
@@ -136,42 +154,28 @@ export const ScoreSC = styled.div`
   text-align: center;
 `;
 
-export const GameOverSC = styled.div`
-  top: 0;
-  left: 0;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  font-size: 4rem;
-  position: absolute;
-  align-items: center;
-  justify-content: center;
-  background: rgba(11, 11, 11, 1);
-`;
-
 const moveY = keyframes`
   0%    { transform: translateY(-100px);  }
   100%  { transform: translateY(950px);   }
 `;
 
 const flame = keyframes`
-  0%  { transform: scaleY(1);   }
-  50% { transform: scaleY(0.8); }
+  0%   { transform: scaleY(1);   }
+  50%  { transform: scaleY(0.8); }
 `;
 
 const linkShudder = keyframes`
-10%  {                                        filter:blur(0.5px);   }
-15%  {                                        filter:blur(1px); }
-20%  {                                        filter:blur(0.5px);   }
-27%  { transform: translate(0px,0px);                             }
-28%  { transform: translate(1.5px,0px);                           }
-29%  { transform: translate(0px,0px);                             }
-35%  { transform: translate(0px,0px);                             }
-36%  { transform: translate(1px,1px);                             }
-37%  { transform: translate(0px,0px);                             }
-42%  { transform: translate(0px,0px);         filter:blur(0.5px);   }
-43%  { transform: translate(0px,1px);         filter:blur(1px);   }
-44%  { transform: translate(0px,0px);         filter:blur(0.5px);   }
-100% { transform: translate(0px,0px);                             }
+  10%  {                                        filter:blur(0.5px); }
+  15%  {                                        filter:blur(2px);   }
+  20%  {                                        filter:blur(0.5px); }
+  27%  { transform: translate(0px,0px);                             }
+  28%  { transform: translate(3px,0px);                             }
+  29%  { transform: translate(0px,0px);                             }
+  35%  { transform: translate(0px,0px);                             }
+  36%  { transform: translate(1px,1px);                             }
+  37%  { transform: translate(0px,0px);                             }
+  42%  { transform: translate(0px,0px);         filter:blur(0.5px); }
+  43%  { transform: translate(0px,3px);         filter:blur(1px);   }
+  44%  { transform: translate(0px,0px);         filter:blur(0.5px); }
+  100% { transform: translate(0px,0px);                             }
 `;

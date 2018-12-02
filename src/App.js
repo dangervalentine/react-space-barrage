@@ -1,10 +1,9 @@
 import React from 'react';
 
-import Guide from './Components/Guide';
-import Container from './Components/Container';
+import Screen from './Components/Screen';
 
 import { Context } from './Context';
-import { tick, handleKeys } from './Helpers';
+import { tick, handleKeys, initialState } from './Helpers';
 import { AppSC } from './Components/StyledComponents';
 
 import './App.css';
@@ -13,28 +12,25 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      score: 0,
-      shipX: 400,
-      rVelocity: 0,
-      lVelocity: 0,
-      isShipHit: false,
-    };
+    this.state = initialState();
   }
 
   componentDidMount() {
     this.ship = document.querySelector('.Ship');
-    this.isPlaying = setInterval(this.tick, 50);
     this.enemies = document.querySelectorAll('.Enemy');
+
+    this.isPlaying = setInterval(this.tick, 50);
+
     window.addEventListener('keydown', this.handleKeys);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeys);
   }
 
   tick = () => {
     if (!this.state.isShipHit) {
       this.setState(() => tick(this));
-    } else {
-      clearInterval(this.isPlaying);
-      window.removeEventListener('keydown', this.handleKeys);
     }
   };
 
@@ -44,8 +40,7 @@ class App extends React.Component {
     return (
       <Context.Provider value={this.state}>
         <AppSC>
-          <Container />
-          <Guide />
+          <Screen isShipHit={this.state.isShipHit} />
         </AppSC>
       </Context.Provider>
     );

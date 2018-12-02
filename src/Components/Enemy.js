@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { EnemySC } from './StyledComponents';
-import { withContext } from '../Context';
 
 class Enemy extends React.Component {
   shouldComponentUpdate() {
@@ -15,4 +14,4 @@ class Enemy extends React.Component {
   }
 }
 
-export default withContext(Enemy);
+export default Enemy;

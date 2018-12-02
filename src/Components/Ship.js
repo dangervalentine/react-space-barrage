@@ -9,9 +9,9 @@ const Ship = React.memo(props => {
 
   return (
     <ShipContainerSC
-      className="Ship"
       style={{ left: shipX }}
       rotate={rotateDeg}
+      className="Ship"
     >
       <ShipSC />
       <FireSC />

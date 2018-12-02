@@ -5,6 +5,8 @@ import { GameOverSC } from './StyledComponents';
 const GameOver = () => (
   <GameOverSC>
     <div>GAME OVER</div>
+    <hr />
+    <span>press SPACE to reset</span>
   </GameOverSC>
 );
 
