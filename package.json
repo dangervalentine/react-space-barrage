@@ -18,13 +18,11 @@
   },
   "homepage": "https://github.com/victoriousj/react-min-via#readme",
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",
-    "babel-plugin-styled-components": "^1.8.0",
     "css-loader": "^1.0.0",
     "file-loader": "^2.0.0",
     "style-loader": "^0.23.1",

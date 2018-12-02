@@ -1,6 +1,8 @@
 import React from 'react';
 
-export const Context = React.createContext();
+const Context = React.createContext();
+
+export const Provider = Context.Provider;
 
 export const withContext = Component => {
   return props => (

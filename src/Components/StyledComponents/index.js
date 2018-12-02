@@ -1,11 +1,12 @@
 import styled, { keyframes } from 'styled-components';
 
+import { randomUpTo } from '../../Helpers';
+
 import rocket from '../../Assets/rocket.svg';
 import fire from '../../Assets/fire.svg';
 import a from '../../Assets/a.svg';
 import b from '../../Assets/b.svg';
 import c from '../../Assets/c.svg';
-import { randomUpTo } from '../../Helpers';
 
 const enemies = [a, b, c];
 
@@ -57,7 +58,7 @@ export const EnemySC = styled.div`
   width: 80px;
   height: 80px;
   display: inline-block;
-  background: url(${enemies[0]}) center;
+  background: url(${() => enemies[randomUpTo(2)]}) center;
   background-size: cover;
   position: absolute;
   left: 0px;
@@ -155,16 +156,20 @@ export const ScoreSC = styled.div`
   text-align: center;
 `;
 
+// Stars and Enemies will use this to go from end to end
+// of the Container
 const moveY = keyframes`
   0%    { transform: translateY(-100px);  }
   100%  { transform: translateY(950px);   }
 `;
 
+// A flicker effect for the rocket's flame
 const flame = keyframes`
   0%   { transform: scaleY(1);   }
   50%  { transform: scaleY(0.8); }
 `;
 
+// The whole screen has this attached. To replicate a CRT TV screen
 const linkShudder = keyframes`
   10%  {                                        filter:blur(0.5px); }
   15%  {                                        filter:blur(1px);   }

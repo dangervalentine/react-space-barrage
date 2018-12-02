@@ -1,7 +1,7 @@
 import React from 'react';
 import { GuideSC, KeycapSC } from './StyledComponents';
 
-const Guide = () => (
+export default () => (
   <GuideSC>
     <KeycapSC>A</KeycapSC>
     <span>and</span>
@@ -12,5 +12,3 @@ const Guide = () => (
     {<KeycapSC>→</KeycapSC>}
   </GuideSC>
 );
-
-export default Guide;

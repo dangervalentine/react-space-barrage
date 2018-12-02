@@ -5,9 +5,9 @@ import { ScreenSC } from './StyledComponents';
 import Container from './Container';
 import GameOver from './GameOver';
 
-class Screen extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.isShipHit && !this.props.isShipHit) {
+export default class Screen extends React.Component {
+  shouldComponentUpdate({ isShipHit }) {
+    if (isShipHit && !this.props.isShipHit) {
       return true;
     }
     return false;
@@ -22,5 +22,3 @@ class Screen extends React.Component {
     );
   }
 }
-
-export default Screen;
