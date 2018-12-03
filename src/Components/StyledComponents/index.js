@@ -2,13 +2,13 @@ import styled, { keyframes } from 'styled-components';
 
 import { randomUpTo } from '../../Helpers';
 
+import enemy1 from '../../Assets/enemy1.svg';
+import enemy2 from '../../Assets/enemy2.svg';
+import enemy3 from '../../Assets/enemy3.svg';
 import rocket from '../../Assets/rocket.svg';
 import fire from '../../Assets/fire.svg';
-import a from '../../Assets/a.svg';
-import b from '../../Assets/b.svg';
-import c from '../../Assets/c.svg';
 
-const enemies = [a, b, c];
+const enemies = [enemy1, enemy2, enemy3];
 
 export const AppSC = styled.div`
   height: 100%
