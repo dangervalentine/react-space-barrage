@@ -3,12 +3,12 @@ import React from 'react';
 import { SmStarSC, MdStarSC, LgStarSC } from '../Components/StyledComponents';
 import { KEYS } from '../Resources';
 
-import a from '../Assets/a.svg';
-import b from '../Assets/b.svg';
-import c from '../Assets/c.svg';
+import enemy1 from '../Assets/enemy1.svg';
+import enemy2 from '../Assets/enemy2.svg';
+import enemy3 from '../Assets/enemy3.svg';
 import Enemy from '../Components/Enemy';
 
-const enemiesSVGS = [a, b, c];
+const enemiesSVGS = [enemy1, enemy2, enemy3];
 const maxX = 1000;
 const minX = -40;
 
