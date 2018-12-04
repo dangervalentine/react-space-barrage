@@ -4,11 +4,11 @@ import { GuideSC, KeycapSC } from './StyledComponents';
 export default () => (
   <GuideSC>
     <KeycapSC>A</KeycapSC>
-    <span>and</span>
+    and
     {<KeycapSC>D</KeycapSC>}
-    <span>or</span>
+    or
     {<KeycapSC>←</KeycapSC>}
-    <span>and</span>
+    and
     {<KeycapSC>→</KeycapSC>}
   </GuideSC>
 );
