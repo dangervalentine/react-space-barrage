@@ -9,7 +9,7 @@ import enemy3 from '../Assets/enemy3.svg';
 import Enemy from '../Components/Enemy';
 
 const enemiesSVGS = [enemy1, enemy2, enemy3];
-const maxX = 1000;
+const maxX = 1025;
 const minX = -40;
 
 //////////////////////
@@ -73,10 +73,13 @@ const resetEnemy = enemy => {
   enemy.style.animation = 'none';
   enemy.style.animationDuration = `0s`;
 
+  // There is a slight delay so that the element has time
+  // to fully reset to the CSS Styled sheets animation
+  // before overriding them here
   setTimeout(function() {
     enemy.style.animation = '';
     enemy.style.webkitAnimation = '';
-    enemy.style.left = `${randomUpTo(10) * 100}px`;
+    enemy.style.left = `${randomUpTo(11) * 100}px`;
     enemy.style.background = `url(${enemiesSVGS[randomUpTo(3)]})`;
     enemy.style.animationDuration = `3s`;
     enemy.style.backgroundSize = 'cover';

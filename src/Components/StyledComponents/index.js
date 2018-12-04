@@ -14,22 +14,22 @@ export const AppSC = styled.div`
   height: 100%
   width: 100%;
   color: lime;
-  margin: 50px;
+  margin: 50px 0px;
   display: flex;
   filter: blur(1px);
   position: relative;
   align-items: center;
   flex-direction: column;
-`;
+  `;
 
 export const ScreenSC = styled.div`
-  width: 1066px;
+  width: 1080px;
   height: 800px;
   overflow: hidden;
   text-align: center;
   border: 5px solid SlateGray;
   background: rgba(124, 252, 0, 0.02);
-  border-radius: 120px 123px 123px 123px / 25px 25px 25px 25px;
+  border-radius: 25px 25px 25px 25px;
   animation: ${() => linkShudder} 3s linear infinite;
 `;
 
