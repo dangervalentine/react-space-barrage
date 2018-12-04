@@ -1,6 +1,6 @@
 # SPACE BARRAGE
 
-![React](./src/Assets/doc-photos/react.png?raw=true 'React')![Babel](./src/Assets/doc-photos/babel.png?raw=true 'Babel')![Webpack](./src/Assets/doc-photos/webpack.png?raw=true 'Webpack')![Prettier](./src/Assets/doc-photos/prettier.png?raw=true 'Prettier')![Styled-Component](./src/Assets/doc-photos/styled-component.png?raw=true 'Styled-Component')
+![React](./src/Assets/doc-photos/react.png?raw=true 'React')![Babel](./src/Assets/doc-photos/babel.png?raw=true 'Babel')![Webpack](./src/Assets/doc-photos/webpack.png?raw=true 'Webpack')![Prettier](./src/Assets/doc-photos/prettier.png?raw=true 'Prettier')![Styled-Component](./src/Assets/doc-photos/styled-components.png?raw=true 'Styled-Components')
 
 Pilot a star ship through space. Navigate through a perilous sector filled with hostile enemies. See how far you can get!
 
