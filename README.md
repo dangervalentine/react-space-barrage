@@ -1,6 +1,7 @@
 ## SPACE BARRAGE
 
 <img style="float: left; width: 40px; height: 40px" alt="React" src="./src/Assets/doc-photos/react.png?raw=true">&nbsp;<img style="float: left; width: 40px; height: 40px" alt="Babel" src="./src/Assets/doc-photos/babel.png?raw=true">&nbsp;<img style="float: left; width: 40px; height: 40px" alt="Webpack" src="./src/Assets/doc-photos/webpack.png?raw=true">&nbsp;<img style="float: left; width: 40px; height: 40px" alt="Prettier" src="./src/Assets/doc-photos/prettier.png?raw=true">&nbsp;<img style="float: left; width: 40px; height: 40px" alt="Styledf" src="./src/Assets/doc-photos/styled-components.png?raw=true">
+
 A easy to comprehend game where you pilot a star ship through space. You must navigate through a perilous sector filled with hostile enemies. See how far you can get!
 
 ---
