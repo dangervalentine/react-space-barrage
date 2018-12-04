@@ -106,7 +106,7 @@ export const handleKeys = (state, e) => {
 
 // Creates 'n' star elements with animation
 // Returns array of stars
-export const createStars = n => {
+export const addStars = n => {
   const rX = () => randomUpTo(maxX);
   const rDelay = () => 0 - randomUpTo(4800);
 
@@ -122,10 +122,9 @@ export const createStars = n => {
   return stars;
 };
 
-// Create 'n' amount of enemies for the game
+// Creates 'n' amount of enemies for the game
 // Returns an array of Enemy components
-export const createEnemies = n =>
-  [...Array(n).keys()].map(i => <Enemy key={i} />);
+export const addEnemies = n => [...Array(n).keys()].map(i => <Enemy key={i} />);
 
 // Random number from one up to the parameter
 export const randomUpTo = upperLimit => Math.floor(Math.random() * upperLimit);

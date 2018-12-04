@@ -14,7 +14,7 @@ export const AppSC = styled.div`
   height: 100%
   width: 100%;
   color: lime;
-  margin: 50px;
+  margin: 50px 0px;
   display: flex;
   filter: blur(1px);
   position: relative;
