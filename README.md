@@ -16,8 +16,4 @@ A easy to comprehend game where you pilot a star ship through space. You must na
 
 ## Built With
 
-- <img style="float: left;" alt="React" src="./src/Assets/doc-photos/react.png?raw=true">
-- <img style="float: left;" alt="Babel" src="./src/Assets/doc-photos/babel.png?raw=true">
-- <img style="float: left;" alt="Webpack" src="./src/Assets/doc-photos/webpack.png?raw=true">
-- <img style="float: left;" alt="Prettier" src="./src/Assets/doc-photos/prettier.png?raw=true">
-- <img style="float: left;" alt="Styled-Components" src="./src/Assets/doc-photos/styled-components.png?raw=true">
+- <img style="float: left;" alt="React" src="./src/Assets/doc-photos/react.png?raw=true"><img style="float: left;" alt="Babel" src="./src/Assets/doc-photos/babel.png?raw=true"><img style="float: left;" alt="Webpack" src="./src/Assets/doc-photos/webpack.png?raw=true"><img style="float: left;" alt="Prettier" src="./src/Assets/doc-photos/prettier.png?raw=true"><img style="float: left;" alt="Styled-Components" src="./src/Assets/doc-photos/styled-components.png?raw=true">
