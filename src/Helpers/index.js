@@ -18,32 +18,31 @@ const minX = -40;
 
 // Runs every 50ms in order to assess and adjust state
 export const tick = App => {
-  const state = App.state;
   const enemies = App.enemies;
+  let state = App.state;
 
   updateEnemies(enemies, state);
-  const decayVelocityState = decayVelocity(state);
+  state = decayVelocity(state);
 
-  return decayVelocityState;
+  return state;
 };
 
 // Lower the inertia of a moving ship
 const decayVelocity = state => {
-  const newState = { ...state };
-  const { rVelocity, lVelocity, shipX } = newState;
+  const { rVelocity, lVelocity, shipX } = state;
   const velocity = lVelocity + rVelocity;
 
-  newState.lVelocity = lVelocity < 0 ? lVelocity + 1 : 0;
+  state.lVelocity = lVelocity < 0 ? lVelocity + 1 : 0;
 
-  newState.rVelocity = rVelocity > 0 ? rVelocity - 1 : 0;
+  state.rVelocity = rVelocity > 0 ? rVelocity - 1 : 0;
 
   if (velocity >= 0) {
-    newState.shipX = shipX <= maxX ? shipX + velocity : minX;
+    state.shipX = shipX <= maxX ? shipX + velocity : minX;
   } else if (velocity <= 0) {
-    newState.shipX = shipX >= minX ? shipX + velocity : maxX;
+    state.shipX = shipX >= minX ? shipX + velocity : maxX;
   }
 
-  return newState;
+  return state;
 };
 
 // Update enemies and conduct hit-detection on them and the ship
@@ -88,23 +87,22 @@ const resetEnemy = enemy => {
 
 // Move the ship through keyboard input
 export const handleKeys = (state, e) => {
-  let newState = { ...state };
-  const { rVelocity, lVelocity, shipX } = newState;
+  const { rVelocity, lVelocity, shipX } = state;
   const key = e.keyCode;
 
   if (key === KEYS.RIGHT || key === KEYS.D)
-    newState.rVelocity = rVelocity < 20 ? rVelocity + 2 : 20;
+    state.rVelocity = rVelocity < 20 ? rVelocity + 2 : 20;
 
   if (key === KEYS.LEFT || key === KEYS.A)
-    newState.lVelocity = lVelocity > -20 ? lVelocity - 2 : -20;
+    state.lVelocity = lVelocity > -20 ? lVelocity - 2 : -20;
 
-  newState.shipX = shipX + newState.lVelocity + newState.rVelocity;
+  state.shipX = shipX + state.lVelocity + state.rVelocity;
 
   if (key === KEYS.SPACE) {
     window.location.reload();
   }
 
-  return newState;
+  return state;
 };
 
 // Creates 'n' star elements with animation
