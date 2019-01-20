@@ -1,4 +1,4 @@
-# SPACE BARRAGE
+# SPACE BARRAGE (see it here)[https://victoriousj.github.io/react-space-barrage/]
 
 ![React](./src/Assets/doc-photos/react.png?raw=true 'React')![Babel](./src/Assets/doc-photos/babel.png?raw=true 'Babel')![Webpack](./src/Assets/doc-photos/webpack.png?raw=true 'Webpack')![Prettier](./src/Assets/doc-photos/prettier.png?raw=true 'Prettier')![Styled-Component](./src/Assets/doc-photos/styled-components.png?raw=true 'Styled-Components')
 
