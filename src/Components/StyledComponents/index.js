@@ -29,8 +29,6 @@ export const ScreenSC = styled.div`
   text-align: center;
   border: 5px solid SlateGray;
   background: rgba(124, 252, 0, 0.02);
-  border-radius: 25px 25px 25px 25px;
-  animation: ${() => linkShudder} 3s linear infinite;
 `;
 
 export const ContainerSC = styled.div`
@@ -167,21 +165,4 @@ const moveY = keyframes`
 const flame = keyframes`
   0%   { transform: scaleY(1);   }
   50%  { transform: scaleY(0.8); }
-`;
-
-// The whole screen has this attached. To replicate a CRT TV screen
-const linkShudder = keyframes`
-  10%  {                                        filter:blur(0.5px); }
-  15%  {                                        filter:blur(1px);   }
-  20%  {                                        filter:blur(0.5px); }
-  27%  { transform: translate(0px,0px);                             }
-  28%  { transform: translate(1px,0px);                             }
-  29%  { transform: translate(0px,0px);                             }
-  35%  { transform: translate(0px,0px);                             }
-  36%  { transform: translate(.5px,.5px);                           }
-  37%  { transform: translate(0px,0px);                             }
-  42%  { transform: translate(0px,0px);         filter:blur(0.5px); }
-  43%  { transform: translate(0px,0.5px);       filter:blur(1px);   }
-  44%  { transform: translate(0px,0px);         filter:blur(0.5px); }
-  100% { transform: translate(0px,0px);                             }
 `;
