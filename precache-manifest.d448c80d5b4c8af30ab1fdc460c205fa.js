@@ -4,8 +4,8 @@ self.__precacheManifest = [
     "url": "/react-space-barrage/static/media/enemy2.bb267ab8.svg"
   },
   {
-    "revision": "182995b59ef7f185e192",
-    "url": "/react-space-barrage/static/css/main.dd47c2c6.chunk.css"
+    "revision": "3207947440f9185cc046",
+    "url": "/react-space-barrage/static/css/main.266289bd.chunk.css"
   },
   {
     "revision": "03cf5d1c058d87a4fc8c",
@@ -20,8 +20,8 @@ self.__precacheManifest = [
     "url": "/react-space-barrage/static/media/enemy1.eefd8f35.svg"
   },
   {
-    "revision": "182995b59ef7f185e192",
-    "url": "/react-space-barrage/static/js/main.182995b5.chunk.js"
+    "revision": "3207947440f9185cc046",
+    "url": "/react-space-barrage/static/js/main.32079474.chunk.js"
   },
   {
     "revision": "e7e49935ff74f0adac34374bb172c8ee",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/react-space-barrage/static/media/PressStart2P-Regular.ccb1dfce.ttf"
   },
   {
-    "revision": "0ccd46d561cff538b3a976da1a2768a4",
+    "revision": "e187e19b99092f67a69b42fe9a035595",
     "url": "/react-space-barrage/index.html"
   }
 ];
