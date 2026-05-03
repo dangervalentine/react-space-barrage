@@ -2,7 +2,7 @@
   z-index: 9;
   opacity: 1;
   bottom: 0;
-  color: Cyan;
+  color: #7fdbca;
   width: 100%;
   margin-bottom: 20px;
   font-size: 0.7rem;
@@ -15,7 +15,7 @@
   margin-right: 4px;
   border-radius: 4px;
   line-height: 1.8em;
-  color: MediumOrchid;
+  color: #C792EA;
   background: transparent;
-  border: 1px solid MediumOrchid;
+  border: 1px solid #C792EA;
 }

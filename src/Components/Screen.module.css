@@ -3,7 +3,7 @@
   height: 800px;
   overflow: hidden;
   text-align: center;
-  border: 5px solid SlateGray;
-  background: rgba(124, 252, 0, 0.02);
+  border: 5px solid #1D3B53;
+  background: rgba(130, 170, 255, 0.03);
   position: relative;
 }

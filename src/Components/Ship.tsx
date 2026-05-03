@@ -5,8 +5,10 @@ import fire from '../Assets/fire.svg';
 import styles from './Ship.module.css';
 
 const Ship = React.memo(() => {
-  const { shipX, rVelocity, lVelocity } = useGameContext();
-  const rotate = (rVelocity + lVelocity) * 2.5;
+  const { shipX, velocity } = useGameContext();
+  const rotate = (velocity / 500) * 30;
+  const baseScale = 0.3;
+  const velocityScale = Math.max(baseScale, Math.min(Math.abs(velocity) / 500, 1));
 
   return (
     <div
@@ -22,7 +24,11 @@ const Ship = React.memo(() => {
       />
       <div
         className={styles.fire}
-        style={{ backgroundImage: `url(${fire})` }}
+        style={{
+          backgroundImage: `url(${fire})`,
+          transform: `scaleX(${velocityScale}) scaleY(${velocityScale})`,
+          transformOrigin: 'top center',
+        }}
       />
     </div>
   );

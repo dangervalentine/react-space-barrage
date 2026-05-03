@@ -10,8 +10,7 @@ export interface EnemyState {
 export interface GameState {
   score: number;
   shipX: number;
-  rVelocity: number;
-  lVelocity: number;
+  velocity: number;
   isShipHit: boolean;
   enemies: EnemyState[];
 }

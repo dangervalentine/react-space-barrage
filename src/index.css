@@ -3,14 +3,23 @@
   src: url(./Assets/PressStart2P-Regular.ttf);
 }
 
+html,
 body {
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
   font-family: 'PressStart2P-Regular', monospace;
   user-select: none;
-  background: #111;
+  background: #010E18;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
 }
 
 code {

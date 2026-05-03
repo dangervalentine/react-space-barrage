@@ -8,8 +8,7 @@ import styles from './App.module.css';
 const initialState: GameState = {
   score: 0,
   shipX: 490,
-  rVelocity: 0,
-  lVelocity: 0,
+  velocity: 0,
   isShipHit: false,
   enemies: [],
 };
@@ -36,12 +35,20 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      engineRef.current?.handleKey(e.keyCode);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.keyCode === 32) e.preventDefault();
+      engineRef.current?.handleKeyDown(e.keyCode);
     };
-    window.addEventListener('keydown', handleKeyPress);
+    const handleKeyUp = (e: KeyboardEvent) => {
+      engineRef.current?.handleKeyUp(e.keyCode);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
 
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
   }, []);
 
   return (

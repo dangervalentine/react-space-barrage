@@ -15,6 +15,7 @@ export class GameEngine {
   private lastTime = 0;
   private onUpdate: (state: GameState) => void;
   private startTime: number = 0;
+  private pressedKeys: Set<number> = new Set();
 
   constructor(onUpdate: (state: GameState) => void) {
     this.onUpdate = onUpdate;
@@ -36,7 +37,7 @@ export class GameEngine {
     }
   }
 
-  handleKey(keyCode: number): void {
+  handleKeyDown(keyCode: number): void {
     if (keyCode === KEYS.SPACE) {
       this.startTime = performance.now();
       this.state = this.makeInitialState(this.startTime);
@@ -44,16 +45,11 @@ export class GameEngine {
       this.onUpdate(this.state);
       return;
     }
+    this.pressedKeys.add(keyCode);
+  }
 
-    const { rVelocity, lVelocity } = this.state;
-
-    if (keyCode === KEYS.RIGHT || keyCode === KEYS.D) {
-      this.state.rVelocity = rVelocity < 20 ? rVelocity + 2 : 20;
-    }
-
-    if (keyCode === KEYS.LEFT || keyCode === KEYS.A) {
-      this.state.lVelocity = lVelocity > -20 ? lVelocity - 2 : -20;
-    }
+  handleKeyUp(keyCode: number): void {
+    this.pressedKeys.delete(keyCode);
   }
 
   private tick = (timestamp: number): void => {
@@ -70,20 +66,36 @@ export class GameEngine {
   };
 
   private updateShip(delta: number): void {
-    const deltaFactor = delta / 50;
-    const { rVelocity, lVelocity, shipX } = this.state;
+    const MAX_VELOCITY = 500;
+    const ACCELERATION = 1500;
 
-    this.state.lVelocity = lVelocity < 0 ? lVelocity + 1 : 0;
-    this.state.rVelocity = rVelocity > 0 ? rVelocity - 1 : 0;
+    const { shipX, velocity } = this.state;
+    let newVelocity = velocity;
 
-    const newVelocity = this.state.lVelocity + this.state.rVelocity;
+    const isMovingLeft = this.pressedKeys.has(KEYS.LEFT) || this.pressedKeys.has(KEYS.A);
+    const isMovingRight = this.pressedKeys.has(KEYS.RIGHT) || this.pressedKeys.has(KEYS.D);
+
+    if (isMovingLeft && !isMovingRight) {
+      newVelocity = Math.max(newVelocity - ACCELERATION * (delta / 1000), -MAX_VELOCITY);
+    } else if (isMovingRight && !isMovingLeft) {
+      newVelocity = Math.min(newVelocity + ACCELERATION * (delta / 1000), MAX_VELOCITY);
+    } else {
+      newVelocity *= Math.pow(0.5, delta / 1000);
+      if (Math.abs(newVelocity) < 10) newVelocity = 0;
+    }
+
+    this.state.velocity = newVelocity;
+
     const maxX = GAME_WIDTH - 60;
     const minX = -40;
+    const newX = shipX + newVelocity * (delta / 1000);
 
-    if (newVelocity >= 0) {
-      this.state.shipX = shipX <= maxX ? shipX + newVelocity * deltaFactor : minX;
-    } else if (newVelocity <= 0) {
-      this.state.shipX = shipX >= minX ? shipX + newVelocity * deltaFactor : maxX;
+    if (newX <= maxX && newX >= minX) {
+      this.state.shipX = newX;
+    } else if (newX > maxX) {
+      this.state.shipX = minX;
+    } else {
+      this.state.shipX = maxX;
     }
   }
 
@@ -114,21 +126,22 @@ export class GameEngine {
   }
 
   private checkCollision(shipX: number, enemyY: number, enemyX: number): boolean {
-    const SHIP_WIDTH = 60;
-    const SHIP_HEIGHT = 60;
+    const SHIP_WIDTH = 80;
+    const SHIP_HEIGHT = 80;
     const SHIP_Y = 720;
     const ENEMY_WIDTH = 80;
     const ENEMY_HEIGHT = 80;
+    const PADDING = 20;
 
-    const shipLeft = shipX - SHIP_WIDTH / 2;
-    const shipRight = shipX + SHIP_WIDTH / 2;
-    const shipTop = SHIP_Y;
-    const shipBottom = SHIP_Y + SHIP_HEIGHT;
+    const shipLeft = shipX - SHIP_WIDTH / 2 + PADDING;
+    const shipRight = shipX + SHIP_WIDTH / 2 - PADDING;
+    const shipTop = SHIP_Y + PADDING;
+    const shipBottom = SHIP_Y + SHIP_HEIGHT - PADDING;
 
-    const enemyLeft = enemyX - ENEMY_WIDTH / 2;
-    const enemyRight = enemyX + ENEMY_WIDTH / 2;
-    const enemyTop = enemyY;
-    const enemyBottom = enemyY + ENEMY_HEIGHT;
+    const enemyLeft = enemyX - ENEMY_WIDTH / 2 + PADDING;
+    const enemyRight = enemyX + ENEMY_WIDTH / 2 - PADDING;
+    const enemyTop = enemyY + PADDING;
+    const enemyBottom = enemyY + ENEMY_HEIGHT - PADDING;
 
     return (
       shipLeft < enemyRight &&
@@ -144,10 +157,21 @@ export class GameEngine {
     return y;
   }
 
+  private getAvailableXPosition(): number {
+    const occupiedXPositions = new Set(this.state.enemies.map(e => e.x));
+    const allXPositions = Array.from({ length: 11 }, (_, i) => i * 100);
+    const availablePositions = allXPositions.filter(x => !occupiedXPositions.has(x));
+
+    if (availablePositions.length > 0) {
+      return availablePositions[Math.floor(Math.random() * availablePositions.length)];
+    }
+    return randomUpTo(11) * 100;
+  }
+
   private createNewEnemy(id: number, timestamp: number): EnemyState {
     return {
       id,
-      x: randomUpTo(11) * 100,
+      x: this.getAvailableXPosition(),
       y: ENEMY_START_Y,
       imageIndex: randomUpTo(3),
       startTime: timestamp,
@@ -156,15 +180,21 @@ export class GameEngine {
   }
 
   private makeInitialState(timestamp: number): GameState {
+    const SPAWN_STAGGER_MS = 350;
+
     return {
       score: 0,
       shipX: 490,
-      rVelocity: 0,
-      lVelocity: 0,
+      velocity: 0,
       isShipHit: false,
-      enemies: Array.from({ length: ENEMY_COUNT }, (_, i) =>
-        this.createNewEnemy(i, timestamp)
-      ),
+      enemies: Array.from({ length: ENEMY_COUNT }, (_, i) => ({
+        id: i,
+        x: (i % 11) * 100,
+        y: ENEMY_START_Y,
+        imageIndex: randomUpTo(3),
+        startTime: timestamp + i * SPAWN_STAGGER_MS,
+        duration: randomUpTo(5000) + 3000,
+      })),
     };
   }
 }
