@@ -7,6 +7,7 @@
   margin-bottom: 20px;
   font-size: 0.7rem;
   position: absolute;
+  text-shadow: 0 0 2px #FFCB6B, 0 0 1px #FFCB6Baa !important;
 }
 
 .keycap {
@@ -18,4 +19,5 @@
   color: #C792EA;
   background: transparent;
   border: 1px solid #C792EA;
+  text-shadow: 0 0 2px #FFCB6B, 0 0 1px #FFCB6Baa !important;
 }

@@ -5,14 +5,41 @@ export interface EnemyState {
   imageIndex: number;
   startTime: number;
   duration: number;
+  hasScored?: boolean;
+  removedAt?: number;
+}
+
+export interface ShieldState {
+  id: number;
+  x: number;
+  y: number;
+  startTime: number;
+  duration: number;
+}
+
+export interface ParticleState {
+  id: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  createdAt: number;
+  lifetime: number;
 }
 
 export interface GameState {
   score: number;
+  highScore: number;
+  lives: number;
   shipX: number;
-  velocity: number;
+  shipY: number;
+  velocityX: number;
+  velocityY: number;
   isShipHit: boolean;
+  lastHitTime: number;
   enemies: EnemyState[];
+  shields: ShieldState[];
+  particles: ParticleState[];
 }
 
 export const ENEMY_COUNT = 15;
@@ -24,9 +51,13 @@ export const GAME_HEIGHT = 800;
 export const KEYS = {
   SPACE: 32,
   LEFT: 37,
+  UP: 38,
   RIGHT: 39,
+  DOWN: 40,
   A: 65,
   D: 68,
+  W: 87,
+  S: 83,
 } as const;
 
 export const randomUpTo = (upperLimit: number): number =>

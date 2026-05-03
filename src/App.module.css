@@ -7,10 +7,22 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background: #011627;
+  background: #010E18;
+  font-family: 'PressStart2P-Regular', monospace;
+  padding: 40px;
+  box-sizing: border-box;
 }
 
-.container::before {
+.screenBezel {
+  position: relative;
+  border: 12px solid #1a2a3a;
+  border-radius: 50px;
+  box-shadow: inset 0 -2px 8px rgba(0, 0, 0, 0.8);
+  background: #011627;
+  overflow: hidden;
+}
+
+.screenBezel::before {
   content: '';
   position: absolute;
   top: 0;
@@ -22,10 +34,11 @@
     radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%),
     repeating-linear-gradient(
       0deg,
-      rgba(0, 0, 0, 0.15),
-      rgba(0, 0, 0, 0.15) 2px,
+      rgba(0, 0, 0, 0.25),
+      rgba(0, 0, 0, 0.25) 2px,
       transparent 2px,
       transparent 3px
     );
   z-index: 999;
+  box-shadow: inset 0 0 60px rgba(127, 219, 202, 0.08);
 }

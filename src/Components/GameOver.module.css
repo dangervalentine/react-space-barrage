@@ -11,4 +11,48 @@
   flex-direction: column;
   justify-content: center;
   background: rgba(1, 22, 39, 0.95);
+  gap: 20px;
+}
+
+.title {
+  font-size: 3rem;
+  color: #F07178;
+  text-shadow: 0 0 2px #FFCB6B, 0 0 1px #FFCB6Baa !important;
+}
+
+.scores {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  font-size: 1.5rem;
+  color: #D6DEEB;
+}
+
+.scores > div {
+  text-shadow: 0 0 2px #FFCB6B, 0 0 1px #FFCB6Baa !important;
+}
+
+.newRecord {
+  color: #FFCB6B !important;
+  text-shadow: 0 0 2px #FFCB6B, 0 0 1px #FFCB6Baa !important;
+  font-weight: bold;
+}
+
+.recordText {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 1.2rem;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
 }

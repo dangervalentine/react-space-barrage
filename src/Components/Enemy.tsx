@@ -13,6 +13,17 @@ interface EnemyProps {
 
 function Enemy({ enemy }: EnemyProps) {
   console.log(`Enemy render: id=${enemy.id}, x=${enemy.x}, y=${enemy.y}, imageIndex=${enemy.imageIndex}`);
+
+  let scale = 1;
+  let opacity = 1;
+
+  if (enemy.removedAt !== undefined) {
+    const timeSinceRemoved = performance.now() - enemy.removedAt;
+    const progress = Math.min(timeSinceRemoved / 200, 1);
+    scale = 1 - progress;
+    opacity = 1 - progress;
+  }
+
   return (
     <div
       className={styles.enemy}
@@ -20,6 +31,8 @@ function Enemy({ enemy }: EnemyProps) {
         left: `${enemy.x}px`,
         top: `${enemy.y}px`,
         backgroundImage: `url(${enemyImages[enemy.imageIndex]})`,
+        transform: `scale(${scale})`,
+        opacity,
       }}
     />
   );

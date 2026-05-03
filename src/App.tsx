@@ -3,18 +3,26 @@ import Screen from './Components/Screen';
 import { Provider } from './Context';
 import { GameEngine } from './engine/GameEngine';
 import type { GameState } from './engine/types';
+import { getHighScore } from './utils/storage';
 import styles from './App.module.css';
 
-const initialState: GameState = {
+const getInitialState = (): GameState => ({
   score: 0,
+  highScore: getHighScore(),
+  lives: 3,
   shipX: 490,
-  velocity: 0,
+  shipY: 700,
+  velocityX: 0,
+  velocityY: 0,
   isShipHit: false,
+  lastHitTime: performance.now() - 2000,
   enemies: [],
-};
+  shields: [],
+  particles: [],
+});
 
 export default function App() {
-  const [state, setState] = useState<GameState>(initialState);
+  const [state, setState] = useState<GameState>(getInitialState);
   const engineRef = useRef<GameEngine | null>(null);
 
   console.log(`App render: ${state.enemies.length} enemies, isShipHit=${state.isShipHit}`);
@@ -54,7 +62,9 @@ export default function App() {
   return (
     <Provider value={state}>
       <div className={styles.container}>
-        <Screen isShipHit={state.isShipHit} />
+        <div className={styles.screenBezel}>
+          <Screen isShipHit={state.isShipHit} engine={engineRef.current} />
+        </div>
       </div>
     </Provider>
   );
