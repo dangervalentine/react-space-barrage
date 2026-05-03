@@ -1,0 +1,24 @@
+.shipContainer {
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  bottom: 80px;
+  position: absolute;
+  transform: translate(-50%, 0%);
+}
+
+.ship {
+  z-index: 5;
+  width: 80px;
+  height: 80px;
+  background-size: cover;
+}
+
+.fire {
+  width: 80px;
+  height: 80px;
+  margin-top: -3px;
+  transform-origin: top;
+  background-size: cover;
+  animation: flame 400ms linear 0ms infinite normal;
+}

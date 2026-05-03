@@ -1,0 +1,9 @@
+.screen {
+  width: 1080px;
+  height: 800px;
+  overflow: hidden;
+  text-align: center;
+  border: 5px solid SlateGray;
+  background: rgba(124, 252, 0, 0.02);
+  position: relative;
+}

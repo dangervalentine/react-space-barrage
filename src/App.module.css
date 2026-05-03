@@ -1,0 +1,13 @@
+.container {
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  color: lime;
+  margin: 50px 0px;
+  display: flex;
+  filter: blur(1px);
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  background: #111;
+}

@@ -1,0 +1,21 @@
+.star {
+  top: -10px;
+  z-index: -1;
+  position: absolute;
+  background-color: Cyan;
+}
+
+.starSm {
+  width: 1px;
+  height: 1px;
+}
+
+.starMd {
+  width: 2px;
+  height: 2px;
+}
+
+.starLg {
+  width: 3px;
+  height: 3px;
+}

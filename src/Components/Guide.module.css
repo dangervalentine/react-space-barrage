@@ -1,0 +1,21 @@
+.guide {
+  z-index: 9;
+  opacity: 1;
+  bottom: 0;
+  color: Cyan;
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 0.7rem;
+  position: absolute;
+}
+
+.keycap {
+  padding: 5px;
+  margin-left: 4px;
+  margin-right: 4px;
+  border-radius: 4px;
+  line-height: 1.8em;
+  color: MediumOrchid;
+  background: transparent;
+  border: 1px solid MediumOrchid;
+}

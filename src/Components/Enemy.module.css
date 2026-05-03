@@ -1,0 +1,7 @@
+.enemy {
+  width: 80px;
+  height: 80px;
+  display: inline-block;
+  background-size: cover;
+  position: absolute;
+}
