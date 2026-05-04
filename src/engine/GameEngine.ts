@@ -9,7 +9,6 @@ import {
   GAME_WIDTH,
   randomUpTo,
 } from './types';
-import { PatternGenerator, Pattern } from './PatternGenerator';
 
 export class GameEngine {
   private state: GameState;
@@ -18,20 +17,12 @@ export class GameEngine {
   private onUpdate: (state: GameState) => void;
   private startTime: number = 0;
   private pressedKeys: Set<number> = new Set();
-  private patternGenerator: PatternGenerator;
-  private currentPattern: Pattern | null = null;
-  private patternStartTime: number = 0;
-  private patternSpawnIndex: number = 0;
-  private lastEnemySpawnTime: number = 0;
-  private spawnInterval: number = 400;
   private nextParticleId: number = 0;
 
   constructor(onUpdate: (state: GameState) => void) {
     this.onUpdate = onUpdate;
     this.startTime = performance.now();
-    this.patternGenerator = new PatternGenerator(0);
     this.state = this.makeInitialState(this.startTime);
-    this.lastEnemySpawnTime = this.startTime;
   }
 
   start(): void {
@@ -70,7 +61,6 @@ export class GameEngine {
     if (!this.state.isShipHit) {
       this.updateShip(delta);
       this.updateEnemies(timestamp);
-      this.spawnEnemiesAtInterval(timestamp);
       this.updateShields(timestamp);
       this.checkShieldPickup();
     }
@@ -159,11 +149,6 @@ export class GameEngine {
 
       if (progress >= 1 && y >= 825 && !enemy.hasScored) {
         this.state.score += 1;
-        if (this.currentPattern === null) {
-          this.currentPattern = this.patternGenerator.getNextPattern();
-          this.patternStartTime = timestamp;
-          this.patternSpawnIndex = 0;
-        }
         return { ...updatedEnemy, hasScored: true };
       }
 
@@ -174,37 +159,9 @@ export class GameEngine {
     });
   }
 
-  private spawnEnemiesAtInterval(timestamp: number): void {
-    const timeSinceLastSpawn = timestamp - this.lastEnemySpawnTime;
-
-    if (timeSinceLastSpawn >= this.spawnInterval) {
-      if (this.currentPattern === null) {
-        this.currentPattern = this.patternGenerator.getNextPattern();
-        this.patternStartTime = timestamp;
-        this.patternSpawnIndex = 0;
-      }
-
-      const spawn = this.currentPattern.spawns[this.patternSpawnIndex];
-      const x = spawn.column * 100;
-
-      const newEnemy: EnemyState = {
-        id: this.state.enemies.length,
-        x,
-        y: ENEMY_START_Y,
-        imageIndex: randomUpTo(3),
-        startTime: timestamp,
-        duration: this.currentPattern.duration,
-      };
-
-      this.state.enemies.push(newEnemy);
-      this.lastEnemySpawnTime = timestamp;
-      this.patternSpawnIndex++;
-
-      if (this.patternSpawnIndex >= this.currentPattern.spawns.length) {
-        this.currentPattern = null;
-        this.patternGenerator.updateDifficulty(this.state.score);
-      }
-    }
+  // TODO: Implement enemy spawning logic here
+  private spawnEnemies(timestamp: number): void {
+    // Decide how and when enemies should spawn
   }
 
   private updateShields(timestamp: number): void {
@@ -289,19 +246,6 @@ export class GameEngine {
     return y;
   }
 
-  private getAvailableXPosition(): number {
-    const occupiedXPositions = new Set(this.state.enemies.map(e => e.x));
-    const allXPositions = Array.from({ length: 11 }, (_, i) => i * 100);
-    const availablePositions = allXPositions.filter(x => !occupiedXPositions.has(x));
-
-    if (availablePositions.length === 0) {
-      console.warn('No available columns for enemy spawn - all columns occupied');
-      return -1;
-    }
-
-    return availablePositions[Math.floor(Math.random() * availablePositions.length)];
-  }
-
 
   private makeInitialState(timestamp: number): GameState {
     const SPAWN_STAGGER_MS = 350;
@@ -316,14 +260,7 @@ export class GameEngine {
       velocityY: 0,
       isShipHit: false,
       lastHitTime: timestamp - 2000,
-      enemies: Array.from({ length: ENEMY_COUNT }, (_, i) => ({
-        id: i,
-        x: (i % 11) * 100,
-        y: ENEMY_START_Y,
-        imageIndex: randomUpTo(3),
-        startTime: timestamp + i * SPAWN_STAGGER_MS,
-        duration: randomUpTo(5000) + 3000,
-      })),
+      enemies: [],
       shields: [],
       particles: [],
     };

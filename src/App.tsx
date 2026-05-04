@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Screen from './Components/Screen';
+import { TouchControls } from './Components/TouchControls';
 import { Provider } from './Context';
 import { GameEngine } from './engine/GameEngine';
 import type { GameState } from './engine/types';
@@ -24,6 +25,7 @@ const getInitialState = (): GameState => ({
 export default function App() {
   const [state, setState] = useState<GameState>(getInitialState);
   const engineRef = useRef<GameEngine | null>(null);
+  const screenBezelRef = useRef<HTMLDivElement>(null);
 
   console.log(`App render: ${state.enemies.length} enemies, isShipHit=${state.isShipHit}`);
 
@@ -39,6 +41,28 @@ export default function App() {
     return () => {
       console.log('App unmounting, stopping engine');
       engine.stop();
+    };
+  }, []);
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (screenBezelRef.current) {
+        const rect = screenBezelRef.current.getBoundingClientRect();
+        const scale = rect.width / 1080;
+        document.documentElement.style.setProperty('--game-scale', scale.toString());
+      }
+    };
+
+    updateScale();
+    const resizeObserver = new ResizeObserver(updateScale);
+    if (screenBezelRef.current) {
+      resizeObserver.observe(screenBezelRef.current);
+    }
+
+    window.addEventListener('resize', updateScale);
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateScale);
     };
   }, []);
 
@@ -62,9 +86,10 @@ export default function App() {
   return (
     <Provider value={state}>
       <div className={styles.container}>
-        <div className={styles.screenBezel}>
+        <div className={styles.screenBezel} ref={screenBezelRef}>
           <Screen isShipHit={state.isShipHit} engine={engineRef.current} />
         </div>
+        <TouchControls engine={engineRef.current} />
       </div>
     </Provider>
   );

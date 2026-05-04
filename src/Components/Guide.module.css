@@ -8,16 +8,56 @@
   font-size: 0.7rem;
   position: absolute;
   text-shadow: 0 0 2px #FFCB6B, 0 0 1px #FFCB6Baa !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 3vw, 20px);
+  flex-wrap: wrap;
+  padding: 0 10px;
+}
+
+@media (max-width: 768px) {
+  .guide {
+    display: none;
+  }
+}
+
+.keyGroup {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.8vw, 6px);
+  align-items: center;
+}
+
+.topRow {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.bottomRow {
+  display: flex;
+  gap: clamp(4px, 0.8vw, 6px);
+}
+
+.separator {
+  color: #7fdbca;
+  font-size: clamp(0.6rem, 1.5vw, 0.7rem);
 }
 
 .keycap {
-  padding: 5px;
-  margin-left: 4px;
-  margin-right: 4px;
-  border-radius: 4px;
-  line-height: 1.8em;
+  width: clamp(16px, 2.5vw, 18px);
+  height: clamp(16px, 2.5vw, 18px);
+  padding: 0;
+  border-radius: 2px;
+  line-height: 1;
   color: #C792EA;
   background: transparent;
   border: 1px solid #C792EA;
   text-shadow: 0 0 2px #FFCB6B, 0 0 1px #FFCB6Baa !important;
+  white-space: nowrap;
+  font-size: clamp(0.4rem, 0.7vw, 0.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

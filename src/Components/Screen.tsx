@@ -1,7 +1,6 @@
 import React from 'react';
 import Container from './Container';
 import GameOver from './GameOver';
-import { TouchControls } from './TouchControls';
 import { GameEngine } from '../engine/GameEngine';
 import { useGameContext } from '../Context';
 import styles from './Screen.module.css';
@@ -18,7 +17,6 @@ const ScreenContent = ({ isShipHit, engine }: ScreenProps) => {
     <div className={styles.screen}>
       {isShipHit && <GameOver score={score} highScore={highScore} />}
       <Container />
-      <TouchControls engine={engine} />
     </div>
   );
 };

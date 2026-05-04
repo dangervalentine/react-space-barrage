@@ -3,7 +3,7 @@
   right: 0;
   position: absolute;
   padding: 20px 30px;
-  font-size: 1.2rem;
+  font-size: calc(1.2rem * var(--game-scale, 1));
   color: #F07178;
   text-shadow: 0 0 2px #FFCB6B, 0 0 1px #FFCB6Baa !important;
   font-weight: bold;

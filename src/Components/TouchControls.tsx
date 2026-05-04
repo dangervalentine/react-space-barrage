@@ -8,74 +8,47 @@ interface TouchControlsProps {
 }
 
 export const TouchControls = ({ engine }: TouchControlsProps) => {
-  const handleTouchStart = (keyCode: number) => (e: React.TouchEvent) => {
+  const handleMultiKeyDown = (keyCodes: number[]) => (e: React.TouchEvent | React.MouseEvent) => {
     e.preventDefault();
-    engine?.handleKeyDown(keyCode);
+    keyCodes.forEach(code => engine?.handleKeyDown(code));
   };
 
-  const handleTouchEnd = (keyCode: number) => (e: React.TouchEvent) => {
+  const handleMultiKeyUp = (keyCodes: number[]) => (e: React.TouchEvent | React.MouseEvent) => {
     e.preventDefault();
-    engine?.handleKeyUp(keyCode);
+    keyCodes.forEach(code => engine?.handleKeyUp(code));
   };
 
-  const handleMouseDown = (keyCode: number) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    engine?.handleKeyDown(keyCode);
-  };
-
-  const handleMouseUp = (keyCode: number) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    engine?.handleKeyUp(keyCode);
-  };
+  const createButton = (label: string, keyCodes: number[], className: string) => (
+    <button
+      className={`${styles.button} ${className}`}
+      onTouchStart={handleMultiKeyDown(keyCodes)}
+      onTouchEnd={handleMultiKeyUp(keyCodes)}
+      onMouseDown={handleMultiKeyDown(keyCodes)}
+      onMouseUp={handleMultiKeyUp(keyCodes)}
+      onMouseLeave={handleMultiKeyUp(keyCodes)}
+      aria-label={`Direction ${label}`}
+    >
+      {label}
+    </button>
+  );
 
   return (
     <div className={styles.container}>
-      <div className={styles.dpad}>
-        <button
-          className={`${styles.button} ${styles.up}`}
-          onTouchStart={handleTouchStart(KEYS.UP)}
-          onTouchEnd={handleTouchEnd(KEYS.UP)}
-          onMouseDown={handleMouseDown(KEYS.UP)}
-          onMouseUp={handleMouseUp(KEYS.UP)}
-          onMouseLeave={handleMouseUp(KEYS.UP)}
-          aria-label="Up"
-        >
-          ▲
-        </button>
+      <div className={styles.joystick}>
         <div className={styles.row}>
-          <button
-            className={`${styles.button} ${styles.left}`}
-            onTouchStart={handleTouchStart(KEYS.LEFT)}
-            onTouchEnd={handleTouchEnd(KEYS.LEFT)}
-            onMouseDown={handleMouseDown(KEYS.LEFT)}
-            onMouseUp={handleMouseUp(KEYS.LEFT)}
-            onMouseLeave={handleMouseUp(KEYS.LEFT)}
-            aria-label="Left"
-          >
-            ◀
-          </button>
-          <button
-            className={`${styles.button} ${styles.down}`}
-            onTouchStart={handleTouchStart(KEYS.DOWN)}
-            onTouchEnd={handleTouchEnd(KEYS.DOWN)}
-            onMouseDown={handleMouseDown(KEYS.DOWN)}
-            onMouseUp={handleMouseUp(KEYS.DOWN)}
-            onMouseLeave={handleMouseUp(KEYS.DOWN)}
-            aria-label="Down"
-          >
-            ▼
-          </button>
-          <button
-            className={`${styles.button} ${styles.right}`}
-            onTouchStart={handleTouchStart(KEYS.RIGHT)}
-            onTouchEnd={handleTouchEnd(KEYS.RIGHT)}
-            onMouseDown={handleMouseDown(KEYS.RIGHT)}
-            onMouseUp={handleMouseUp(KEYS.RIGHT)}
-            onMouseLeave={handleMouseUp(KEYS.RIGHT)}
-            aria-label="Right"
-          >
-            ▶
-          </button>
+          {createButton('↖', [KEYS.UP, KEYS.LEFT], styles.upLeft)}
+          {createButton('↑', [KEYS.UP], styles.up)}
+          {createButton('↗', [KEYS.UP, KEYS.RIGHT], styles.upRight)}
+        </div>
+        <div className={styles.row}>
+          {createButton('←', [KEYS.LEFT], styles.left)}
+          <div className={styles.center} />
+          {createButton('→', [KEYS.RIGHT], styles.right)}
+        </div>
+        <div className={styles.row}>
+          {createButton('↙', [KEYS.DOWN, KEYS.LEFT], styles.downLeft)}
+          {createButton('↓', [KEYS.DOWN], styles.down)}
+          {createButton('↘', [KEYS.DOWN, KEYS.RIGHT], styles.downRight)}
         </div>
       </div>
     </div>

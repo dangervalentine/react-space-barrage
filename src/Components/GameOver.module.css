@@ -6,7 +6,7 @@
   height: 100%;
   position: absolute;
   display: flex;
-  font-size: 2rem;
+  font-size: calc(2rem * var(--game-scale, 1));
   align-items: center;
   flex-direction: column;
   justify-content: center;
@@ -15,7 +15,7 @@
 }
 
 .title {
-  font-size: 3rem;
+  font-size: calc(3rem * var(--game-scale, 1));
   color: #F07178;
   text-shadow: 0 0 2px #FFCB6B, 0 0 1px #FFCB6Baa !important;
 }
@@ -25,7 +25,7 @@
   flex-direction: column;
   gap: 15px;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: calc(1.5rem * var(--game-scale, 1));
   color: #D6DEEB;
 }
 
@@ -42,7 +42,7 @@
 .recordText {
   display: inline-block;
   margin-left: 10px;
-  font-size: 1.2rem;
+  font-size: calc(1.2rem * var(--game-scale, 1));
   animation: pulse 1s ease-in-out infinite;
 }
 

@@ -1,24 +1,23 @@
 .container {
   display: none;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 100;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   .container {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    padding: 10px 0;
+    z-index: 100;
   }
 }
 
-.dpad {
+.joystick {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 20px;
+  gap: clamp(4px, 1vw, 6px);
+  padding: clamp(12px, 2vw, 16px);
   background: rgba(1, 22, 39, 0.8);
   border: 2px solid #7fdbca;
   border-radius: 12px;
@@ -28,18 +27,26 @@
 
 .row {
   display: flex;
-  gap: 8px;
+  gap: clamp(4px, 1vw, 6px);
   justify-content: center;
 }
 
+.center {
+  width: clamp(36px, 8vw, 44px);
+  height: clamp(36px, 8vw, 44px);
+  border-radius: 50%;
+  background: rgba(127, 219, 202, 0.1);
+  border: 1px solid rgba(127, 219, 202, 0.3);
+}
+
 .button {
-  width: 50px;
-  height: 50px;
+  width: clamp(36px, 8vw, 44px);
+  height: clamp(36px, 8vw, 44px);
   border: 2px solid #7fdbca;
   background: rgba(130, 170, 255, 0.2);
   color: #7fdbca;
-  border-radius: 8px;
-  font-size: 20px;
+  border-radius: 6px;
+  font-size: clamp(16px, 3.5vw, 20px);
   font-weight: bold;
   cursor: pointer;
   user-select: none;
@@ -49,13 +56,14 @@
   align-items: center;
   justify-content: center;
   font-family: 'PressStart2P-Regular', monospace;
+  padding: 0;
 }
 
 .button:active,
 .button:focus {
   background: rgba(127, 219, 202, 0.4);
   box-shadow: 0 0 15px rgba(127, 219, 202, 0.6), inset 0 0 10px rgba(127, 219, 202, 0.2);
-  transform: scale(0.95);
+  transform: scale(0.9);
 }
 
 .button:hover {
@@ -64,11 +72,12 @@
 }
 
 .up,
-.down {
-  width: 50px;
-}
-
+.down,
 .left,
-.right {
-  width: 50px;
+.right,
+.upLeft,
+.upRight,
+.downLeft,
+.downRight {
+  /* All buttons have consistent size */
 }
