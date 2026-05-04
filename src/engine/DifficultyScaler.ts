@@ -4,30 +4,30 @@ import { DifficultyTier } from './types';
  * Maps player score to difficulty tiers, progressively increasing challenge
  * through pattern changes, increased speed, and more enemies.
  *
- * Difficulty increases in 35-point intervals:
- * - Pattern type cycles every 200 points
- * - Speed increases by ~300ms per 200-point cycle
+ * Difficulty increases in 100-point intervals:
+ * - Pattern type cycles every 600 points
+ * - Speed increases by ~300ms per 600-point cycle
  * - Max enemies increases by 1 per cycle
  */
 export class DifficultyScaler {
   /**
    * Base tier definitions that repeat in cycles.
-   * Each tier represents one 35-point interval.
+   * Each tier represents one 100-point interval.
    */
   private baseTiers: Omit<DifficultyTier, 'scoreStart' | 'scoreEnd'>[] = [
-    { maxEnemies: 3, enemyTraverseDurationMs: 2500, patternType: 'wall' },
-    { maxEnemies: 4, enemyTraverseDurationMs: 2400, patternType: 'random' },
-    { maxEnemies: 5, enemyTraverseDurationMs: 2300, patternType: 'diagonal' },
-    { maxEnemies: 6, enemyTraverseDurationMs: 2200, patternType: 'random' },
-    { maxEnemies: 7, enemyTraverseDurationMs: 2100, patternType: 'gaps' },
-    { maxEnemies: 8, enemyTraverseDurationMs: 2000, patternType: 'random' },
+    { maxEnemies: 2, enemyTraverseDurationMs: 2500, patternType: 'wall' },
+    { maxEnemies: 2, enemyTraverseDurationMs: 2400, patternType: 'random' },
+    { maxEnemies: 3, enemyTraverseDurationMs: 2300, patternType: 'diagonal' },
+    { maxEnemies: 3, enemyTraverseDurationMs: 2200, patternType: 'random' },
+    { maxEnemies: 4, enemyTraverseDurationMs: 2100, patternType: 'gaps' },
+    { maxEnemies: 4, enemyTraverseDurationMs: 2000, patternType: 'random' },
   ];
 
-  /** Points per complete difficulty cycle */
-  private cycleLength = 200;
+  /** Points per complete difficulty cycle (6 tiers × tierDuration) */
+  private cycleLength = 600;
 
   /** Points per tier interval */
-  private tierDuration = 35;
+  private tierDuration = 100;
 
   /**
    * Maps a score to its corresponding difficulty tier.
@@ -88,15 +88,15 @@ export class DifficultyScaler {
   /**
    * Returns the wave spawn delay in milliseconds based on difficulty tier.
    *
-   * Delay decreases by 10ms per tier within a cycle, then resets at each
+   * Delay decreases by 40ms per tier within a cycle, then resets at each
    * new cycle:
-   * - Tier 0: 300ms between patterns
-   * - Tier 1: 290ms
-   * - Tier 2: 280ms
-   * - Tier 3: 270ms
-   * - Tier 4: 260ms
-   * - Tier 5: 250ms
-   * Floored at 150ms.
+   * - Tier 0: 900ms between waves
+   * - Tier 1: 860ms
+   * - Tier 2: 820ms
+   * - Tier 3: 780ms
+   * - Tier 4: 740ms
+   * - Tier 5: 700ms
+   * Floored at 500ms.
    *
    * Correctly handles cycle wrapping to map absolute score to relative tier position.
    *
@@ -107,9 +107,9 @@ export class DifficultyScaler {
     const cyclePosition = tier.scoreStart % this.cycleLength;
     const tierIndex = Math.floor(cyclePosition / this.tierDuration);
 
-    const baseDelay = 300;
-    const decrementPerTier = 10;
-    const minimumDelay = 150;
+    const baseDelay = 900;
+    const decrementPerTier = 40;
+    const minimumDelay = 500;
 
     const delay = baseDelay - (tierIndex * decrementPerTier);
     return Math.max(delay, minimumDelay);

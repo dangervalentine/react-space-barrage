@@ -208,19 +208,14 @@ export class GameEngine {
       this.waveManager.setWaveDelay(delayMs);
     }
 
-    // WaveManager drives pattern cadence: every interval, generate a fresh
-    // pattern and emit all of its enemies. Multiple patterns can coexist
-    // on screen simultaneously.
+    // WaveManager drives wave cadence. Each wave spawns `maxEnemies` enemies
+    // in random columns. Patterns are intentionally absent for now.
     if (!this.waveManager.shouldSpawnWave(timestamp)) return;
 
-    this.currentPattern = this.patternGenerator.getNextPattern(timestamp);
-    this.currentPatternStartTime = timestamp;
-    this.executedSpawns.clear();
-
-    if (!this.currentPattern) return;
-
-    for (const spawn of this.currentPattern.spawns) {
-      this.createEnemy(spawn.columnIndex, timestamp);
+    const NUM_COLUMNS = 10;
+    for (let i = 0; i < tier.maxEnemies; i++) {
+      const columnIndex = Math.floor(Math.random() * NUM_COLUMNS);
+      this.createEnemy(columnIndex, timestamp);
     }
 
     this.waveManager.markWaveSpawned(timestamp);
