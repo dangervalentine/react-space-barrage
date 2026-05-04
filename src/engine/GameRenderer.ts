@@ -480,8 +480,8 @@ export class GameRenderer {
     const top = 20;
 
     ctx.save();
-    ctx.shadowColor = colors.primary.main;
-    ctx.shadowBlur = 2;
+    ctx.shadowColor = colors.text.primary;
+    ctx.shadowBlur = 4;
     for (let i = 0; i < reserve; i++) {
       const x = rightEdge - (i + 1) * shipSize - i * gap;
       drawPixelShip(ctx, x, top, shipSize, timestamp);

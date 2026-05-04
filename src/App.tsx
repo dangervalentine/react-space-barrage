@@ -63,6 +63,10 @@ export default function App() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.keyCode === 32) e.preventDefault();
+      if (e.keyCode === 32 && finalScore !== null) {
+        handlePlayAgain();
+        return;
+      }
       engine?.handleKeyDown(e.keyCode);
     };
     const handleKeyUp = (e: KeyboardEvent) => {
@@ -75,7 +79,7 @@ export default function App() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [engine]);
+  }, [engine, finalScore]);
 
   const handlePlayAgain = () => {
     setFinalScore(null);
