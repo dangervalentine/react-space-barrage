@@ -21,40 +21,29 @@
     padding: 14px 8px 0;
     gap: 10px;
     justify-content: flex-start;
-    /* Cabinet body sits in the middle; black margins on either side
-       (8px each) reveal the page's black background, so the cabinet
-       reads as a discrete object with sharp edges against black. */
-    background: linear-gradient(
-      90deg,
-      #000 0,
-      #000 8px,
-      var(--color-bg-surface) 8px,
-      var(--color-bg-surface) calc(100% - 8px),
-      #000 calc(100% - 8px),
-      #000 100%
-    );
+    /* Cabinet body: black margins on each side (8px), and a black band
+       across the top so the marquee trapezoid's clipped corners reveal
+       black above. Below the marquee the body is cabinet blue. */
+    --marquee-zone: 60px;
+    background:
+      linear-gradient(
+        180deg,
+        #000 0,
+        #000 var(--marquee-zone),
+        transparent var(--marquee-zone),
+        transparent 100%
+      ),
+      linear-gradient(
+        90deg,
+        #000 0,
+        #000 8px,
+        var(--color-bg-surface) 8px,
+        var(--color-bg-surface) calc(100% - 8px),
+        #000 calc(100% - 8px),
+        #000 100%
+      );
     border-left: none;
     border-right: none;
-  }
-  .container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 8px;
-    width: 1px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04) 50%, rgba(255, 255, 255, 0.12));
-    pointer-events: none;
-  }
-  .container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 8px;
-    width: 1px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04) 50%, rgba(255, 255, 255, 0.12));
-    pointer-events: none;
   }
 }
 
@@ -62,6 +51,13 @@
   .container {
     padding: 10px 8px 0;
     gap: 8px;
+    --marquee-zone: 52px;
+  }
+}
+
+@media (max-width: 380px) {
+  .container {
+    --marquee-zone: 46px;
   }
 }
 
@@ -166,6 +162,7 @@
   width: 100%;
   max-width: 1080px;
   aspect-ratio: 1080 / 800;
+  box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
