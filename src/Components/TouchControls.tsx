@@ -15,7 +15,7 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
   const JOYSTICK_SIZE = 200;
   const DEAD_ZONE = 25;
   const OUTER_RADIUS = JOYSTICK_SIZE / 2;
-  const INNER_RADIUS = 50;
+  const INNER_RADIUS = 32;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -36,7 +36,7 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
       ctx.clearRect(0, 0, JOYSTICK_SIZE, JOYSTICK_SIZE);
 
       // Outer ring background
-      ctx.fillStyle = colors.background.floor;
+      ctx.fillStyle = colors.background.base;
       ctx.beginPath();
       ctx.arc(centerX, centerY, OUTER_RADIUS, 0, Math.PI * 2);
       ctx.fill();

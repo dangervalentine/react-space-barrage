@@ -79,7 +79,7 @@
   line-height: 1;
 
   letter-spacing: 2px;
-  color: var(--color-accent-yellow);
+  color: var(--color-accent-cyan);
   /* text-shadow:
     2px 0 0 var(--color-accent-pink),
     2px 2px 0 var(--color-bg-base),
@@ -99,11 +99,37 @@
   align-self: center;
 }
 
+.attribution {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  margin-bottom: 2%;
+  white-space: nowrap;
+  text-align: center;
+  align-self: center;
+  opacity: 0.55;
+}
+
+.attributionName {
+  font-size: clamp(7px, 1.1vw, 11px);
+  color: var(--color-text-muted);
+  letter-spacing: 3px;
+}
+
+.attributionYear {
+  font-size: clamp(6px, 0.9vw, 9px);
+  color: var(--color-text-muted);
+  letter-spacing: 2px;
+  opacity: 0.85;
+}
+
 .pixelArt {
   display: grid;
   grid-template-columns: repeat(11, 1fr);
   grid-auto-rows: 1fr;
-  width: 30%;
+  width: 24%;
   aspect-ratio: 11 / 13;
   gap: 0;
 }
@@ -127,20 +153,20 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: center;
-  gap: 24px;
+  gap: clamp(20px, 4vw, 56px);
   margin: 1% 0;
-  opacity: 0.75;
+  opacity: 0.85;
 }
 
 .controlsDesktop,
 .controlsMobile {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: center;
-  gap: 24px;
+  gap: clamp(20px, 4vw, 56px);
 }
 
 .controlsMobile { display: none; }
@@ -174,11 +200,11 @@
 
   .prompt {
     font-size: clamp(10px, 3vw, 18px);
-    margin-bottom: 2%;
+    margin-top: 2%;
   }
 
   .pixelArt {
-    width: 18%;
+    width: 16%;
   }
 
   .banner {
@@ -188,9 +214,9 @@
 
 .controlGroup {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .controlRow {
@@ -203,41 +229,42 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 12px;
-  height: 12px;
+  width: clamp(13px, 1.75vw, 21px);
+  height: clamp(13px, 1.75vw, 21px);
   padding: 0;
   color: var(--color-text-secondary);
-  border: 1px solid var(--color-text-muted);
-  background: transparent;
-  font-size: 7px;
+  border: 1.5px solid var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: clamp(7px, 0.9vw, 10px);
   line-height: 1;
-  border-radius: 1px;
+  border-radius: 2px;
+  box-shadow: 0 2px 0 var(--color-text-muted);
 }
 
 .keycapWide {
   width: auto;
-  height: 12px;
-  padding: 0 8px;
-  letter-spacing: 1px;
-  font-size: 7px;
+  height: clamp(13px, 1.75vw, 21px);
+  padding: 0 clamp(11px, 1.6vw, 18px);
+  letter-spacing: 2px;
+  font-size: clamp(7px, 0.9vw, 10px);
 }
 
 .keyCluster {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
 }
 
 .spacer {
   display: block;
-  width: 12px;
-  height: 12px;
+  width: clamp(13px, 1.75vw, 21px);
+  height: clamp(13px, 1.75vw, 21px);
 }
 
 .keyClusterRow {
   display: flex;
-  gap: 2px;
+  gap: 3px;
 }
 
 .sep {
@@ -250,36 +277,48 @@
 .label {
   color: var(--color-text-muted);
   letter-spacing: 2px;
-  font-size: 7px;
+  font-size: clamp(7px, 1vw, 10px);
 }
 
 .joystick {
-  width: 14px;
-  height: 14px;
+  width: clamp(15px, 2.1vw, 21px);
+  height: clamp(15px, 2.1vw, 21px);
   border-radius: 50%;
   background: var(--color-joystick-knob-medium);
-  border: 1px solid var(--color-joystick-ring);
+  border: 1.5px solid var(--color-joystick-ring);
 }
 
 .fireDot {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 14px;
-  height: 14px;
+  width: clamp(15px, 2.1vw, 21px);
+  height: clamp(15px, 2.1vw, 21px);
   border-radius: 50%;
   background: var(--color-accent-pink);
   color: #fff;
-  font-size: 7px;
-  border: 1px solid #fff;
+  font-size: clamp(8px, 1.2vw, 12px);
+  border: 1.5px solid #fff;
 }
 
 .prompt {
   font-size: clamp(10px, 1.6vw, 18px);
   color: var(--color-text-primary);
   letter-spacing: 3px;
-  margin-bottom: 4%;
+  margin: 0;
+  margin-top: 2%;
+  text-align: center;
+  align-self: center;
+  white-space: nowrap;
   animation: blink 1.1s steps(2, jump-none) infinite;
+}
+
+.promptDesktop { display: inline; }
+.promptMobile { display: none; }
+
+@media (max-width: 768px) {
+  .promptDesktop { display: none; }
+  .promptMobile { display: inline; }
 }
 
 @keyframes blink {

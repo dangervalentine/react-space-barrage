@@ -82,12 +82,12 @@
         #1a0d2e 0%,
         #2a1248 45%,
         #1a0d2e 100%);
-    border: 2px solid var(--color-accent-pink);
-    border-bottom: 4px solid color-mix(in srgb, var(--color-accent-pink) 60%, #000);
+    border: 2px solid var(--color-accent-cyan);
+    border-bottom: 4px solid color-mix(in srgb, var(--color-accent-cyan) 60%, #000);
     border-radius: 6px 6px 2px 2px;
     clip-path: polygon(4% 0, 96% 0, 100% 100%, 0 100%);
     box-shadow:
-      0 0 18px color-mix(in srgb, var(--color-accent-pink) 35%, transparent),
+      0 0 18px color-mix(in srgb, var(--color-accent-cyan) 35%, transparent),
       inset 0 0 24px rgba(0, 0, 0, 0.55);
   }
 
@@ -305,9 +305,9 @@
     border-radius: 50%;
     background:
       radial-gradient(circle at 50% 50%,
-        #e85f67 0%,
-        var(--color-accent-pink) 60%,
-        #8a2a31 100%);
+        #6fe6f0 0%,
+        var(--color-accent-cyan) 60%,
+        #1f6b73 100%);
     border: none;
     color: transparent;
     font-family: 'PressStart2P-Regular', monospace;

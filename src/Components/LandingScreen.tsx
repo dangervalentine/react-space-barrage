@@ -73,7 +73,10 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
           <h1 className={styles.title}>SPACE</h1>
           <h1 className={styles.title}>BARRAGE</h1>
         </div>
-        <p className={styles.subtitle}>★ INSERT COIN ★</p>
+        <p className={styles.prompt}>
+          <span className={styles.promptDesktop}>PRESS SPACE</span>
+          <span className={styles.promptMobile}>PRESS FIRE</span>
+        </p>
 
         <div className={styles.pixelArt} aria-hidden>
           {(frame % 2 === 0 ? SHIP_FRAME_A : SHIP_FRAME_B).flatMap((row, r) =>
@@ -98,7 +101,6 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
             </div>
             <div className={styles.controlGroup}>
               <div className={styles.keyCluster}>
-                <span className={styles.spacer} aria-hidden />
                 <span className={`${styles.keycap} ${styles.keycapWide}`}>SPACE</span>
               </div>
               <span className={styles.label}>FIRE</span>
@@ -107,17 +109,20 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
 
           <div className={styles.controlsMobile}>
             <div className={styles.controlGroup}>
-              <span className={styles.label}>MOVE</span>
               <span className={styles.joystick} aria-hidden />
+              <span className={styles.label}>MOVE</span>
             </div>
             <div className={styles.controlGroup}>
-              <span className={styles.label}>FIRE</span>
               <span className={styles.fireDot} aria-hidden>◆</span>
+              <span className={styles.label}>FIRE</span>
             </div>
           </div>
         </div>
 
-        <p className={styles.prompt}>PRESS START</p>
+        <div className={styles.attribution}>
+          <span className={styles.attributionName}>DANGERVALENTINE</span>
+          <span className={styles.attributionYear}>© 2026</span>
+        </div>
       </div>
     </div>
   );
