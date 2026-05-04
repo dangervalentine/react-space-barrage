@@ -361,7 +361,7 @@ export class GameRenderer {
     ctx.restore();
   }
 
-  private drawEnemy(enemy: { x: number; y: number; imageIndex: number; health: number; removedAt?: number }, timestamp: number): void {
+  private drawEnemy(enemy: { x: number; y: number; imageIndex: number; health: number; removedAt?: number; lastHitAt?: number }, timestamp: number): void {
     const ctx = this.ctx;
     const tint = healthToColor(enemy.health);
 
@@ -377,7 +377,25 @@ export class GameRenderer {
       drawPixelEnemy(ctx, -40, -40, 80, tint);
       ctx.restore();
     } else if (!enemy.removedAt) {
-      drawPixelEnemy(ctx, enemy.x, enemy.y, 80, tint);
+      const HIT_DURATION = 250;
+      const hitElapsed = enemy.lastHitAt != null ? timestamp - enemy.lastHitAt : Infinity;
+
+      if (hitElapsed < HIT_DURATION) {
+        const t = hitElapsed / HIT_DURATION;
+        // Damped oscillation: shrinks over time, ~2 full pulses
+        const pulse = Math.sin(t * Math.PI * 4) * (1 - t) * 0.18;
+        const scale = 1 + pulse;
+
+        ctx.save();
+        ctx.translate(enemy.x + 40, enemy.y + 40);
+        ctx.scale(scale, scale);
+        ctx.shadowColor = tint;
+        ctx.shadowBlur = 12 * (1 - t);
+        drawPixelEnemy(ctx, -40, -40, 80, tint);
+        ctx.restore();
+      } else {
+        drawPixelEnemy(ctx, enemy.x, enemy.y, 80, tint);
+      }
     }
   }
 

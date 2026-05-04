@@ -8,6 +8,7 @@ export interface EnemyState {
   health: number;
   hasScored?: boolean;
   removedAt?: number;
+  lastHitAt?: number;
 }
 
 export interface ShieldState {

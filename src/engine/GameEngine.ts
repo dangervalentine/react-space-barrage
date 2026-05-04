@@ -476,7 +476,7 @@ export class GameEngine {
             this.spawnParticles(enemy.x + ENEMY_WIDTH / 2, enemy.y + ENEMY_HEIGHT / 2, now);
             this.state.enemies[j] = { ...enemy, health: 0, removedAt: now };
           } else {
-            this.state.enemies[j] = { ...enemy, health: newHealth };
+            this.state.enemies[j] = { ...enemy, health: newHealth, lastHitAt: now };
           }
           break;
         }
