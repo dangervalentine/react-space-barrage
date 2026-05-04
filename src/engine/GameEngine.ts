@@ -61,12 +61,10 @@ export class GameEngine {
 
   handleKeyDown(keyCode: number): void {
     if (keyCode === KEYS.SPACE) {
-      if (this.state.isShipHit) {
-        this.startTime = performance.now();
-        this.state = this.makeInitialState(this.startTime);
-        this.lastTime = this.startTime;
-        this.onUpdate(this.state);
-      } else if (performance.now() - this.state.lastHitTime >= RESPAWN_DURATION_MS) {
+      if (
+        !this.state.isShipHit &&
+        performance.now() - this.state.lastHitTime >= RESPAWN_DURATION_MS
+      ) {
         this.shoot();
       }
       return;

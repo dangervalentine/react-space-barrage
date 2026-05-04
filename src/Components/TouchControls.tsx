@@ -15,7 +15,7 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
   const JOYSTICK_SIZE = 200;
   const DEAD_ZONE = 25;
   const OUTER_RADIUS = JOYSTICK_SIZE / 2;
-  const INNER_RADIUS = 25;
+  const INNER_RADIUS = 50;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -60,6 +60,17 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
       ctx.beginPath();
       ctx.arc(centerX, centerY, OUTER_RADIUS, 0, Math.PI * 2);
       ctx.clip();
+
+      // Cardinal arrows — drawn on the ring face so the knob covers them when over.
+      const ARROW_OFFSET = OUTER_RADIUS - 28;
+      ctx.fillStyle = colors.accent.yellow;
+      ctx.font = 'bold 18px "PressStart2P-Regular", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('▲', centerX, centerY - ARROW_OFFSET);
+      ctx.fillText('▼', centerX, centerY + ARROW_OFFSET);
+      ctx.fillText('◀', centerX - ARROW_OFFSET, centerY);
+      ctx.fillText('▶', centerX + ARROW_OFFSET, centerY);
 
       // Knob shadow (dark base)
       ctx.fillStyle = colors.background.surface;

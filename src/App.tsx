@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import GameCanvas from './Components/GameCanvas';
 import { TouchControls } from './Components/TouchControls';
 import { LandingScreen } from './Components/LandingScreen';
+import { GameOverScreen } from './Components/GameOverScreen';
 import { GameEngine } from './engine/GameEngine';
 import type { GameState } from './engine/types';
 import styles from './App.module.css';
@@ -29,25 +30,35 @@ const MarqueeEnemy = () => (
 
 export default function App() {
   const [started, setStarted] = useState(false);
+  const [sessionId, setSessionId] = useState(0);
   const [engine, setEngine] = useState<GameEngine | null>(null);
+  const [finalScore, setFinalScore] = useState<number | null>(null);
+  const wasShipHitRef = useRef(false);
+  const latestScoreRef = useRef(0);
   const onUpdateRef = useRef<(state: GameState) => void>(() => {
     // Placeholder - will be set by GameCanvas
   });
 
   useEffect(() => {
     if (!started) return;
-    console.log('App mounted, starting engine');
+    wasShipHitRef.current = false;
+    latestScoreRef.current = 0;
+
     const newEngine = new GameEngine((state) => {
+      latestScoreRef.current = state.score;
+      if (state.isShipHit && !wasShipHitRef.current) {
+        wasShipHitRef.current = true;
+        setFinalScore(latestScoreRef.current);
+      }
       onUpdateRef.current(state);
     });
     setEngine(newEngine);
     newEngine.start();
 
     return () => {
-      console.log('App unmounting, stopping engine');
       newEngine.stop();
     };
-  }, [started]);
+  }, [started, sessionId]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -66,9 +77,18 @@ export default function App() {
     };
   }, [engine]);
 
+  const handlePlayAgain = () => {
+    setFinalScore(null);
+    setSessionId((id) => id + 1);
+  };
+
   const handleFireDown = () => {
     if (!started) {
       setStarted(true);
+      return;
+    }
+    if (finalScore !== null) {
+      handlePlayAgain();
       return;
     }
     engine?.handleKeyDown(32);
@@ -86,10 +106,12 @@ export default function App() {
         <MarqueeEnemy />
       </div>
       <div className={styles.screenBezel}>
-        {started ? (
-          <GameCanvas engine={engine} onUpdateRef={onUpdateRef} />
-        ) : (
+        {!started ? (
           <LandingScreen onStart={() => setStarted(true)} />
+        ) : finalScore !== null ? (
+          <GameOverScreen score={finalScore} onPlayAgain={handlePlayAgain} />
+        ) : (
+          <GameCanvas engine={engine} onUpdateRef={onUpdateRef} />
         )}
       </div>
       <div className={styles.cabinetDeck} aria-hidden="true">
@@ -104,7 +126,6 @@ export default function App() {
         <span className={styles.rivet} style={{ bottom: 8, right: 8 }} />
         <div className={styles.controlSlot}>
           <TouchControls engine={engine} />
-          <span className={styles.controlLabel}>MOVE</span>
         </div>
         <div className={styles.controlSlot}>
           <button
@@ -115,7 +136,6 @@ export default function App() {
             onMouseUp={handleFireUp}
             aria-label="Fire"
           />
-          <span className={styles.controlLabel}>FIRE</span>
         </div>
       </div>
       <div className={styles.cabinetBase} aria-hidden="true" />
