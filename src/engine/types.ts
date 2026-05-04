@@ -5,6 +5,7 @@ export interface EnemyState {
   imageIndex: number;
   startTime: number;
   duration: number;
+  health: number;
   hasScored?: boolean;
   removedAt?: number;
 }
@@ -131,7 +132,7 @@ export interface DifficultyTier {
  */
 export const GRID_CONFIG = {
   NUM_COLUMNS: 10,
-  PADDING_PERCENT: 0.1,
+  PADDING_PERCENT: 0,
   /**
    * Calculate column width based on game width.
    * Always produces 10 equal columns regardless of screen size.

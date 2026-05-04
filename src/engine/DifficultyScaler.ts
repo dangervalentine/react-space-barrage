@@ -15,12 +15,12 @@ export class DifficultyScaler {
    * Each tier represents one 100-point interval.
    */
   private baseTiers: Omit<DifficultyTier, 'scoreStart' | 'scoreEnd'>[] = [
-    { maxEnemies: 2, enemyTraverseDurationMs: 2500, patternType: 'wall' },
-    { maxEnemies: 2, enemyTraverseDurationMs: 2400, patternType: 'random' },
-    { maxEnemies: 3, enemyTraverseDurationMs: 2300, patternType: 'diagonal' },
-    { maxEnemies: 3, enemyTraverseDurationMs: 2200, patternType: 'random' },
-    { maxEnemies: 4, enemyTraverseDurationMs: 2100, patternType: 'gaps' },
-    { maxEnemies: 4, enemyTraverseDurationMs: 2000, patternType: 'random' },
+    { maxEnemies: 5, enemyTraverseDurationMs: 2500, patternType: 'wall' },
+    { maxEnemies: 5, enemyTraverseDurationMs: 2400, patternType: 'random' },
+    { maxEnemies: 5, enemyTraverseDurationMs: 2300, patternType: 'diagonal' },
+    { maxEnemies: 5, enemyTraverseDurationMs: 2200, patternType: 'random' },
+    { maxEnemies: 6, enemyTraverseDurationMs: 2100, patternType: 'gaps' },
+    { maxEnemies: 7, enemyTraverseDurationMs: 2000, patternType: 'random' },
   ];
 
   /** Points per complete difficulty cycle (6 tiers × tierDuration) */

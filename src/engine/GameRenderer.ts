@@ -9,6 +9,41 @@ interface Star {
   phase: number;
 }
 
+function healthToColor(health: number): string {
+  if (health >= 3) return colors.accent.green;
+  if (health === 2) return colors.accent.yellow;
+  return colors.accent.pink;
+}
+
+const tintBuffer = document.createElement('canvas');
+tintBuffer.width = 80;
+tintBuffer.height = 80;
+const tintCtx = tintBuffer.getContext('2d');
+
+function drawTintedEnemy(
+  ctx: CanvasRenderingContext2D,
+  img: HTMLImageElement,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  tint: string,
+): void {
+  if (!tintCtx) {
+    ctx.drawImage(img, x, y, w, h);
+    return;
+  }
+
+  tintCtx.clearRect(0, 0, tintBuffer.width, tintBuffer.height);
+  tintCtx.globalCompositeOperation = 'source-over';
+  tintCtx.drawImage(img, 0, 0, tintBuffer.width, tintBuffer.height);
+  tintCtx.globalCompositeOperation = 'source-in';
+  tintCtx.fillStyle = tint;
+  tintCtx.fillRect(0, 0, tintBuffer.width, tintBuffer.height);
+
+  ctx.drawImage(tintBuffer, x, y, w, h);
+}
+
 export class GameRenderer {
   private ctx: CanvasRenderingContext2D;
   private assets: GameAssets;
@@ -87,11 +122,6 @@ export class GameRenderer {
     // Lives
     this.drawLives(state);
 
-    // Guide (desktop only)
-    if (this.scaleX > 0.5) {
-      this.drawGuide();
-    }
-
     // Game Over overlay
     if (state.isShipHit) {
       this.drawGameOver(state, timestamp);
@@ -140,8 +170,9 @@ export class GameRenderer {
     ctx.restore();
   }
 
-  private drawEnemy(enemy: { x: number; y: number; imageIndex: number; removedAt?: number }, timestamp: number): void {
+  private drawEnemy(enemy: { x: number; y: number; imageIndex: number; health: number; removedAt?: number }, timestamp: number): void {
     const ctx = this.ctx;
+    const tint = healthToColor(enemy.health);
 
     if (enemy.removedAt && timestamp - enemy.removedAt < 200) {
       const progress = (timestamp - enemy.removedAt) / 200;
@@ -152,10 +183,10 @@ export class GameRenderer {
       ctx.globalAlpha = alpha;
       ctx.translate(enemy.x + 40, enemy.y + 40);
       ctx.scale(scale, scale);
-      ctx.drawImage(this.assets.enemies[enemy.imageIndex], -40, -40, 80, 80);
+      drawTintedEnemy(ctx, this.assets.enemies[enemy.imageIndex], -40, -40, 80, 80, tint);
       ctx.restore();
     } else if (!enemy.removedAt) {
-      ctx.drawImage(this.assets.enemies[enemy.imageIndex], enemy.x, enemy.y, 80, 80);
+      drawTintedEnemy(ctx, this.assets.enemies[enemy.imageIndex], enemy.x, enemy.y, 80, 80, tint);
     }
   }
 
@@ -191,7 +222,9 @@ export class GameRenderer {
     const rotateRad = (rotate * Math.PI) / 180;
 
     const timeSinceHit = performance.now() - state.lastHitTime;
-    const isInvulnerable = timeSinceHit < 2000;
+    const isRespawning = timeSinceHit < 800;
+    if (isRespawning) return;
+    const isInvulnerable = timeSinceHit < 3000;
     const opacity = isInvulnerable ? Math.sin(timeSinceHit / 75) * 0.4 + 0.6 : 1;
 
     // Thruster flame
@@ -251,41 +284,6 @@ export class GameRenderer {
 
     ctx.fillText(text, x, 20);
     ctx.shadowBlur = 0;
-  }
-
-  private drawGuide(): void {
-    const ctx = this.ctx;
-    ctx.font = '11px PressStart2P';
-    ctx.fillStyle = colors.accent.purple;
-    ctx.strokeStyle = colors.accent.purple;
-    ctx.lineWidth = 1;
-    ctx.textBaseline = 'middle';
-    ctx.textAlign = 'center';
-
-    const keySize = 16;
-    const keyGap = 4;
-    const y = GAME_HEIGHT - 20;
-
-    const drawKeyGroup = (startX: number, keys: string[]) => {
-      keys.forEach((key, i) => {
-        const x = startX + i * (keySize + keyGap);
-        ctx.strokeRect(x - keySize / 2, y - keySize / 2, keySize, keySize);
-        ctx.fillText(key, x, y);
-      });
-    };
-
-    const wasdX = GAME_WIDTH / 2 - 55;
-    const arrowX = GAME_WIDTH / 2 + 55;
-
-    drawKeyGroup(wasdX, ['W', 'A', 'S', 'D']);
-
-    // Calculate midpoint between right edge of WASD and left edge of arrows
-    const rightEdgeWASD = wasdX + 60 + keySize / 2;  // rightmost point of D key
-    const leftEdgeArrows = arrowX - keySize / 2;      // leftmost point of up arrow
-    const orX = (rightEdgeWASD + leftEdgeArrows) / 2;
-
-    ctx.fillText('or', orX, y);
-    drawKeyGroup(arrowX, ['↑', '←', '↓', '→']);
   }
 
   private drawGameOver(state: GameState, timestamp: number): void {

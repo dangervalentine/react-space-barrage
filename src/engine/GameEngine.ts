@@ -14,6 +14,10 @@ import { PatternGenerator } from './PatternGenerator';
 import { DifficultyScaler } from './DifficultyScaler';
 import { WaveManager } from './WaveManager';
 
+const INITIAL_SHIP_X = 490;
+const INITIAL_SHIP_Y = 700;
+const RESPAWN_DURATION_MS = 800;
+
 export class GameEngine {
   private state: GameState;
   private rafId: number | null = null;
@@ -62,7 +66,7 @@ export class GameEngine {
         this.state = this.makeInitialState(this.startTime);
         this.lastTime = this.startTime;
         this.onUpdate(this.state);
-      } else {
+      } else if (performance.now() - this.state.lastHitTime >= RESPAWN_DURATION_MS) {
         this.shoot();
       }
       return;
@@ -100,6 +104,15 @@ export class GameEngine {
   private updateShip(delta: number): void {
     const MAX_VELOCITY = 500;
     const ACCELERATION = 1500;
+
+    const timeSinceHit = performance.now() - this.state.lastHitTime;
+    if (timeSinceHit < RESPAWN_DURATION_MS) {
+      this.state.shipX = INITIAL_SHIP_X;
+      this.state.shipY = INITIAL_SHIP_Y;
+      this.state.velocityX = 0;
+      this.state.velocityY = 0;
+      return;
+    }
 
     const { shipX, shipY, velocityX, velocityY } = this.state;
     let newVelocityX = velocityX;
@@ -169,7 +182,7 @@ export class GameEngine {
       const progress = (timestamp - enemy.startTime) / enemy.duration;
       const updatedEnemy = { ...enemy, y };
 
-      const isInvulnerable = timestamp - this.state.lastHitTime < 2000;
+      const isInvulnerable = timestamp - this.state.lastHitTime < 3000;
       if (!isInvulnerable && this.checkCollision(shipX, shipY, y, enemy.x)) {
         this.state.lives -= 1;
         this.state.lastHitTime = timestamp;
@@ -213,8 +226,12 @@ export class GameEngine {
     if (!this.waveManager.shouldSpawnWave(timestamp)) return;
 
     const NUM_COLUMNS = 10;
-    for (let i = 0; i < tier.maxEnemies; i++) {
-      const columnIndex = Math.floor(Math.random() * NUM_COLUMNS);
+    const available = Array.from({ length: NUM_COLUMNS }, (_, i) => i);
+    const count = Math.min(tier.maxEnemies, NUM_COLUMNS);
+    for (let i = 0; i < count; i++) {
+      const pick = Math.floor(Math.random() * available.length);
+      const columnIndex = available[pick];
+      available.splice(pick, 1);
       this.createEnemy(columnIndex, timestamp);
     }
 
@@ -233,6 +250,7 @@ export class GameEngine {
       imageIndex: 0,
       startTime: timestamp,
       duration: tier.enemyTraverseDurationMs,
+      health: 3,
       hasScored: false,
     };
 
@@ -331,12 +349,12 @@ export class GameEngine {
       score: 0,
       highScore: this.state?.highScore ?? 0,
       lives: 3,
-      shipX: 490,
-      shipY: 700,
+      shipX: INITIAL_SHIP_X,
+      shipY: INITIAL_SHIP_Y,
       velocityX: 0,
       velocityY: 0,
       isShipHit: false,
-      lastHitTime: timestamp - 2000,
+      lastHitTime: timestamp - 3000,
       enemies: [],
       shields: [],
       particles: [],
@@ -453,9 +471,15 @@ export class GameEngine {
           bullet.y <= enemyBottom
         ) {
           this.state.bullets.splice(i, 1);
-          this.state.score += 10;
-          this.spawnParticles(enemy.x + ENEMY_WIDTH / 2, enemy.y + ENEMY_HEIGHT / 2, now);
-          this.state.enemies[j] = { ...enemy, removedAt: now };
+
+          const newHealth = enemy.health - 1;
+          if (newHealth <= 0) {
+            this.state.score += 2;
+            this.spawnParticles(enemy.x + ENEMY_WIDTH / 2, enemy.y + ENEMY_HEIGHT / 2, now);
+            this.state.enemies[j] = { ...enemy, health: 0, removedAt: now };
+          } else {
+            this.state.enemies[j] = { ...enemy, health: newHealth };
+          }
           break;
         }
       }
