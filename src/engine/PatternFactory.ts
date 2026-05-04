@@ -8,8 +8,6 @@ import { ColumnManager } from './ColumnManager';
  */
 export class PatternFactory {
   private columnManager: ColumnManager;
-  private readonly DIAGONAL_STAGGER_MS = 100;
-  private readonly WALL_STAGGER_MS = 50;
 
   /**
    * Creates a PatternFactory instance.
@@ -20,8 +18,8 @@ export class PatternFactory {
   }
 
   /**
-   * Generates a wall pattern where enemies spawn in random columns with staggered timing.
-   * All enemies spawn across the width of the screen at roughly the same time.
+   * Generates a wall pattern.
+   * All enemies spawn simultaneously across the width of the screen.
    * Uses ColumnManager's gap enforcement to ensure minimum spacing between columns.
    * @param patternStartTime - Score value when this pattern starts
    * @param maxEnemies - Maximum number of enemies to spawn in this pattern
@@ -118,8 +116,8 @@ export class PatternFactory {
   }
 
   /**
-   * Generates a random pattern where 1 to maxEnemies spawn at random columns with random staggered timing.
-   * Creates unpredictable spawn behavior with delays between 200-1000ms.
+   * Generates a random pattern where 1 to maxEnemies spawn at random columns.
+   * Creates unpredictable spawn behavior from 1 to maxEnemies at random columns, all spawning simultaneously.
    * @param patternStartTime - Score value when this pattern starts
    * @param maxEnemies - Maximum number of enemies to spawn
    * @param durationMs - Total duration of the pattern in milliseconds (default 3000)
