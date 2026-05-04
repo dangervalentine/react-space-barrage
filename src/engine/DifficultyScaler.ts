@@ -89,17 +89,21 @@ export class DifficultyScaler {
    * Returns the wave spawn delay in milliseconds based on difficulty tier.
    *
    * Delay decreases as difficulty increases, making the game faster:
-   * - Tier 0 (score 0-50): 1000ms between patterns
-   * - Tier 1 (score 50-100): 800ms
-   * - Tier 2 (score 100-150): 600ms
-   * - Tier 3+ (score 150+): 400ms
+   * - Tier 0 (score 0-50, 300-350, etc): 1000ms between patterns
+   * - Tier 1 (score 50-100, 350-400, etc): 800ms
+   * - Tier 2 (score 100-150, 400-450, etc): 600ms
+   * - Tier 3+ (score 150-300, 450+, etc): 400ms
+   *
+   * Correctly handles cycle wrapping to map absolute score to relative tier position.
    *
    * @param tier - The difficulty tier
    * @returns Delay in milliseconds between pattern spawns
    */
   waveDelayMs(tier: DifficultyTier): number {
-    const tierNum = Math.floor(tier.scoreStart / 50);
-    switch (Math.min(tierNum, 3)) {
+    const cyclePosition = tier.scoreStart % this.cycleLength;
+    const tierIndex = Math.floor(cyclePosition / this.tierDuration);
+
+    switch (Math.min(tierIndex, 3)) {
       case 0:
         return 1000;
       case 1:
