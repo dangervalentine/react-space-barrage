@@ -151,6 +151,7 @@
        side) so they don't get clipped by the bezel's overflow:hidden. */
     width: calc(100% - 80px);
     max-width: calc(100% - 80px);
+    height: calc(100% - 80px);
     max-height: calc(100% - 80px);
     aspect-ratio: auto;
   }
@@ -172,6 +173,14 @@
   .prompt {
     font-size: clamp(10px, 3vw, 18px);
     margin-bottom: 2%;
+  }
+
+  .pixelArt {
+    width: 18%;
+  }
+
+  .banner {
+    justify-content: space-evenly;
   }
 }
 

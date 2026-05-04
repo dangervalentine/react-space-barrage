@@ -467,11 +467,15 @@ export class GameRenderer {
   private drawGameOver(state: GameState, timestamp: number): void {
     const ctx = this.ctx;
 
+    const isMobile = typeof window !== 'undefined'
+      && window.matchMedia?.('(max-width: 768px)').matches;
+    const s = isMobile ? 1.8 : 1;
+
     // Convert hex to RGBA - #011627 = rgb(1, 22, 39)
     ctx.fillStyle = 'rgba(1, 22, 39, 0.95)';
     ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
-    ctx.font = '48px PressStart2P';
+    ctx.font = `${48 * s}px PressStart2P`;
     ctx.fillStyle = colors.accent.pink;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -479,7 +483,7 @@ export class GameRenderer {
     ctx.shadowBlur = 4;
     ctx.fillText('GAME OVER', GAME_WIDTH / 2, 200);
 
-    ctx.font = '24px PressStart2P';
+    ctx.font = `${24 * s}px PressStart2P`;
     ctx.fillStyle = colors.text.primary;
     ctx.shadowBlur = 2;
     ctx.fillText(`SCORE: ${state.score}`, GAME_WIDTH / 2, 300);
@@ -491,14 +495,15 @@ export class GameRenderer {
 
     if (isNewRecord) {
       const pulse = 1 + 0.2 * Math.sin((timestamp / 500) * Math.PI * 2);
-      ctx.font = `${16 * pulse}px PressStart2P`;
+      ctx.font = `${16 * s * pulse}px PressStart2P`;
       ctx.fillStyle = colors.accent.yellow;
       ctx.fillText('★ NEW ★', GAME_WIDTH / 2, 400);
     }
 
-    ctx.font = '16px PressStart2P';
+    ctx.font = `${16 * s}px PressStart2P`;
     ctx.fillStyle = colors.text.primary;
     ctx.shadowBlur = 0;
-    ctx.fillText('press SPACE to reset', GAME_WIDTH / 2, 500);
+    const resetLabel = isMobile ? 'press FIRE to reset' : 'press SPACE to reset';
+    ctx.fillText(resetLabel, GAME_WIDTH / 2, 500);
   }
 }

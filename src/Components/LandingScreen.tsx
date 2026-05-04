@@ -72,8 +72,8 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
         <div className={styles.titleStack}>
           <h1 className={styles.title}>SPACE</h1>
           <h1 className={styles.title}>BARRAGE</h1>
-          <p className={styles.subtitle}>★ INSERT COIN ★</p>
         </div>
+        <p className={styles.subtitle}>★ INSERT COIN ★</p>
 
         <div className={styles.pixelArt} aria-hidden>
           {(frame % 2 === 0 ? SHIP_FRAME_A : SHIP_FRAME_B).flatMap((row, r) =>
