@@ -27,6 +27,8 @@ export interface ParticleState {
   vy: number;
   createdAt: number;
   lifetime: number;
+  color?: string;
+  size?: number;
 }
 
 export interface BulletState {
@@ -48,6 +50,7 @@ export interface GameState {
   velocityY: number;
   isShipHit: boolean;
   lastHitTime: number;
+  deathAt?: number;
   enemies: EnemyState[];
   shields: ShieldState[];
   particles: ParticleState[];

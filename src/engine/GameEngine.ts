@@ -13,10 +13,20 @@ import {
 import { PatternGenerator } from './PatternGenerator';
 import { DifficultyScaler } from './DifficultyScaler';
 import { WaveManager } from './WaveManager';
+import { colors } from '../constants/colors';
 
 const INITIAL_SHIP_X = 490;
 const INITIAL_SHIP_Y = 700;
 const RESPAWN_DURATION_MS = 800;
+const DEATH_ANIM_MS = 1400;
+
+const EXPLOSION_PALETTE = [
+  colors.accent.yellow,
+  colors.accent.coral,
+  colors.accent.pink,
+  colors.text.primary,
+  colors.accent.cyan,
+];
 
 export class GameEngine {
   private state: GameState;
@@ -85,13 +95,19 @@ export class GameEngine {
     const delta = Math.min(timestamp - this.lastTime, 16.67 * 3);
     this.lastTime = timestamp;
 
-    if (!this.state.isShipHit) {
+    const isDying = this.state.deathAt != null;
+    if (!this.state.isShipHit && !isDying) {
       this.updateShip(delta);
       this.updateEnemies(timestamp);
       this.updateShields(timestamp);
       this.checkShieldPickup();
       this.updateBullets(delta);
       this.checkBulletCollisions();
+    }
+
+    if (isDying && timestamp - (this.state.deathAt ?? 0) >= DEATH_ANIM_MS) {
+      this.state.isShipHit = true;
+      this.state.deathAt = undefined;
     }
 
     this.updateParticles(delta);
@@ -184,9 +200,10 @@ export class GameEngine {
       if (!isInvulnerable && this.checkCollision(shipX, shipY, y, enemy.x)) {
         this.state.lives -= 1;
         this.state.lastHitTime = timestamp;
-        this.spawnParticles(shipX, shipY, timestamp);
-        if (this.state.lives <= 0) {
-          this.state.isShipHit = true;
+        const isFinal = this.state.lives <= 0;
+        this.spawnExplosion(shipX, shipY, timestamp, isFinal);
+        if (isFinal) {
+          this.state.deathAt = timestamp;
         }
       }
 
@@ -353,11 +370,62 @@ export class GameEngine {
       velocityY: 0,
       isShipHit: false,
       lastHitTime: timestamp - 3000,
+      deathAt: undefined,
       enemies: [],
       shields: [],
       particles: [],
       bullets: [],
     };
+  }
+
+  private spawnExplosion(x: number, y: number, timestamp: number, big: boolean): void {
+    const count = big ? 60 : 22;
+    const baseSpeed = big ? 360 : 240;
+    const speedJitter = big ? 240 : 140;
+    const baseLifetime = big ? 900 : 500;
+    const lifetimeJitter = big ? 600 : 350;
+
+    for (let i = 0; i < count; i++) {
+      const angle = (i / count) * Math.PI * 2 + Math.random() * 0.4;
+      const speed = baseSpeed + Math.random() * speedJitter;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed;
+      const color = EXPLOSION_PALETTE[Math.floor(Math.random() * EXPLOSION_PALETTE.length)];
+      const size = big
+        ? 6 + Math.floor(Math.random() * 4) * 2  // 6,8,10,12
+        : 4 + Math.floor(Math.random() * 3) * 2; // 4,6,8
+
+      this.state.particles.push({
+        id: this.nextParticleId++,
+        x,
+        y,
+        vx,
+        vy,
+        createdAt: timestamp,
+        lifetime: baseLifetime + Math.random() * lifetimeJitter,
+        color,
+        size,
+      });
+    }
+
+    if (big) {
+      // dense slow core chunks for that lingering debris feel
+      for (let i = 0; i < 16; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 40 + Math.random() * 120;
+        this.state.particles.push({
+          id: this.nextParticleId++,
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          createdAt: timestamp,
+          lifetime: 900 + Math.random() * 500,
+          color: EXPLOSION_PALETTE[Math.floor(Math.random() * EXPLOSION_PALETTE.length)],
+          size: 8 + Math.floor(Math.random() * 3) * 2,
+        });
+      }
+    }
   }
 
   private spawnParticles(x: number, y: number, timestamp: number): void {

@@ -417,17 +417,23 @@ export class GameRenderer {
     }
   }
 
-  private drawParticle(particle: { x: number; y: number }): void {
+  private drawParticle(particle: { x: number; y: number; color?: string; size?: number; createdAt: number; lifetime: number }): void {
     const ctx = this.ctx;
-    const cell = Math.ceil(80 / SHIP_COLS);
+    const defaultCell = Math.ceil(80 / SHIP_COLS);
+    const size = particle.size ?? defaultCell;
+    const color = particle.color ?? colors.accent.yellow;
     const px = this.snap(particle.x);
     const py = this.snap(particle.y);
 
+    const age = (performance.now() - particle.createdAt) / particle.lifetime;
+    const alpha = Math.max(0, 1 - age);
+
     ctx.save();
-    ctx.shadowColor = colors.accent.yellow;
+    ctx.globalAlpha = alpha;
+    ctx.shadowColor = color;
     ctx.shadowBlur = 4;
-    ctx.fillStyle = colors.accent.yellow;
-    ctx.fillRect(px - cell / 2, py - cell / 2, cell, cell);
+    ctx.fillStyle = color;
+    ctx.fillRect(px - size / 2, py - size / 2, size, size);
     ctx.restore();
   }
 
@@ -450,6 +456,7 @@ export class GameRenderer {
     const rotate = (state.velocityX / 500) * 30;
     const rotateRad = (rotate * Math.PI) / 180;
 
+    if (state.deathAt != null) return;
     const timeSinceHit = performance.now() - state.lastHitTime;
     const isRespawning = timeSinceHit < 800;
     if (isRespawning) return;
