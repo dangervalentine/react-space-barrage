@@ -12,6 +12,7 @@ import {
 } from './types';
 import { PatternGenerator } from './PatternGenerator';
 import { DifficultyScaler } from './DifficultyScaler';
+import { WaveManager } from './WaveManager';
 
 export class GameEngine {
   private state: GameState;
@@ -32,6 +33,8 @@ export class GameEngine {
   private currentPattern: any = null;
   private currentPatternStartTime: number = 0;
   private executedSpawns: Set<string> = new Set();
+  private waveManager: WaveManager;
+  private currentTier: number = 0;
 
   constructor(onUpdate: (state: GameState) => void) {
     this.onUpdate = onUpdate;
@@ -42,9 +45,7 @@ export class GameEngine {
   }
 
   start(): void {
-    console.log('GameEngine.start() called');
     this.lastTime = performance.now();
-    console.log(`Initial enemy positions: ${this.state.enemies.map(e => `id=${e.id},y=${e.y}`).join(' | ')}`);
     this.tick(this.lastTime);
   }
 
@@ -169,12 +170,6 @@ export class GameEngine {
       const progress = (timestamp - enemy.startTime) / enemy.duration;
       const updatedEnemy = { ...enemy, y };
 
-      if (idx === 0) {
-        console.log(
-          `Enemy 0: startTime=${enemy.startTime}, now=${timestamp}, duration=${enemy.duration}, progress=${progress}, y=${y}`
-        );
-      }
-
       const isInvulnerable = timestamp - this.state.lastHitTime < 2000;
       if (!isInvulnerable && this.checkCollision(shipX, shipY, y, enemy.x)) {
         this.state.lives -= 1;
@@ -190,45 +185,59 @@ export class GameEngine {
         return { ...updatedEnemy, hasScored: true };
       }
 
+      // Remove enemy if it exits the bottom of the screen (only mark once)
+      if (y >= ENEMY_END_Y && !enemy.removedAt) {
+        console.log(`[REMOVE] Enemy ${enemy.id} at y=${y}`);
+        return { ...updatedEnemy, removedAt: timestamp };
+      }
+
       return updatedEnemy;
     }).filter(enemy => {
       if (enemy.removedAt === undefined) return true;
       return timestamp - enemy.removedAt < 200;
     });
-
-    const tier = this.difficultyScaler.getTierForScore(this.state.score);
-    this.currentMaxEnemies = tier.maxEnemies;
   }
 
   private spawnEnemies(timestamp: number): void {
     this.patternGenerator.updateScore(this.state.score);
 
+    const tier = this.difficultyScaler.getTierForScore(this.state.score);
+
+    // Update wave delay if tier changed
+    if (tier.tier !== this.currentTier) {
+      this.currentTier = tier.tier;
+      const delayMs = this.difficultyScaler.waveDelayMs(tier);
+      this.waveManager.setWaveDelay(delayMs);
+    }
+
     // Check if current pattern has expired or doesn't exist
-    if (!this.currentPattern || timestamp >= this.currentPatternStartTime + this.currentPattern.duration) {
+    if (!this.currentPattern || timestamp >= this.currentPatternStartTime + this.currentPattern.durationMs) {
       this.currentPattern = this.patternGenerator.getNextPattern(timestamp);
       this.currentPatternStartTime = timestamp;
-      this.nextEnemySpawnTime = timestamp;
-      this.executedSpawns.clear(); // Clear tracked spawns for new pattern
+      this.executedSpawns.clear();
     }
 
     if (!this.currentPattern) return;
 
-    // Spawn enemies from pattern if time is right
-    for (let i = 0; i < this.currentPattern.spawns.length; i++) {
-      const spawn = this.currentPattern.spawns[i];
-      const spawnKey = `${i}`; // Track spawn by index
+    // Spawn all enemies from pattern when wave is ready
+    if (this.waveManager.shouldSpawnWave(timestamp)) {
+      for (let i = 0; i < this.currentPattern.spawns.length; i++) {
+        const spawn = this.currentPattern.spawns[i];
 
-      const spawnTime = this.nextEnemySpawnTime + spawn.delayMs;
-      if (timestamp >= spawnTime && !this.executedSpawns.has(spawnKey) && this.state.enemies.length < this.currentMaxEnemies) {
-        this.createEnemy(spawn.columnIndex, timestamp);
-        this.executedSpawns.add(spawnKey);
+        if (this.state.enemies.length < tier.maxEnemies && !this.executedSpawns.has(`${i}`)) {
+          this.createEnemy(spawn.columnIndex, timestamp);
+          this.executedSpawns.add(`${i}`);
+        }
       }
+
+      this.waveManager.markWaveSpawned(timestamp);
     }
   }
 
   private createEnemy(columnIndex: number, timestamp: number): void {
     const columnWidth = GAME_WIDTH / 10;
     const enemyX = (columnIndex + 0.5) * columnWidth;
+    const tier = this.difficultyScaler.getTierForScore(this.state.score);
 
     const enemy: EnemyState = {
       id: this.state.enemies.length,
@@ -236,7 +245,7 @@ export class GameEngine {
       y: ENEMY_START_Y,
       imageIndex: 0,
       startTime: timestamp,
-      duration: 8000,
+      duration: tier.enemyTraverseDurationMs,
       hasScored: false,
     };
 
@@ -328,6 +337,7 @@ export class GameEngine {
 
   private makeInitialState(timestamp: number): GameState {
     this.patternGenerator = new PatternGenerator(GAME_WIDTH, GAME_HEIGHT);
+    this.waveManager = new WaveManager(1000); // Start with 1 second delay
     this.nextEnemySpawnTime = timestamp;
     this.currentMaxEnemies = 5;
 
