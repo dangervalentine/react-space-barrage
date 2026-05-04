@@ -208,7 +208,7 @@ export class GameEngine {
     for (const spawn of pattern.spawns) {
       const spawnTime = this.nextEnemySpawnTime + spawn.delayMs;
       if (timestamp >= spawnTime && this.state.enemies.length < this.currentMaxEnemies) {
-        this.createEnemy(spawn.column, timestamp);
+        this.createEnemy(spawn.columnIndex, timestamp);
       }
     }
   }
