@@ -71,6 +71,9 @@ export class GameRenderer {
     // Enemies
     state.enemies.forEach(enemy => this.drawEnemy(enemy, timestamp));
 
+    // Bullets
+    state.bullets.forEach(bullet => this.drawBullet(bullet));
+
     // Particles
     state.particles.forEach(particle => this.drawParticle(particle));
 
@@ -164,6 +167,19 @@ export class GameRenderer {
     ctx.fillStyle = '#FFCB6B';
     ctx.beginPath();
     ctx.arc(particle.x, particle.y, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  private drawBullet(bullet: { x: number; y: number }): void {
+    const ctx = this.ctx;
+
+    ctx.save();
+    ctx.shadowColor = '#82AAFF';
+    ctx.shadowBlur = 6;
+    ctx.fillStyle = '#82AAFF';
+    ctx.beginPath();
+    ctx.arc(bullet.x, bullet.y, 4, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
   }

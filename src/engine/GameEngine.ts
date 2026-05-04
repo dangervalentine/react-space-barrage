@@ -2,6 +2,7 @@ import {
   GameState,
   EnemyState,
   ParticleState,
+  BulletState,
   KEYS,
   ENEMY_COUNT,
   ENEMY_START_Y,
@@ -19,8 +20,10 @@ export class GameEngine {
   private startTime: number = 0;
   private pressedKeys: Set<number> = new Set();
   private nextParticleId: number = 0;
+  private nextBulletId: number = 0;
   private analogVelocityX = 0;
   private analogVelocityY = 0;
+  private lastShotTime: number = 0;
 
   constructor(onUpdate: (state: GameState) => void) {
     this.onUpdate = onUpdate;
@@ -43,11 +46,15 @@ export class GameEngine {
   }
 
   handleKeyDown(keyCode: number): void {
-    if (keyCode === KEYS.SPACE && this.state.isShipHit) {
-      this.startTime = performance.now();
-      this.state = this.makeInitialState(this.startTime);
-      this.lastTime = this.startTime;
-      this.onUpdate(this.state);
+    if (keyCode === KEYS.SPACE) {
+      if (this.state.isShipHit) {
+        this.startTime = performance.now();
+        this.state = this.makeInitialState(this.startTime);
+        this.lastTime = this.startTime;
+        this.onUpdate(this.state);
+      } else {
+        this.shoot();
+      }
       return;
     }
     this.pressedKeys.add(keyCode);
@@ -71,6 +78,8 @@ export class GameEngine {
       this.updateEnemies(timestamp);
       this.updateShields(timestamp);
       this.checkShieldPickup();
+      this.updateBullets(delta);
+      this.checkBulletCollisions();
     }
 
     this.updateParticles(delta);
@@ -280,6 +289,7 @@ export class GameEngine {
       enemies: [],
       shields: [],
       particles: [],
+      bullets: [],
     };
   }
 
@@ -315,5 +325,90 @@ export class GameEngine {
         y: particle.y + particle.vy * (delta / 1000),
       }))
       .filter(particle => now - particle.createdAt < particle.lifetime);
+  }
+
+  private shoot(): void {
+    const now = performance.now();
+    const FIRE_RATE = 200;
+
+    if (now - this.lastShotTime < FIRE_RATE) return;
+
+    this.lastShotTime = now;
+
+    const BULLET_SPEED = 600;
+    const SHIP_WIDTH = 80;
+    const NOSE_OFFSET = SHIP_WIDTH / 2;
+
+    const shipRotateAngle = (this.state.velocityX / 500) * 30;
+    const bulletRotateAngle = shipRotateAngle * 1.2;
+    const rotateRad = (bulletRotateAngle * Math.PI) / 180;
+    const shipRotateRad = (shipRotateAngle * Math.PI) / 180;
+
+    const vx = Math.sin(rotateRad) * BULLET_SPEED;
+    const vy = -Math.cos(rotateRad) * BULLET_SPEED;
+
+    const bulletX = this.state.shipX + NOSE_OFFSET * Math.sin(shipRotateRad);
+    const bulletY = this.state.shipY - NOSE_OFFSET * Math.cos(shipRotateRad);
+
+    const bullet: BulletState = {
+      id: this.nextBulletId++,
+      x: bulletX,
+      y: bulletY,
+      vx,
+      vy,
+      createdAt: now,
+    };
+
+    this.state.bullets.push(bullet);
+  }
+
+  private updateBullets(delta: number): void {
+    this.state.bullets = this.state.bullets
+      .map(bullet => ({
+        ...bullet,
+        x: bullet.x + bullet.vx * (delta / 1000),
+        y: bullet.y + bullet.vy * (delta / 1000),
+      }))
+      .filter(bullet => {
+        return (
+          bullet.x >= -50 &&
+          bullet.x <= GAME_WIDTH + 50 &&
+          bullet.y >= -50 &&
+          bullet.y <= GAME_HEIGHT + 50
+        );
+      });
+  }
+
+  private checkBulletCollisions(): void {
+    const now = performance.now();
+    const BULLET_RADIUS = 4;
+    const ENEMY_WIDTH = 80;
+    const ENEMY_HEIGHT = 80;
+
+    for (let i = this.state.bullets.length - 1; i >= 0; i--) {
+      const bullet = this.state.bullets[i];
+
+      for (let j = this.state.enemies.length - 1; j >= 0; j--) {
+        const enemy = this.state.enemies[j];
+
+        const enemyLeft = enemy.x;
+        const enemyRight = enemy.x + ENEMY_WIDTH;
+        const enemyTop = enemy.y;
+        const enemyBottom = enemy.y + ENEMY_HEIGHT;
+
+        if (
+          bullet.x >= enemyLeft &&
+          bullet.x <= enemyRight &&
+          bullet.y >= enemyTop &&
+          bullet.y <= enemyBottom
+        ) {
+          this.state.bullets.splice(i, 1);
+          this.state.score += 10;
+          this.spawnParticles(enemy.x + ENEMY_WIDTH / 2, enemy.y + ENEMY_HEIGHT / 2, now);
+          this.state.enemies[j] = { ...enemy, removedAt: now };
+          break;
+        }
+      }
+    }
   }
 }

@@ -27,6 +27,15 @@ export interface ParticleState {
   lifetime: number;
 }
 
+export interface BulletState {
+  id: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  createdAt: number;
+}
+
 export interface GameState {
   score: number;
   highScore: number;
@@ -40,6 +49,7 @@ export interface GameState {
   enemies: EnemyState[];
   shields: ShieldState[];
   particles: ParticleState[];
+  bullets: BulletState[];
 }
 
 export const ENEMY_COUNT = 15;
