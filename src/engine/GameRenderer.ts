@@ -432,7 +432,10 @@ export class GameRenderer {
 
   private drawScore(state: GameState): void {
     const ctx = this.ctx;
-    ctx.font = '20px PressStart2P';
+    const isMobile = typeof window !== 'undefined'
+      && window.matchMedia?.('(max-width: 768px)').matches;
+    const s = isMobile ? 2 : 1;
+    ctx.font = `${20 * s}px PressStart2P`;
     ctx.fillStyle = colors.accent.cyan;
     ctx.textBaseline = 'top';
     ctx.shadowColor = colors.accent.yellow;
@@ -440,9 +443,9 @@ export class GameRenderer {
     ctx.fillText(state.score.toString(), 30, 20);
 
     if (state.highScore > 0) {
-      ctx.font = '16px PressStart2P';
+      ctx.font = `${16 * s}px PressStart2P`;
       ctx.fillStyle = colors.accent.yellow;
-      ctx.fillText(`HI ${state.highScore}`, 10, 70);
+      ctx.fillText(`HI ${state.highScore}`, 10, 30 + 20 * s + 10);
     }
 
     ctx.shadowBlur = 0;
@@ -450,7 +453,10 @@ export class GameRenderer {
 
   private drawLives(state: GameState): void {
     const ctx = this.ctx;
-    ctx.font = '19px PressStart2P';
+    const isMobile = typeof window !== 'undefined'
+      && window.matchMedia?.('(max-width: 768px)').matches;
+    const s = isMobile ? 2 : 1;
+    ctx.font = `${19 * s}px PressStart2P`;
     ctx.fillStyle = colors.accent.pink;
     ctx.textBaseline = 'top';
     ctx.shadowColor = colors.accent.yellow;

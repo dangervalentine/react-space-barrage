@@ -61,16 +61,27 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
       ctx.arc(centerX, centerY, OUTER_RADIUS, 0, Math.PI * 2);
       ctx.clip();
 
-      // Cardinal arrows — drawn on the ring face so the knob covers them when over.
+      // Cardinal arrows — drawn as vector triangles for crisp edges.
       const ARROW_OFFSET = OUTER_RADIUS - 28;
+      const ARROW_HALF_W = 7;
+      const ARROW_HEIGHT = 10;
       ctx.fillStyle = colors.accent.yellow;
-      ctx.font = 'bold 18px "PressStart2P-Regular", monospace';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('▲', centerX, centerY - ARROW_OFFSET);
-      ctx.fillText('▼', centerX, centerY + ARROW_OFFSET);
-      ctx.fillText('◀', centerX - ARROW_OFFSET, centerY);
-      ctx.fillText('▶', centerX + ARROW_OFFSET, centerY);
+      const drawTriangle = (cx: number, cy: number, rotation: number) => {
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(rotation);
+        ctx.beginPath();
+        ctx.moveTo(0, -ARROW_HEIGHT / 2);
+        ctx.lineTo(ARROW_HALF_W, ARROW_HEIGHT / 2);
+        ctx.lineTo(-ARROW_HALF_W, ARROW_HEIGHT / 2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      };
+      drawTriangle(centerX, centerY - ARROW_OFFSET, 0);
+      drawTriangle(centerX, centerY + ARROW_OFFSET, Math.PI);
+      drawTriangle(centerX - ARROW_OFFSET, centerY, -Math.PI / 2);
+      drawTriangle(centerX + ARROW_OFFSET, centerY, Math.PI / 2);
 
       // Knob shadow (dark base)
       ctx.fillStyle = colors.background.surface;
