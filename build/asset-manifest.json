@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/react-space-barrage/static/css/main.dd64916b.css",
+    "main.js": "/react-space-barrage/static/js/main.c15f03f4.js",
+    "static/media/PressStart2P-Regular.ttf": "/react-space-barrage/static/media/PressStart2P-Regular.4bfcf8b92a857ee248e8.ttf",
+    "static/media/fire.svg": "/react-space-barrage/static/media/fire.dd9516eee2cdad12250b90be33cb1882.svg",
+    "static/media/enemy3.svg": "/react-space-barrage/static/media/enemy3.a71cf6b17ca3b3718b6eaaeb5fd1199e.svg",
+    "static/media/rocket.svg": "/react-space-barrage/static/media/rocket.1991e19fea2a7cb144a281f23403cd24.svg",
+    "static/media/enemy2.svg": "/react-space-barrage/static/media/enemy2.e54ab89d1123f2e2bfe31f22aaf781bd.svg",
+    "static/media/enemy1.svg": "/react-space-barrage/static/media/enemy1.394b7aad13055abd650586fdd8994841.svg",
+    "static/media/shield.svg": "/react-space-barrage/static/media/shield.4cac7f4d186e4182c795429a794dcddf.svg",
+    "index.html": "/react-space-barrage/index.html",
+    "main.dd64916b.css.map": "/react-space-barrage/static/css/main.dd64916b.css.map",
+    "main.c15f03f4.js.map": "/react-space-barrage/static/js/main.c15f03f4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dd64916b.css",
+    "static/js/main.c15f03f4.js"
+  ]
+}

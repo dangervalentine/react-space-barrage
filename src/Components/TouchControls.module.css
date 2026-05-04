@@ -8,76 +8,19 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 10px 0;
+    padding: 15px 0;
     z-index: 100;
+    touch-action: none;
   }
 }
 
-.joystick {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(4px, 1vw, 6px);
-  padding: clamp(12px, 2vw, 16px);
-  background: rgba(1, 22, 39, 0.8);
+.joystickCanvas {
+  width: clamp(140px, 35vw, 180px);
+  height: clamp(140px, 35vw, 180px);
   border: 2px solid #7fdbca;
-  border-radius: 12px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 20px rgba(127, 219, 202, 0.3);
-}
-
-.row {
-  display: flex;
-  gap: clamp(4px, 1vw, 6px);
-  justify-content: center;
-}
-
-.center {
-  width: clamp(36px, 8vw, 44px);
-  height: clamp(36px, 8vw, 44px);
   border-radius: 50%;
-  background: rgba(127, 219, 202, 0.1);
-  border: 1px solid rgba(127, 219, 202, 0.3);
-}
-
-.button {
-  width: clamp(36px, 8vw, 44px);
-  height: clamp(36px, 8vw, 44px);
-  border: 2px solid #7fdbca;
-  background: rgba(130, 170, 255, 0.2);
-  color: #7fdbca;
-  border-radius: 6px;
-  font-size: clamp(16px, 3.5vw, 20px);
-  font-weight: bold;
+  background: rgba(1, 22, 39, 0.9);
+  box-shadow: 0 0 30px rgba(127, 219, 202, 0.4), inset 0 0 30px rgba(127, 219, 202, 0.1);
   cursor: pointer;
-  user-select: none;
   touch-action: manipulation;
-  transition: all 0.1s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'PressStart2P-Regular', monospace;
-  padding: 0;
-}
-
-.button:active,
-.button:focus {
-  background: rgba(127, 219, 202, 0.4);
-  box-shadow: 0 0 15px rgba(127, 219, 202, 0.6), inset 0 0 10px rgba(127, 219, 202, 0.2);
-  transform: scale(0.9);
-}
-
-.button:hover {
-  background: rgba(127, 219, 202, 0.3);
-  box-shadow: 0 0 10px rgba(127, 219, 202, 0.4);
-}
-
-.up,
-.down,
-.left,
-.right,
-.upLeft,
-.upRight,
-.downLeft,
-.downRight {
-  /* All buttons have consistent size */
 }
