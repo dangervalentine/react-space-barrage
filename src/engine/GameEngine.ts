@@ -11,6 +11,8 @@ import {
   GAME_HEIGHT,
   randomUpTo,
 } from './types';
+import { PatternGenerator } from './PatternGenerator';
+import { DifficultyScaler } from './DifficultyScaler';
 
 export class GameEngine {
   private state: GameState;
@@ -24,10 +26,16 @@ export class GameEngine {
   private analogVelocityX = 0;
   private analogVelocityY = 0;
   private lastShotTime: number = 0;
+  private patternGenerator: PatternGenerator;
+  private nextEnemySpawnTime: number = 0;
+  private currentMaxEnemies: number = 5;
+  private difficultyScaler: DifficultyScaler = new DifficultyScaler();
 
   constructor(onUpdate: (state: GameState) => void) {
     this.onUpdate = onUpdate;
     this.startTime = performance.now();
+    this.patternGenerator = new PatternGenerator(GAME_WIDTH, GAME_HEIGHT);
+    this.nextEnemySpawnTime = this.startTime;
     this.state = this.makeInitialState(this.startTime);
   }
 
@@ -149,6 +157,8 @@ export class GameEngine {
   }
 
   private updateEnemies(timestamp: number): void {
+    this.spawnEnemies(timestamp);
+
     const shipX = this.state.shipX;
     const shipY = this.state.shipY;
 
@@ -183,11 +193,41 @@ export class GameEngine {
       if (enemy.removedAt === undefined) return true;
       return timestamp - enemy.removedAt < 200;
     });
+
+    const tier = this.difficultyScaler.getTierForScore(this.state.score);
+    this.currentMaxEnemies = tier.maxEnemies;
   }
 
-  // TODO: Implement enemy spawning logic here
   private spawnEnemies(timestamp: number): void {
-    // Decide how and when enemies should spawn
+    this.patternGenerator.updateScore(this.state.score);
+    const pattern = this.patternGenerator.getNextPattern(timestamp);
+
+    if (!pattern) return;
+
+    // Spawn enemies from pattern if time is right
+    for (const spawn of pattern.spawns) {
+      const spawnTime = this.nextEnemySpawnTime + spawn.delayMs;
+      if (timestamp >= spawnTime && this.state.enemies.length < this.currentMaxEnemies) {
+        this.createEnemy(spawn.column, timestamp);
+      }
+    }
+  }
+
+  private createEnemy(columnIndex: number, timestamp: number): void {
+    const columnWidth = GAME_WIDTH / 10;
+    const enemyX = (columnIndex + 0.5) * columnWidth;
+
+    const enemy: EnemyState = {
+      id: this.state.enemies.length,
+      x: enemyX,
+      y: ENEMY_START_Y,
+      imageIndex: 0,
+      startTime: timestamp,
+      duration: 8000,
+      hasScored: false,
+    };
+
+    this.state.enemies.push(enemy);
   }
 
   private updateShields(timestamp: number): void {
@@ -274,7 +314,9 @@ export class GameEngine {
 
 
   private makeInitialState(timestamp: number): GameState {
-    const SPAWN_STAGGER_MS = 350;
+    this.patternGenerator = new PatternGenerator(GAME_WIDTH, GAME_HEIGHT);
+    this.nextEnemySpawnTime = timestamp;
+    this.currentMaxEnemies = 5;
 
     return {
       score: 0,
