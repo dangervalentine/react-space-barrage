@@ -24,10 +24,10 @@ export class DifficultyScaler {
   ];
 
   /** Points per complete difficulty cycle */
-  private cycleLength = 300;
+  private cycleLength = 200;
 
   /** Points per tier interval */
-  private tierDuration = 50;
+  private tierDuration = 35;
 
   /**
    * Maps a score to its corresponding difficulty tier.
