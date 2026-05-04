@@ -28,7 +28,6 @@ export class GameEngine {
   private lastShotTime: number = 0;
   private patternGenerator: PatternGenerator;
   private nextEnemySpawnTime: number = 0;
-  private currentMaxEnemies: number = 5;
   private difficultyScaler: DifficultyScaler = new DifficultyScaler();
   private currentPattern: any = null;
   private currentPatternStartTime: number = 0;
@@ -204,8 +203,9 @@ export class GameEngine {
     const tier = this.difficultyScaler.getTierForScore(this.state.score);
 
     // Update wave delay if tier changed
-    if (tier.tier !== this.currentTier) {
-      this.currentTier = tier.tier;
+    const tierPosition = Math.floor(tier.scoreStart / 50);
+    if (tierPosition !== this.currentTier) {
+      this.currentTier = tierPosition;
       const delayMs = this.difficultyScaler.waveDelayMs(tier);
       this.waveManager.setWaveDelay(delayMs);
     }
@@ -339,7 +339,6 @@ export class GameEngine {
     this.patternGenerator = new PatternGenerator(GAME_WIDTH, GAME_HEIGHT);
     this.waveManager = new WaveManager(1000); // Start with 1 second delay
     this.nextEnemySpawnTime = timestamp;
-    this.currentMaxEnemies = 5;
 
     return {
       score: 0,
