@@ -1,5 +1,4 @@
 import { GameState, GAME_WIDTH, GAME_HEIGHT } from './types';
-import { GameAssets } from './AssetLoader';
 import { colors } from '../constants/colors';
 
 interface Star {
@@ -237,7 +236,6 @@ function drawPixelShield(
 
 export class GameRenderer {
   private ctx: CanvasRenderingContext2D;
-  private assets: GameAssets;
   private stars: Star[];
   private scaleX = 1;
   private scaleY = 1;
@@ -245,11 +243,10 @@ export class GameRenderer {
   private pixelStep = 4;
   private timeStepMs = 60;
 
-  constructor(canvas: HTMLCanvasElement, assets: GameAssets) {
+  constructor(canvas: HTMLCanvasElement) {
     const ctx = canvas.getContext('2d');
     if (!ctx) throw new Error('Failed to get canvas context');
     this.ctx = ctx;
-    this.assets = assets;
     this.stars = this.generateStars();
   }
 

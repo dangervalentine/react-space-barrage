@@ -17,13 +17,6 @@
     "test": "vitest run",
     "preview": "vite preview"
   },
-  "homepage": "http://victoriousj.github.io/react-space-barrage",
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
   "devDependencies": {
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
