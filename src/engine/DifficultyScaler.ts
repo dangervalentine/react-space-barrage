@@ -15,12 +15,12 @@ export class DifficultyScaler {
    * Each tier represents one 35-point interval.
    */
   private baseTiers: Omit<DifficultyTier, 'scoreStart' | 'scoreEnd'>[] = [
-    { maxEnemies: 7, enemyTraverseDurationMs: 2000, patternType: 'wall' },
-    { maxEnemies: 8, enemyTraverseDurationMs: 1900, patternType: 'random' },
-    { maxEnemies: 9, enemyTraverseDurationMs: 1800, patternType: 'diagonal' },
-    { maxEnemies: 10, enemyTraverseDurationMs: 1700, patternType: 'random' },
-    { maxEnemies: 11, enemyTraverseDurationMs: 1600, patternType: 'gaps' },
-    { maxEnemies: 12, enemyTraverseDurationMs: 1500, patternType: 'random' },
+    { maxEnemies: 3, enemyTraverseDurationMs: 2500, patternType: 'wall' },
+    { maxEnemies: 4, enemyTraverseDurationMs: 2400, patternType: 'random' },
+    { maxEnemies: 5, enemyTraverseDurationMs: 2300, patternType: 'diagonal' },
+    { maxEnemies: 6, enemyTraverseDurationMs: 2200, patternType: 'random' },
+    { maxEnemies: 7, enemyTraverseDurationMs: 2100, patternType: 'gaps' },
+    { maxEnemies: 8, enemyTraverseDurationMs: 2000, patternType: 'random' },
   ];
 
   /** Points per complete difficulty cycle */
@@ -88,11 +88,15 @@ export class DifficultyScaler {
   /**
    * Returns the wave spawn delay in milliseconds based on difficulty tier.
    *
-   * Delay decreases as difficulty increases, making the game faster:
-   * - Tier 0 (score 0-35, 200-235, etc): 1000ms between patterns
-   * - Tier 1 (score 35-70, 235-270, etc): 800ms
-   * - Tier 2 (score 70-105, 270-305, etc): 600ms
-   * - Tier 3+ (score 105+, 305+, etc): 400ms
+   * Delay decreases by 10ms per tier within a cycle, then resets at each
+   * new cycle:
+   * - Tier 0: 300ms between patterns
+   * - Tier 1: 290ms
+   * - Tier 2: 280ms
+   * - Tier 3: 270ms
+   * - Tier 4: 260ms
+   * - Tier 5: 250ms
+   * Floored at 150ms.
    *
    * Correctly handles cycle wrapping to map absolute score to relative tier position.
    *
@@ -103,15 +107,11 @@ export class DifficultyScaler {
     const cyclePosition = tier.scoreStart % this.cycleLength;
     const tierIndex = Math.floor(cyclePosition / this.tierDuration);
 
-    switch (Math.min(tierIndex, 3)) {
-      case 0:
-        return 1000;
-      case 1:
-        return 800;
-      case 2:
-        return 600;
-      default:
-        return 400;
-    }
+    const baseDelay = 300;
+    const decrementPerTier = 10;
+    const minimumDelay = 150;
+
+    const delay = baseDelay - (tierIndex * decrementPerTier);
+    return Math.max(delay, minimumDelay);
   }
 }

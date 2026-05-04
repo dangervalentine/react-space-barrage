@@ -40,13 +40,8 @@ export class PatternGenerator {
    */
   getNextPattern(timestamp: number): PatternCycle | null {
     const tier = this.scaler.getTierForScore(this.currentScore);
-
-    // Check if we need a new pattern
-    if (!this.currentPatternCycle || timestamp >= this.patternStartTime + this.currentPatternCycle.durationMs) {
-      this.currentPatternCycle = this.generatePatternForTier(tier, timestamp);
-      this.patternStartTime = timestamp;
-    }
-
+    this.currentPatternCycle = this.generatePatternForTier(tier, timestamp);
+    this.patternStartTime = timestamp;
     return this.currentPatternCycle;
   }
 

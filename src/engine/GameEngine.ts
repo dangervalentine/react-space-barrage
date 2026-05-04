@@ -202,35 +202,28 @@ export class GameEngine {
     const tier = this.difficultyScaler.getTierForScore(this.state.score);
 
     // Update wave delay if tier changed
-    const tierPosition = Math.floor(tier.scoreStart / 50);
-    if (tierPosition !== this.currentTier) {
-      this.currentTier = tierPosition;
+    if (tier.scoreStart !== this.currentTier) {
+      this.currentTier = tier.scoreStart;
       const delayMs = this.difficultyScaler.waveDelayMs(tier);
       this.waveManager.setWaveDelay(delayMs);
     }
 
-    // Check if current pattern has expired or doesn't exist
-    if (!this.currentPattern || timestamp >= this.currentPatternStartTime + this.currentPattern.durationMs) {
-      this.currentPattern = this.patternGenerator.getNextPattern(timestamp);
-      this.currentPatternStartTime = timestamp;
-      this.executedSpawns.clear();
-    }
+    // WaveManager drives pattern cadence: every interval, generate a fresh
+    // pattern and emit all of its enemies. Multiple patterns can coexist
+    // on screen simultaneously.
+    if (!this.waveManager.shouldSpawnWave(timestamp)) return;
+
+    this.currentPattern = this.patternGenerator.getNextPattern(timestamp);
+    this.currentPatternStartTime = timestamp;
+    this.executedSpawns.clear();
 
     if (!this.currentPattern) return;
 
-    // Spawn all enemies from pattern when wave is ready
-    if (this.waveManager.shouldSpawnWave(timestamp)) {
-      for (let i = 0; i < this.currentPattern.spawns.length; i++) {
-        const spawn = this.currentPattern.spawns[i];
-
-        if (this.state.enemies.length < tier.maxEnemies && !this.executedSpawns.has(`${i}`)) {
-          this.createEnemy(spawn.columnIndex, timestamp);
-          this.executedSpawns.add(`${i}`);
-        }
-      }
-
-      this.waveManager.markWaveSpawned(timestamp);
+    for (const spawn of this.currentPattern.spawns) {
+      this.createEnemy(spawn.columnIndex, timestamp);
     }
+
+    this.waveManager.markWaveSpawned(timestamp);
   }
 
   private createEnemy(columnIndex: number, timestamp: number): void {
