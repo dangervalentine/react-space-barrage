@@ -34,24 +34,55 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
       // Clear
       ctx.clearRect(0, 0, JOYSTICK_SIZE, JOYSTICK_SIZE);
 
-      // Create circular clipping path
+      // Outer ring background
+      ctx.fillStyle = '#1a1a2e';
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, OUTER_RADIUS, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Outer ring border - light
+      ctx.strokeStyle = '#FFD700';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, OUTER_RADIUS - 2, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Outer ring border - dark
+      ctx.strokeStyle = '#664400';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, OUTER_RADIUS - 4, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Clip to outer circle
       ctx.save();
       ctx.beginPath();
       ctx.arc(centerX, centerY, OUTER_RADIUS, 0, Math.PI * 2);
       ctx.clip();
 
-      // Outer ring
-      ctx.strokeStyle = '#7fdbca';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, OUTER_RADIUS, 0, Math.PI * 2);
-      ctx.stroke();
-
-      // Inner knob
-      ctx.fillStyle = '#7fdbca';
+      // Knob shadow (dark base)
+      ctx.fillStyle = '#0a0a14';
       ctx.beginPath();
       ctx.arc(x, y, INNER_RADIUS, 0, Math.PI * 2);
       ctx.fill();
+
+      // Knob main color with simple gradient
+      const knobGradient = ctx.createRadialGradient(x - 5, y - 5, 0, x, y, INNER_RADIUS);
+      knobGradient.addColorStop(0, '#FFD700');
+      knobGradient.addColorStop(0.7, '#FFA500');
+      knobGradient.addColorStop(1, '#FF8C00');
+
+      ctx.fillStyle = knobGradient;
+      ctx.beginPath();
+      ctx.arc(x, y, INNER_RADIUS - 1, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Knob border
+      ctx.strokeStyle = '#664400';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(x, y, INNER_RADIUS - 1, 0, Math.PI * 2);
+      ctx.stroke();
 
       ctx.restore();
     };
@@ -109,13 +140,14 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
       const dy = scaledY - centerY;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      // Clamp to radius
+      // Clamp to radius, accounting for knob size
       let x = scaledX;
       let y = scaledY;
-      if (distance > OUTER_RADIUS) {
+      const maxDistance = OUTER_RADIUS - INNER_RADIUS;
+      if (distance > maxDistance) {
         const angle = Math.atan2(dy, dx);
-        x = centerX + Math.cos(angle) * OUTER_RADIUS;
-        y = centerY + Math.sin(angle) * OUTER_RADIUS;
+        x = centerX + Math.cos(angle) * maxDistance;
+        y = centerY + Math.sin(angle) * maxDistance;
       }
 
       drawJoystick(x, y);

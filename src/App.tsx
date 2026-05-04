@@ -42,12 +42,29 @@ export default function App() {
     };
   }, [engine]);
 
+  const handleFireDown = () => {
+    engine?.handleKeyDown(32);
+  };
+
+  const handleFireUp = () => {
+    engine?.handleKeyUp(32);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.screenBezel}>
         <GameCanvas engine={engine} onUpdateRef={onUpdateRef} />
       </div>
       <TouchControls engine={engine} />
+      <button
+        className={styles.fireButton}
+        onTouchStart={handleFireDown}
+        onTouchEnd={handleFireUp}
+        onMouseDown={handleFireDown}
+        onMouseUp={handleFireUp}
+      >
+        ◆
+      </button>
     </div>
   );
 }
