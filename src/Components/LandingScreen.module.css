@@ -43,7 +43,7 @@
   width: min(60%, 520px);
   aspect-ratio: 1 / 1;
   background: var(--color-bg-base);
-  padding: 6%;
+  padding: 2%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -77,12 +77,13 @@
 .title {
   font-size: clamp(20px, 4.2vw, 56px);
   line-height: 1;
+
   letter-spacing: 2px;
   color: var(--color-accent-yellow);
-  text-shadow:
-    4px 0 0 var(--color-accent-pink),
-    8px 4px 0 var(--color-bg-base),
-    -2px 2px 0 var(--color-accent-coral);
+  /* text-shadow:
+    2px 0 0 var(--color-accent-pink),
+    2px 2px 0 var(--color-bg-base),
+    -2px 2px 0 var(--color-accent-coral); */
   margin: 0;
 }
 
@@ -92,6 +93,7 @@
   letter-spacing: 2px;
   text-shadow: 2px 2px 0 var(--color-bg-base);
   margin: 0;
+  margin-top: 10px;
   white-space: nowrap;
   text-align: center;
   align-self: center;
