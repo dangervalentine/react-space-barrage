@@ -11,10 +11,10 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isActiveRef = useRef(false);
 
-  const JOYSTICK_SIZE = 150;
-  const DEAD_ZONE = 20;
+  const JOYSTICK_SIZE = 200;
+  const DEAD_ZONE = 25;
   const OUTER_RADIUS = JOYSTICK_SIZE / 2;
-  const INNER_RADIUS = 20;
+  const INNER_RADIUS = 25;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -32,8 +32,13 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
       const centerY = JOYSTICK_SIZE / 2;
 
       // Clear
-      ctx.fillStyle = 'rgba(1, 22, 39, 0.9)';
-      ctx.fillRect(0, 0, JOYSTICK_SIZE, JOYSTICK_SIZE);
+      ctx.clearRect(0, 0, JOYSTICK_SIZE, JOYSTICK_SIZE);
+
+      // Create circular clipping path
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, OUTER_RADIUS, 0, Math.PI * 2);
+      ctx.clip();
 
       // Outer ring
       ctx.strokeStyle = '#7fdbca';
@@ -42,17 +47,13 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
       ctx.arc(centerX, centerY, OUTER_RADIUS, 0, Math.PI * 2);
       ctx.stroke();
 
-      // Glow effect
-      ctx.shadowColor = '#7fdbca';
-      ctx.shadowBlur = 10;
-
       // Inner knob
       ctx.fillStyle = '#7fdbca';
       ctx.beginPath();
       ctx.arc(x, y, INNER_RADIUS, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.shadowBlur = 0;
+      ctx.restore();
     };
 
     const getAngleAndDistance = (clientX: number, clientY: number) => {

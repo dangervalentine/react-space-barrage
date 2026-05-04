@@ -258,11 +258,17 @@ export class GameRenderer {
       });
     };
 
-    const wasdX = GAME_WIDTH / 2 - 50;
-    const arrowX = GAME_WIDTH / 2 + 50;
+    const wasdX = GAME_WIDTH / 2 - 55;
+    const arrowX = GAME_WIDTH / 2 + 55;
 
     drawKeyGroup(wasdX, ['W', 'A', 'S', 'D']);
-    ctx.fillText('or', GAME_WIDTH / 2, y);
+
+    // Calculate midpoint between right edge of WASD and left edge of arrows
+    const rightEdgeWASD = wasdX + 60 + keySize / 2;  // rightmost point of D key
+    const leftEdgeArrows = arrowX - keySize / 2;      // leftmost point of up arrow
+    const orX = (rightEdgeWASD + leftEdgeArrows) / 2;
+
+    ctx.fillText('or', orX, y);
     drawKeyGroup(arrowX, ['↑', '←', '↓', '→']);
   }
 
