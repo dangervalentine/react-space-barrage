@@ -4,7 +4,6 @@ import {
   ParticleState,
   BulletState,
   KEYS,
-  ENEMY_COUNT,
   ENEMY_START_Y,
   ENEMY_END_Y,
   GAME_WIDTH,
@@ -30,6 +29,9 @@ export class GameEngine {
   private nextEnemySpawnTime: number = 0;
   private currentMaxEnemies: number = 5;
   private difficultyScaler: DifficultyScaler = new DifficultyScaler();
+  private currentPattern: any = null;
+  private currentPatternStartTime: number = 0;
+  private executedSpawns: Set<string> = new Set();
 
   constructor(onUpdate: (state: GameState) => void) {
     this.onUpdate = onUpdate;
@@ -200,15 +202,26 @@ export class GameEngine {
 
   private spawnEnemies(timestamp: number): void {
     this.patternGenerator.updateScore(this.state.score);
-    const pattern = this.patternGenerator.getNextPattern(timestamp);
 
-    if (!pattern) return;
+    // Check if current pattern has expired or doesn't exist
+    if (!this.currentPattern || timestamp >= this.currentPatternStartTime + this.currentPattern.duration) {
+      this.currentPattern = this.patternGenerator.getNextPattern(timestamp);
+      this.currentPatternStartTime = timestamp;
+      this.nextEnemySpawnTime = timestamp;
+      this.executedSpawns.clear(); // Clear tracked spawns for new pattern
+    }
+
+    if (!this.currentPattern) return;
 
     // Spawn enemies from pattern if time is right
-    for (const spawn of pattern.spawns) {
+    for (let i = 0; i < this.currentPattern.spawns.length; i++) {
+      const spawn = this.currentPattern.spawns[i];
+      const spawnKey = `${i}`; // Track spawn by index
+
       const spawnTime = this.nextEnemySpawnTime + spawn.delayMs;
-      if (timestamp >= spawnTime && this.state.enemies.length < this.currentMaxEnemies) {
+      if (timestamp >= spawnTime && !this.executedSpawns.has(spawnKey) && this.state.enemies.length < this.currentMaxEnemies) {
         this.createEnemy(spawn.columnIndex, timestamp);
+        this.executedSpawns.add(spawnKey);
       }
     }
   }
@@ -423,7 +436,6 @@ export class GameEngine {
 
   private checkBulletCollisions(): void {
     const now = performance.now();
-    const BULLET_RADIUS = 4;
     const ENEMY_WIDTH = 80;
     const ENEMY_HEIGHT = 80;
 
