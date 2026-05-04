@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { GameEngine } from '../engine/GameEngine';
+import { colors } from '../constants/colors';
 import styles from './TouchControls.module.css';
 
 interface TouchControlsProps {
@@ -35,20 +36,20 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
       ctx.clearRect(0, 0, JOYSTICK_SIZE, JOYSTICK_SIZE);
 
       // Outer ring background
-      ctx.fillStyle = '#1a1a2e';
+      ctx.fillStyle = colors.background.floor;
       ctx.beginPath();
       ctx.arc(centerX, centerY, OUTER_RADIUS, 0, Math.PI * 2);
       ctx.fill();
 
       // Outer ring border - light
-      ctx.strokeStyle = '#FFD700';
+      ctx.strokeStyle = colors.accent.yellow;
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.arc(centerX, centerY, OUTER_RADIUS - 2, 0, Math.PI * 2);
       ctx.stroke();
 
       // Outer ring border - dark
-      ctx.strokeStyle = '#664400';
+      ctx.strokeStyle = colors.text.secondary;
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.arc(centerX, centerY, OUTER_RADIUS - 4, 0, Math.PI * 2);
@@ -61,16 +62,16 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
       ctx.clip();
 
       // Knob shadow (dark base)
-      ctx.fillStyle = '#0a0a14';
+      ctx.fillStyle = colors.background.surface;
       ctx.beginPath();
       ctx.arc(x, y, INNER_RADIUS, 0, Math.PI * 2);
       ctx.fill();
 
       // Knob main color with simple gradient
       const knobGradient = ctx.createRadialGradient(x - 5, y - 5, 0, x, y, INNER_RADIUS);
-      knobGradient.addColorStop(0, '#FFD700');
-      knobGradient.addColorStop(0.7, '#FFA500');
-      knobGradient.addColorStop(1, '#FF8C00');
+      knobGradient.addColorStop(0, colors.accent.yellow);
+      knobGradient.addColorStop(0.7, colors.accent.coral);
+      knobGradient.addColorStop(1, colors.status.playing);
 
       ctx.fillStyle = knobGradient;
       ctx.beginPath();
@@ -78,7 +79,7 @@ export const TouchControls = ({ engine }: TouchControlsProps) => {
       ctx.fill();
 
       // Knob border
-      ctx.strokeStyle = '#664400';
+      ctx.strokeStyle = colors.text.secondary;
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.arc(x, y, INNER_RADIUS - 1, 0, Math.PI * 2);

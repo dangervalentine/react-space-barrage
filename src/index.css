@@ -1,3 +1,5 @@
+@import './constants/colors.css';
+
 @font-face {
   font-family: 'PressStart2P-Regular';
   src: url(./Assets/PressStart2P-Regular.ttf);
@@ -12,7 +14,7 @@ body {
   overflow: hidden;
   font-family: 'PressStart2P-Regular', monospace;
   user-select: none;
-  background: #010E18;
+  background: var(--color-bg-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

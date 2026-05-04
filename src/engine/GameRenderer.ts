@@ -1,5 +1,6 @@
 import { GameState, GAME_WIDTH, GAME_HEIGHT } from './types';
 import { GameAssets } from './AssetLoader';
+import { colors } from '../constants/colors';
 
 interface Star {
   x: number;
@@ -56,7 +57,7 @@ export class GameRenderer {
     ctx.scale(this.scaleX, this.scaleY);
 
     // Background
-    ctx.fillStyle = '#011627';
+    ctx.fillStyle = colors.background.base;
     ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
     // Nebula gradient
@@ -106,8 +107,9 @@ export class GameRenderer {
     const centerY = -400 + 500 * Math.cos(cycle * Math.PI * 2);
 
     const grad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 400);
+    // Extract RGB values from primary.main (#82AAFF = rgb(130, 170, 255))
     grad.addColorStop(0, 'rgba(130, 170, 255, 0.08)');
-    grad.addColorStop(0.6, 'rgba(1, 22, 39, 0)');
+    grad.addColorStop(0.6, `${colors.background.base}00`); // Transparent version of base background
 
     ctx.fillStyle = grad;
     ctx.fillRect(-200, -500, GAME_WIDTH + 400, GAME_HEIGHT + 600);
@@ -115,7 +117,7 @@ export class GameRenderer {
 
   private drawStars(timestamp: number): void {
     const ctx = this.ctx;
-    ctx.fillStyle = '#7fdbca';
+    ctx.fillStyle = colors.accent.cyan;
 
     this.stars.forEach(star => {
       const y = ((timestamp / 1000) * star.speed + star.phase) % 1050 - 100;
@@ -129,7 +131,7 @@ export class GameRenderer {
     const pulseFactor = 1 + 0.1 * Math.sin((elapsed / 1500) * Math.PI * 2);
 
     ctx.save();
-    ctx.shadowColor = '#7fdbca';
+    ctx.shadowColor = colors.accent.cyan;
     ctx.shadowBlur = 10 + 5 * Math.sin((elapsed / 1500) * Math.PI * 2);
 
     ctx.translate(shield.x, shield.y);
@@ -162,9 +164,9 @@ export class GameRenderer {
     const age = performance.now() - particle.createdAt;
 
     ctx.save();
-    ctx.shadowColor = '#FFCB6B';
+    ctx.shadowColor = colors.accent.yellow;
     ctx.shadowBlur = 8;
-    ctx.fillStyle = '#FFCB6B';
+    ctx.fillStyle = colors.accent.yellow;
     ctx.beginPath();
     ctx.arc(particle.x, particle.y, 4, 0, Math.PI * 2);
     ctx.fill();
@@ -175,9 +177,9 @@ export class GameRenderer {
     const ctx = this.ctx;
 
     ctx.save();
-    ctx.shadowColor = '#82AAFF';
+    ctx.shadowColor = colors.primary.main;
     ctx.shadowBlur = 6;
-    ctx.fillStyle = '#82AAFF';
+    ctx.fillStyle = colors.primary.main;
     ctx.beginPath();
     ctx.arc(bullet.x, bullet.y, 4, 0, Math.PI * 2);
     ctx.fill();
@@ -221,15 +223,15 @@ export class GameRenderer {
   private drawScore(state: GameState): void {
     const ctx = this.ctx;
     ctx.font = '40px PressStart2P';
-    ctx.fillStyle = '#7fdbca';
+    ctx.fillStyle = colors.accent.cyan;
     ctx.textBaseline = 'top';
-    ctx.shadowColor = '#FFCB6B';
+    ctx.shadowColor = colors.accent.yellow;
     ctx.shadowBlur = 2;
     ctx.fillText(state.score.toString(), 10, 20);
 
     if (state.highScore > 0) {
       ctx.font = '16px PressStart2P';
-      ctx.fillStyle = '#FFCB6B';
+      ctx.fillStyle = colors.accent.yellow;
       ctx.fillText(`HI ${state.highScore}`, 10, 70);
     }
 
@@ -239,9 +241,9 @@ export class GameRenderer {
   private drawLives(state: GameState): void {
     const ctx = this.ctx;
     ctx.font = '19px PressStart2P';
-    ctx.fillStyle = '#F07178';
+    ctx.fillStyle = colors.accent.pink;
     ctx.textBaseline = 'top';
-    ctx.shadowColor = '#FFCB6B';
+    ctx.shadowColor = colors.accent.yellow;
     ctx.shadowBlur = 2;
 
     const text = `LIVES: ${state.lives}`;
@@ -255,8 +257,8 @@ export class GameRenderer {
   private drawGuide(): void {
     const ctx = this.ctx;
     ctx.font = '11px PressStart2P';
-    ctx.fillStyle = '#C792EA';
-    ctx.strokeStyle = '#C792EA';
+    ctx.fillStyle = colors.accent.purple;
+    ctx.strokeStyle = colors.accent.purple;
     ctx.lineWidth = 1;
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
@@ -291,36 +293,37 @@ export class GameRenderer {
   private drawGameOver(state: GameState, timestamp: number): void {
     const ctx = this.ctx;
 
+    // Convert hex to RGBA - #011627 = rgb(1, 22, 39)
     ctx.fillStyle = 'rgba(1, 22, 39, 0.95)';
     ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
     ctx.font = '48px PressStart2P';
-    ctx.fillStyle = '#F07178';
+    ctx.fillStyle = colors.accent.pink;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.shadowColor = '#FFCB6B';
+    ctx.shadowColor = colors.accent.yellow;
     ctx.shadowBlur = 4;
     ctx.fillText('GAME OVER', GAME_WIDTH / 2, 200);
 
     ctx.font = '24px PressStart2P';
-    ctx.fillStyle = '#D6DEEB';
+    ctx.fillStyle = colors.text.primary;
     ctx.shadowBlur = 2;
     ctx.fillText(`SCORE: ${state.score}`, GAME_WIDTH / 2, 300);
 
     const isNewRecord = state.highScore === state.score && state.score > 0;
-    const highScoreColor = isNewRecord ? '#FFCB6B' : '#D6DEEB';
+    const highScoreColor = isNewRecord ? colors.accent.yellow : colors.text.primary;
     ctx.fillStyle = highScoreColor;
     ctx.fillText(`HIGH: ${state.highScore}`, GAME_WIDTH / 2, 350);
 
     if (isNewRecord) {
       const pulse = 1 + 0.2 * Math.sin((timestamp / 500) * Math.PI * 2);
       ctx.font = `${16 * pulse}px PressStart2P`;
-      ctx.fillStyle = '#FFCB6B';
+      ctx.fillStyle = colors.accent.yellow;
       ctx.fillText('★ NEW ★', GAME_WIDTH / 2, 400);
     }
 
     ctx.font = '16px PressStart2P';
-    ctx.fillStyle = '#D6DEEB';
+    ctx.fillStyle = colors.text.primary;
     ctx.shadowBlur = 0;
     ctx.fillText('press SPACE to reset', GAME_WIDTH / 2, 500);
   }

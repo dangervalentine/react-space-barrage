@@ -1,0 +1,37 @@
+:root {
+  /* Theme colors - synced with colors.ts */
+  /* Primary colors */
+  --color-primary-light: #AFC6FF;
+  --color-primary-main: #82AAFF;
+  --color-primary-dark: #4976A1;
+
+  /* Accent colors */
+  --color-accent-cyan: #7fdbca;
+  --color-accent-coral: #FFAB70;
+  --color-accent-green: #C3E88D;
+  --color-accent-pink: #F07178;
+  --color-accent-yellow: #FFCB6B;
+  --color-accent-purple: #C792EA;
+
+  /* Background colors */
+  --color-bg-base: #011627;
+  --color-bg-elevated: #132A3E;
+  --color-bg-surface: #0A1E30;
+
+  /* Text colors */
+  --color-text-primary: #D6DEEB;
+  --color-text-secondary: #9DB2C0;
+  --color-text-muted: #7E8E94;
+
+  /* Neutral colors */
+  --color-neutral-dark-gray: #1D3B53;
+
+  /* UI-specific colors - derived from semantic palette */
+  --color-bezel: #1a2a3a;
+  --color-joystick-bg: #010E18;
+  --color-joystick-knob-light: #FFCB6B;
+  --color-joystick-knob-medium: #FFAB70;
+  --color-joystick-knob-dark: #FF9B42;
+  --color-joystick-ring: #9DB2C0;
+  --color-joystick-shadow: #0A1E30;
+}

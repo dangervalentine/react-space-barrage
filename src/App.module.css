@@ -1,13 +1,15 @@
+@import url('./constants/colors.css');
+
 .container {
   width: 100%;
   height: 100%;
-  color: #D6DEEB;
+  color: var(--color-text-primary);
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background: #010E18;
+  background: var(--color-bg-base);
   font-family: 'PressStart2P-Regular', monospace;
   padding: 40px;
   box-sizing: border-box;
@@ -30,10 +32,10 @@
 
 .screenBezel {
   position: relative;
-  border: 12px solid #1a2a3a;
+  border: 12px solid var(--color-bezel);
   border-radius: 50px;
   box-shadow: inset 0 -2px 8px rgba(0, 0, 0, 0.8);
-  background: #011627;
+  background: var(--color-bg-base);
   overflow: hidden;
   flex: 1;
   width: 100%;
@@ -43,7 +45,7 @@
 
 @media (max-width: 768px) {
   .screenBezel {
-    border: 8px solid #1a2a3a;
+    border: 8px solid var(--color-bezel);
     border-radius: 20px;
     flex: 0 0 auto;
     max-width: 100%;
@@ -54,7 +56,7 @@
 
 @media (max-width: 480px) {
   .screenBezel {
-    border: 6px solid #1a2a3a;
+    border: 6px solid var(--color-bezel);
     border-radius: 12px;
     max-height: 66vh;
   }
@@ -78,7 +80,7 @@
       transparent 3px
     );
   z-index: 999;
-  box-shadow: inset 0 0 60px rgba(127, 219, 202, 0.08);
+  box-shadow: inset 0 0 60px color-mix(in srgb, var(--color-accent-cyan) 8%, transparent);
 }
 
 .fireButton {
@@ -94,7 +96,7 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: linear-gradient(180deg, #d32f2f 0%, #b71c1c 100%);
+    background: linear-gradient(180deg, var(--color-accent-pink) 0%, var(--color-accent-pink) 100%);
     border: 4px solid #FFF;
     color: #fff;
     font-family: 'PressStart2P', monospace;
