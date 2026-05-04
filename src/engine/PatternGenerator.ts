@@ -1,4 +1,4 @@
-import { PatternCycle, EnemySpawnEvent, DifficultyTier } from './types';
+import { PatternCycle, DifficultyTier } from './types';
 import { PatternFactory } from './PatternFactory';
 import { ColumnManager } from './ColumnManager';
 import { DifficultyScaler } from './DifficultyScaler';
@@ -60,8 +60,7 @@ export class PatternGenerator {
    */
   private generatePatternForTier(tier: DifficultyTier, timestamp: number): PatternCycle {
     const score = this.currentScore;
-    const scoreInTier = score % 50;
-    const scaleFactor = Math.floor(score / 300);
+    const scoreInTier = score % 35;
 
     switch (tier.patternType) {
       case 'wall':

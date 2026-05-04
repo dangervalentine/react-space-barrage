@@ -4,15 +4,15 @@ import { DifficultyTier } from './types';
  * Maps player score to difficulty tiers, progressively increasing challenge
  * through pattern changes, increased speed, and more enemies.
  *
- * Difficulty increases in 50-point intervals:
- * - Pattern type cycles every 300 points
- * - Speed increases by ~600ms per 300-point cycle
+ * Difficulty increases in 35-point intervals:
+ * - Pattern type cycles every 200 points
+ * - Speed increases by ~300ms per 200-point cycle
  * - Max enemies increases by 1 per cycle
  */
 export class DifficultyScaler {
   /**
    * Base tier definitions that repeat in cycles.
-   * Each tier represents one 50-point interval.
+   * Each tier represents one 35-point interval.
    */
   private baseTiers: Omit<DifficultyTier, 'scoreStart' | 'scoreEnd'>[] = [
     { maxEnemies: 7, enemyTraverseDurationMs: 2000, patternType: 'wall' },
@@ -33,10 +33,10 @@ export class DifficultyScaler {
    * Maps a score to its corresponding difficulty tier.
    *
    * Calculates the appropriate tier based on:
-   * - Current position in the 300-point cycle (determines pattern type)
+   * - Current position in the 200-point cycle (determines pattern type)
    * - Number of completed cycles (determines speed and enemy count increases)
    *
-   * Speed scales down (duration decreases) by 600ms per completed cycle.
+   * Speed scales down (duration decreases) by 300ms per completed cycle.
    * Enemy count increases by 1 per completed cycle.
    *
    * @param score - The player's current score
@@ -49,8 +49,8 @@ export class DifficultyScaler {
 
     const baseTier = this.baseTiers[tierIndex % this.baseTiers.length];
 
-    // Speed increases per cycle: -600ms per cycle
-    const speedIncrease = cycleCount * 600;
+    // Speed increases per cycle: -300ms per cycle
+    const speedIncrease = cycleCount * 300;
     const duration = Math.max(1000, baseTier.enemyTraverseDurationMs - speedIncrease);
 
     // Enemy count increases per tier, resets per cycle
@@ -70,12 +70,12 @@ export class DifficultyScaler {
   }
 
   /**
-   * Returns all difficulty tiers in a single 300-point cycle.
+   * Returns all difficulty tiers in a single 200-point cycle.
    *
    * Useful for displaying progression information or pre-calculating
    * the pattern of difficulty changes.
    *
-   * @returns Array of 6 DifficultyTier objects covering scores 0-300
+   * @returns Array of 6 DifficultyTier objects covering scores 0-210
    */
   getAllTiers(): DifficultyTier[] {
     const tiers: DifficultyTier[] = [];
@@ -89,10 +89,10 @@ export class DifficultyScaler {
    * Returns the wave spawn delay in milliseconds based on difficulty tier.
    *
    * Delay decreases as difficulty increases, making the game faster:
-   * - Tier 0 (score 0-50, 300-350, etc): 1000ms between patterns
-   * - Tier 1 (score 50-100, 350-400, etc): 800ms
-   * - Tier 2 (score 100-150, 400-450, etc): 600ms
-   * - Tier 3+ (score 150-300, 450+, etc): 400ms
+   * - Tier 0 (score 0-35, 200-235, etc): 1000ms between patterns
+   * - Tier 1 (score 35-70, 235-270, etc): 800ms
+   * - Tier 2 (score 70-105, 270-305, etc): 600ms
+   * - Tier 3+ (score 105+, 305+, etc): 400ms
    *
    * Correctly handles cycle wrapping to map absolute score to relative tier position.
    *
