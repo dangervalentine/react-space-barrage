@@ -159,9 +159,8 @@ export class GameRenderer {
     }
   }
 
-  private drawParticle(particle: { x: number; y: number; createdAt: number }): void {
+  private drawParticle(particle: { x: number; y: number }): void {
     const ctx = this.ctx;
-    const age = performance.now() - particle.createdAt;
 
     ctx.save();
     ctx.shadowColor = colors.accent.yellow;
@@ -210,9 +209,9 @@ export class GameRenderer {
     ctx.drawImage(
       this.assets.fire,
       -40 * velocityScale * flameFlicker,
-      20,
+      30,
       80 * velocityScale * flameFlicker,
-      80 * flameFlicker
+      60 * flameFlicker
     );
 
     // Body
@@ -222,12 +221,12 @@ export class GameRenderer {
 
   private drawScore(state: GameState): void {
     const ctx = this.ctx;
-    ctx.font = '40px PressStart2P';
+    ctx.font = '20px PressStart2P';
     ctx.fillStyle = colors.accent.cyan;
     ctx.textBaseline = 'top';
     ctx.shadowColor = colors.accent.yellow;
     ctx.shadowBlur = 2;
-    ctx.fillText(state.score.toString(), 10, 20);
+    ctx.fillText(state.score.toString(), 30, 20);
 
     if (state.highScore > 0) {
       ctx.font = '16px PressStart2P';
@@ -265,8 +264,7 @@ export class GameRenderer {
 
     const keySize = 16;
     const keyGap = 4;
-    const groupGap = 30;
-    const y = GAME_HEIGHT - 40;
+    const y = GAME_HEIGHT - 20;
 
     const drawKeyGroup = (startX: number, keys: string[]) => {
       keys.forEach((key, i) => {

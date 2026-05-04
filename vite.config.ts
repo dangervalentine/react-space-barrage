@@ -10,6 +10,6 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    exclude: ['node_modules', 'dist', 'build', 'src/engine/*.test.ts', '.claude'],
+    exclude: ['node_modules', 'dist', 'build', '.claude'],
   },
 })
