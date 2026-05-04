@@ -241,6 +241,9 @@ export class GameRenderer {
   private stars: Star[];
   private scaleX = 1;
   private scaleY = 1;
+  // CRT-style quantization. 0 on either axis disables that axis.
+  private pixelStep = 4;
+  private timeStepMs = 60;
 
   constructor(canvas: HTMLCanvasElement, assets: GameAssets) {
     const ctx = canvas.getContext('2d');
@@ -248,6 +251,19 @@ export class GameRenderer {
     this.ctx = ctx;
     this.assets = assets;
     this.stars = this.generateStars();
+  }
+
+  setRetroSteps(pixelStep: number, timeStepMs: number): void {
+    this.pixelStep = Math.max(0, pixelStep);
+    this.timeStepMs = Math.max(0, timeStepMs);
+  }
+
+  private snap(v: number): number {
+    return this.pixelStep > 0 ? Math.round(v / this.pixelStep) * this.pixelStep : v;
+  }
+
+  private snapTime(t: number): number {
+    return this.timeStepMs > 0 ? Math.floor(t / this.timeStepMs) * this.timeStepMs : t;
   }
 
   private generateStars(): Star[] {
@@ -278,6 +294,7 @@ export class GameRenderer {
 
   draw(state: GameState, timestamp: number): void {
     const ctx = this.ctx;
+    const tStep = this.snapTime(timestamp);
 
     ctx.save();
     ctx.scale(this.scaleX, this.scaleY);
@@ -286,17 +303,17 @@ export class GameRenderer {
     ctx.fillStyle = colors.background.base;
     ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
-    // Nebula gradient
+    // Nebula gradient — keep smooth (slow drift, looks bad if stepped)
     this.drawNebula(timestamp);
 
     // Stars
-    this.drawStars(timestamp);
+    this.drawStars(tStep);
 
     // Shields
-    state.shields.forEach(shield => this.drawShield(shield, timestamp));
+    state.shields.forEach(shield => this.drawShield(shield, tStep));
 
     // Enemies
-    state.enemies.forEach(enemy => this.drawEnemy(enemy, timestamp));
+    state.enemies.forEach(enemy => this.drawEnemy(enemy, tStep));
 
     // Bullets
     state.bullets.forEach(bullet => this.drawBullet(bullet));
@@ -305,17 +322,17 @@ export class GameRenderer {
     state.particles.forEach(particle => this.drawParticle(particle));
 
     // Ship
-    this.drawShip(state, timestamp);
+    this.drawShip(state, tStep);
 
     // Score
     this.drawScore(state);
 
     // Lives
-    this.drawLives(state, timestamp);
+    this.drawLives(state, tStep);
 
     // Game Over overlay
     if (state.isShipHit) {
-      this.drawGameOver(state, timestamp);
+      this.drawGameOver(state, tStep);
     }
 
     ctx.restore();
@@ -342,7 +359,7 @@ export class GameRenderer {
 
     this.stars.forEach(star => {
       const y = ((timestamp / 1000) * star.speed + star.phase) % 1050 - 100;
-      ctx.fillRect(star.x, y, star.size, star.size);
+      ctx.fillRect(this.snap(star.x), this.snap(y), star.size, star.size);
     });
   }
 
@@ -355,7 +372,7 @@ export class GameRenderer {
     ctx.shadowColor = colors.accent.yellow;
     ctx.shadowBlur = 3 + 2 * Math.sin((elapsed / 1500) * Math.PI * 2);
 
-    ctx.translate(shield.x, shield.y);
+    ctx.translate(this.snap(shield.x), this.snap(shield.y));
     ctx.scale(pulseFactor, pulseFactor);
     drawPixelShield(ctx, -30, -30, 60, timestamp);
     ctx.restore();
@@ -364,6 +381,8 @@ export class GameRenderer {
   private drawEnemy(enemy: { x: number; y: number; imageIndex: number; health: number; removedAt?: number; lastHitAt?: number }, timestamp: number): void {
     const ctx = this.ctx;
     const tint = healthToColor(enemy.health);
+    const ex = this.snap(enemy.x);
+    const ey = this.snap(enemy.y);
 
     if (enemy.removedAt && timestamp - enemy.removedAt < 200) {
       const progress = (timestamp - enemy.removedAt) / 200;
@@ -372,7 +391,7 @@ export class GameRenderer {
 
       ctx.save();
       ctx.globalAlpha = alpha;
-      ctx.translate(enemy.x + 40, enemy.y + 40);
+      ctx.translate(ex + 40, ey + 40);
       ctx.scale(scale, scale);
       drawPixelEnemy(ctx, -40, -40, 80, tint);
       ctx.restore();
@@ -382,19 +401,18 @@ export class GameRenderer {
 
       if (hitElapsed < HIT_DURATION) {
         const t = hitElapsed / HIT_DURATION;
-        // Damped oscillation: shrinks over time, ~2 full pulses
         const pulse = Math.sin(t * Math.PI * 4) * (1 - t) * 0.18;
         const scale = 1 + pulse;
 
         ctx.save();
-        ctx.translate(enemy.x + 40, enemy.y + 40);
+        ctx.translate(ex + 40, ey + 40);
         ctx.scale(scale, scale);
         ctx.shadowColor = tint;
         ctx.shadowBlur = 12 * (1 - t);
         drawPixelEnemy(ctx, -40, -40, 80, tint);
         ctx.restore();
       } else {
-        drawPixelEnemy(ctx, enemy.x, enemy.y, 80, tint);
+        drawPixelEnemy(ctx, ex, ey, 80, tint);
       }
     }
   }
@@ -402,24 +420,28 @@ export class GameRenderer {
   private drawParticle(particle: { x: number; y: number }): void {
     const ctx = this.ctx;
     const cell = Math.ceil(80 / SHIP_COLS);
+    const px = this.snap(particle.x);
+    const py = this.snap(particle.y);
 
     ctx.save();
     ctx.shadowColor = colors.accent.yellow;
     ctx.shadowBlur = 4;
     ctx.fillStyle = colors.accent.yellow;
-    ctx.fillRect(particle.x - cell / 2, particle.y - cell / 2, cell, cell);
+    ctx.fillRect(px - cell / 2, py - cell / 2, cell, cell);
     ctx.restore();
   }
 
   private drawBullet(bullet: { x: number; y: number }): void {
     const ctx = this.ctx;
     const cell = Math.ceil(80 / SHIP_COLS);
+    const bx = this.snap(bullet.x);
+    const by = this.snap(bullet.y);
 
     ctx.save();
     ctx.shadowColor = colors.text.primary;
     ctx.shadowBlur = 3;
     ctx.fillStyle = colors.text.primary;
-    ctx.fillRect(bullet.x - cell / 2, bullet.y - cell / 2, cell, cell);
+    ctx.fillRect(bx - cell / 2, by - cell / 2, cell, cell);
     ctx.restore();
   }
 
@@ -435,7 +457,7 @@ export class GameRenderer {
     const opacity = isInvulnerable ? Math.sin(timeSinceHit / 75) * 0.4 + 0.6 : 1;
 
     ctx.save();
-    ctx.translate(state.shipX, state.shipY);
+    ctx.translate(this.snap(state.shipX), this.snap(state.shipY));
     ctx.rotate(rotateRad);
     ctx.globalAlpha = opacity;
 

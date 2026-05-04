@@ -7,6 +7,8 @@ import { GameEngine } from './engine/GameEngine';
 import type { GameState } from './engine/types';
 import styles from './App.module.css';
 
+const RESTART_LOCKOUT_MS = 800;
+
 // Mirror of ENEMY_ROWS in engine/GameRenderer.ts (11x7 pixel-art enemy).
 const MARQUEE_ENEMY_ROWS = [
   '.....y.....',
@@ -35,6 +37,7 @@ export default function App() {
   const [finalScore, setFinalScore] = useState<number | null>(null);
   const wasShipHitRef = useRef(false);
   const latestScoreRef = useRef(0);
+  const gameOverAtRef = useRef(0);
   const onUpdateRef = useRef<(state: GameState) => void>(() => {
     // Placeholder - will be set by GameCanvas
   });
@@ -48,6 +51,7 @@ export default function App() {
       latestScoreRef.current = state.score;
       if (state.isShipHit && !wasShipHitRef.current) {
         wasShipHitRef.current = true;
+        gameOverAtRef.current = Date.now();
         setFinalScore(latestScoreRef.current);
       }
       onUpdateRef.current(state);
@@ -64,7 +68,9 @@ export default function App() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.keyCode === 32) e.preventDefault();
       if (e.keyCode === 32 && finalScore !== null) {
-        handlePlayAgain();
+        if (Date.now() - gameOverAtRef.current >= RESTART_LOCKOUT_MS) {
+          handlePlayAgain();
+        }
         return;
       }
       engine?.handleKeyDown(e.keyCode);
@@ -92,7 +98,9 @@ export default function App() {
       return;
     }
     if (finalScore !== null) {
-      handlePlayAgain();
+      if (Date.now() - gameOverAtRef.current >= RESTART_LOCKOUT_MS) {
+        handlePlayAgain();
+      }
       return;
     }
     engine?.handleKeyDown(32);
