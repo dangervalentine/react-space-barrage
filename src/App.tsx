@@ -11,8 +11,8 @@ const MARQUEE_ENEMY_ROWS = [
   '.....y.....',
   '....yby....',
   '...ybbby...',
-  '..cbbbbbbc.',
-  '.ccwbbbbwcc',
+  '..cbbbbbc..',
+  '.ccwbbbwcc.',
   'c.c.yby.c.c',
   '....g.g....',
 ];
@@ -92,6 +92,11 @@ export default function App() {
           <LandingScreen onStart={() => setStarted(true)} />
         )}
       </div>
+      <div className={styles.cabinetDeck} aria-hidden="true">
+        <div className={styles.coinSlot}>
+          <div className={styles.coinSlotMouth} />
+        </div>
+      </div>
       <div className={styles.controlPanel}>
         <span className={styles.rivet} style={{ top: 8, left: 8 }} />
         <span className={styles.rivet} style={{ top: 8, right: 8 }} />
@@ -109,12 +114,11 @@ export default function App() {
             onMouseDown={handleFireDown}
             onMouseUp={handleFireUp}
             aria-label="Fire"
-          >
-            <span className={styles.fireGlyph}>◆</span>
-          </button>
+          />
           <span className={styles.controlLabel}>FIRE</span>
         </div>
       </div>
+      <div className={styles.cabinetBase} aria-hidden="true" />
     </div>
   );
 }

@@ -49,6 +49,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  max-width: 92%;
+  max-height: 92%;
   /* Chunky pixelated multi-step border, no anti-aliasing */
   box-shadow:
     0 0 0 6px var(--color-accent-yellow),
@@ -143,6 +145,34 @@
 
 @media (max-width: 768px) {
   .controls { display: none; }
+
+  .banner {
+    /* Leave room for the chunky outer rings (~30px box-shadow rings on each
+       side) so they don't get clipped by the bezel's overflow:hidden. */
+    width: calc(100% - 80px);
+    max-width: calc(100% - 80px);
+    max-height: calc(100% - 80px);
+    aspect-ratio: auto;
+  }
+
+  .titleStack {
+    margin-top: 2%;
+    gap: 2%;
+  }
+
+  .title {
+    font-size: clamp(16px, 7vw, 40px);
+  }
+
+  .subtitle {
+    font-size: clamp(8px, 2.6vw, 18px);
+    letter-spacing: 1px;
+  }
+
+  .prompt {
+    font-size: clamp(10px, 3vw, 18px);
+    margin-bottom: 2%;
+  }
 }
 
 .controlGroup {

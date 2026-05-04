@@ -8,20 +8,22 @@
 html,
 body {
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  height: 100dvh;
   margin: 0;
   padding: 0;
   overflow: hidden;
   font-family: 'PressStart2P-Regular', monospace;
   user-select: none;
-  background: var(--color-bg-base);
+  background: #000;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  height: 100dvh;
 }
 
 code {

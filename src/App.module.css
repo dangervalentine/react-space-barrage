@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background: var(--color-bg-base);
+  background: #000;
   font-family: 'PressStart2P-Regular', monospace;
   padding: 40px;
   box-sizing: border-box;
@@ -18,16 +18,39 @@
 
 @media (max-width: 768px) {
   .container {
-    padding: 16px 10px 14px;
-    gap: 12px;
+    padding: 14px 14px 0;
+    gap: 10px;
     justify-content: flex-start;
+    background: var(--color-bg-surface);
+    border-left: 3px solid var(--color-bg-surface);
+    border-right: 3px solid var(--color-bg-surface);
+  }
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 6px;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+    pointer-events: none;
+  }
+  .container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 6px;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+    pointer-events: none;
   }
 }
 
 @media (max-width: 480px) {
   .container {
-    padding: 12px 8px 10px;
-    gap: 10px;
+    padding: 10px 10px 0;
+    gap: 8px;
   }
 }
 
@@ -139,9 +162,13 @@
     border: 8px solid var(--color-bezel);
     border-radius: 12px 12px 4px 4px;
     flex: 0 0 auto;
-    max-width: 100%;
-    max-height: 50vh;
-    width: 100%;
+    /* Preserve the game world's 1080:800 aspect ratio so the canvas isn't
+       stretched. Slightly inset from container width so the screen sits
+       inside the cabinet rather than spanning edge-to-edge. */
+    aspect-ratio: 1080 / 800;
+    width: 88%;
+    max-width: 88%;
+    margin: 0 auto;
     box-shadow:
       inset 0 -2px 8px rgba(0, 0, 0, 0.8),
       0 6px 0 #07111c,
@@ -153,7 +180,6 @@
   .screenBezel {
     border: 6px solid var(--color-bezel);
     border-radius: 10px 10px 4px 4px;
-    max-height: 48vh;
   }
 }
 
@@ -189,19 +215,15 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    width: 100%;
-    flex: 1 1 auto;
-    margin-top: 4px;
-    padding: 18px 16px 14px;
+    width: 88%;
+    flex: 0 0 auto;
+    margin: 8px auto 0;
+    padding: 22px 16px 20px;
     box-sizing: border-box;
     position: relative;
-    background:
-      linear-gradient(180deg,
-        #2a2f38 0%,
-        #1a1f28 35%,
-        #14181f 100%);
-    border-top: 3px solid #3a4150;
-    border-bottom: 3px solid #060810;
+    background: var(--color-bg-surface);
+    border-top: 3px solid color-mix(in srgb, var(--color-bg-surface) 70%, #fff 12%);
+    border-bottom: 3px solid color-mix(in srgb, var(--color-bg-surface) 70%, #000 30%);
     border-radius: 6px;
     box-shadow:
       inset 0 2px 0 rgba(255, 255, 255, 0.08),
@@ -321,5 +343,69 @@
     width: 76px;
     height: 76px;
     font-size: 22px;
+  }
+}
+
+/* ============ CABINET DECK (above controls) + BASE (below) ============ */
+.cabinetDeck,
+.cabinetBase {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .cabinetDeck {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 88%;
+    margin: 16px auto 0;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    border-top: 2px solid color-mix(in srgb, var(--color-bg-surface) 70%, #fff 12%);
+    border-bottom: 2px solid color-mix(in srgb, var(--color-bg-surface) 70%, #000 30%);
+    /* Diamond plate: two crossed diagonal stripe layers (highlight + shadow)
+       offset to create the embossed diamond look, on the cabinet blue. */
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.08) 75%) 0 0 / 12px 12px,
+      linear-gradient(135deg, rgba(0, 0, 0, 0.35) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.35) 75%) 6px 6px / 12px 12px,
+      var(--color-bg-surface);
+  }
+
+  .cabinetBase {
+    display: block;
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 40px;
+    margin-top: 8px;
+    box-sizing: border-box;
+    border-top: 3px solid color-mix(in srgb, var(--color-bg-surface) 70%, #000 30%);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.08) 75%) 0 0 / 12px 12px,
+      linear-gradient(135deg, rgba(0, 0, 0, 0.35) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.35) 75%) 6px 6px / 12px 12px,
+      var(--color-bg-surface);
+    box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.55);
+  }
+
+  /* Coin door, lives in the deck section above controls */
+  .coinSlot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 18px;
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--color-bg-surface) 60%, #fff 8%) 0%,
+      var(--color-bg-surface) 100%);
+    border: 2px solid color-mix(in srgb, var(--color-bg-surface) 60%, #fff 18%);
+    border-radius: 3px;
+    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.55);
+  }
+
+  .coinSlotMouth {
+    width: 42px;
+    height: 5px;
+    background: #000;
+    border-radius: 1px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.9);
   }
 }
