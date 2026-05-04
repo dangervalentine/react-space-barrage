@@ -127,21 +127,16 @@ function drawPixelShip(
   }
 }
 
-// 9-col x 7-row flame plume below ship. Codes:
+// 5-col x 4-row flame plume below ship. Drawn at ship's cell size for
+// consistent pixel scale across all sprites. Codes:
 //   p = coral outer, g = pink mid, y = yellow core, w = white-hot center
 const FLAME_ROWS_A = [
-  '.y.p.p.y.',
-  '.pgwwwgp.',
-  '..pgggp..',
-  '...ppp...',
-  '....p....',
+  'ywy',
+  '.g.',
 ];
 const FLAME_ROWS_B = [
-  '.p.y.y.p.',
-  '.pgwywgp.',
-  '..pgwgp..',
-  '...ppp...',
-  '....p....',
+  'gyg',
+  '.p.',
 ];
 const FLAME_COLS = FLAME_ROWS_A[0].length;
 const FLAME_ROW_COUNT = FLAME_ROWS_A.length;
@@ -150,15 +145,11 @@ function drawPixelFlame(
   ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
-  width: number,
-  height: number,
+  cell: number,
   timestamp: number,
 ): void {
   const rows = Math.floor(timestamp / 80) % 2 === 0 ? FLAME_ROWS_A : FLAME_ROWS_B;
-  const cellW = width / FLAME_COLS;
-  const cellH = height / FLAME_ROW_COUNT;
-  const pxW = Math.ceil(cellW);
-  const pxH = Math.ceil(cellH);
+  const px = Math.ceil(cell);
 
   for (let r = 0; r < FLAME_ROW_COUNT; r++) {
     const row = rows[r];
@@ -174,7 +165,7 @@ function drawPixelFlame(
         default: continue;
       }
       ctx.fillStyle = color;
-      ctx.fillRect(x + c * cellW, y + r * cellH, pxW, pxH);
+      ctx.fillRect(x + c * cell, y + r * cell, px, px);
     }
   }
 }
@@ -186,27 +177,27 @@ const BOMB_ROWS_A = [
   '.....f.....',
   '.....h.....',
   '....sss....',
-  '....sss....',
+  '...dBBBd...',
   '..dBBBBBd..',
   '.dBBwBBBBd.',
-  'dBBBBBBBBBd',
-  'dBBBBBBBBBd',
+  '.dBBBBBBBd.',
   '.dBBBBBBBd.',
   '..dBBBBBd..',
-  '...ddddd...',
+  '...dBBBd...',
+  '....ddd....',
 ];
 const BOMB_ROWS_B = [
   '.....f.....',
   '....s.s....',
   '...s.h.s...',
-  '....sss....',
+  '...dBBBd...',
   '..dBBBBBd..',
   '.dBBwBBBBd.',
-  'dBBBBBBBBBd',
-  'dBBBBBBBBBd',
+  '.dBBBBBBBd.',
   '.dBBBBBBBd.',
   '..dBBBBBd..',
-  '...ddddd...',
+  '...dBBBd...',
+  '....ddd....',
 ];
 const BOMB_COLS = BOMB_ROWS_A[0].length;
 const BOMB_ROW_COUNT = BOMB_ROWS_A.length;
@@ -362,7 +353,7 @@ export class GameRenderer {
 
     ctx.save();
     ctx.shadowColor = colors.accent.yellow;
-    ctx.shadowBlur = 10 + 5 * Math.sin((elapsed / 1500) * Math.PI * 2);
+    ctx.shadowBlur = 3 + 2 * Math.sin((elapsed / 1500) * Math.PI * 2);
 
     ctx.translate(shield.x, shield.y);
     ctx.scale(pulseFactor, pulseFactor);
@@ -427,21 +418,14 @@ export class GameRenderer {
     const isInvulnerable = timeSinceHit < 3000;
     const opacity = isInvulnerable ? Math.sin(timeSinceHit / 75) * 0.4 + 0.6 : 1;
 
-    // Thruster flame
-    const baseScale = 0.4;
-    const velocityMagnitude = Math.sqrt(state.velocityX * state.velocityX + state.velocityY * state.velocityY);
-    const velocityScale = Math.max(baseScale, Math.min(velocityMagnitude / 500, 1));
-    const flameFlicker = 0.8 + 0.2 * Math.sin(timestamp / 200);
-
     ctx.save();
     ctx.translate(state.shipX, state.shipY);
     ctx.rotate(rotateRad);
     ctx.globalAlpha = opacity;
 
-    // Flame
-    const flameW = 60 * velocityScale * flameFlicker;
-    const flameH = 35 * flameFlicker;
-    drawPixelFlame(ctx, -flameW / 2, 30, flameW, flameH, timestamp);
+    // Flame — uses ship's cell size for consistent pixel scale
+    const shipCell = 80 / SHIP_COLS;
+    drawPixelFlame(ctx, -(FLAME_COLS * shipCell) / 2, 32, shipCell, timestamp);
 
     // Body
     drawPixelShip(ctx, -40, -40, 80, timestamp);
