@@ -113,7 +113,7 @@ function drawPixelShip(
       if (ch === '.') continue;
       let color: string;
       switch (ch) {
-        case 'b': color = colors.secondary.main; break;
+        case 'b': color = colors.neutral.darkGray; break;
         case 'c': color = colors.primary.dark; break;
         case 'y': color = colors.accent.pink; break;
         case 'w': color = colors.neutral.lightGray; break;
@@ -383,27 +383,25 @@ export class GameRenderer {
 
   private drawParticle(particle: { x: number; y: number }): void {
     const ctx = this.ctx;
+    const cell = Math.ceil(80 / SHIP_COLS);
 
     ctx.save();
     ctx.shadowColor = colors.accent.yellow;
-    ctx.shadowBlur = 8;
+    ctx.shadowBlur = 4;
     ctx.fillStyle = colors.accent.yellow;
-    ctx.beginPath();
-    ctx.arc(particle.x, particle.y, 4, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.fillRect(particle.x - cell / 2, particle.y - cell / 2, cell, cell);
     ctx.restore();
   }
 
   private drawBullet(bullet: { x: number; y: number }): void {
     const ctx = this.ctx;
+    const cell = Math.ceil(80 / SHIP_COLS);
 
     ctx.save();
-    ctx.shadowColor = colors.primary.main;
-    ctx.shadowBlur = 6;
-    ctx.fillStyle = colors.primary.main;
-    ctx.beginPath();
-    ctx.arc(bullet.x, bullet.y, 4, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.shadowColor = colors.text.primary;
+    ctx.shadowBlur = 3;
+    ctx.fillStyle = colors.text.primary;
+    ctx.fillRect(bullet.x - cell / 2, bullet.y - cell / 2, cell, cell);
     ctx.restore();
   }
 
