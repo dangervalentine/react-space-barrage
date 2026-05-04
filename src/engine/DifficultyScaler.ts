@@ -51,7 +51,7 @@ export class DifficultyScaler {
 
     // Speed increases per cycle: -300ms per cycle
     const speedIncrease = cycleCount * 300;
-    const duration = Math.max(1000, baseTier.enemyTraverseDurationMs - speedIncrease);
+    const duration = Math.max(500, baseTier.enemyTraverseDurationMs - speedIncrease);
 
     // Enemy count increases per tier, resets per cycle
     const maxEnemies = baseTier.maxEnemies + cycleCount;
