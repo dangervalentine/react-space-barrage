@@ -32,7 +32,7 @@ export class GameEngine {
   private currentPattern: any = null;
   private currentPatternStartTime: number = 0;
   private executedSpawns: Set<string> = new Set();
-  private waveManager: WaveManager;
+  private waveManager: WaveManager = new WaveManager(1000);
   private currentTier: number = 0;
 
   constructor(onUpdate: (state: GameState) => void) {
