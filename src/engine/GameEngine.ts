@@ -186,7 +186,6 @@ export class GameEngine {
 
       // Remove enemy if it exits the bottom of the screen (only mark once)
       if (y >= ENEMY_END_Y && !enemy.removedAt) {
-        console.log(`[REMOVE] Enemy ${enemy.id} at y=${y}`);
         return { ...updatedEnemy, removedAt: timestamp };
       }
 
