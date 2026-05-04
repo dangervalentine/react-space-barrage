@@ -33,7 +33,7 @@ export class PatternFactory {
 
     const spawns: EnemySpawnEvent[] = columns.map((col, idx) => ({
       columnIndex: col,
-      delayMs: idx * this.WALL_STAGGER_MS,
+      delayMs: 0,
       patternId: `wall_${patternStartTime}`,
     }));
 
@@ -66,7 +66,7 @@ export class PatternFactory {
 
     const spawns: EnemySpawnEvent[] = columns.slice(0, maxEnemies).map((col, idx) => ({
       columnIndex: col,
-      delayMs: idx * this.DIAGONAL_STAGGER_MS,
+      delayMs: 0,
       patternId: `diagonal_${direction}_${patternStartTime}`,
     }));
 
@@ -136,10 +136,9 @@ export class PatternFactory {
 
     for (let i = 0; i < numSpawns; i++) {
       const col = Math.floor(Math.random() * this.columnManager.getNumColumns());
-      const delayMs = Math.random() * 800 + 200; // 200-1000ms spread
       spawns.push({
         columnIndex: col,
-        delayMs,
+        delayMs: 0,
         patternId: `random_${patternStartTime}_${i}`,
       });
     }
