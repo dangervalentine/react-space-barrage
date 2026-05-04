@@ -26,7 +26,7 @@ export class PatternFactory {
    * @returns PatternCycle describing the wall spawn pattern
    */
   generateWallPattern(patternStartTime: number, maxEnemies: number): PatternCycle {
-    const scoreRange: [number, number] = [patternStartTime, patternStartTime + 50];
+    const scoreRange: [number, number] = [patternStartTime, patternStartTime + 35];
     const columns = this.columnManager.selectColumnsWithGaps(maxEnemies, 1);
 
     const spawns: EnemySpawnEvent[] = columns.map((col, idx) => ({
@@ -56,7 +56,7 @@ export class PatternFactory {
     maxEnemies: number,
     direction: 'ltr' | 'rtl'
   ): PatternCycle {
-    const scoreRange: [number, number] = [patternStartTime, patternStartTime + 50];
+    const scoreRange: [number, number] = [patternStartTime, patternStartTime + 35];
     const numColumns = this.columnManager.getNumColumns();
     const columns = direction === 'ltr'
       ? Array.from({ length: numColumns }, (_, i) => i)
@@ -91,7 +91,7 @@ export class PatternFactory {
     maxEnemies: number,
     alternating: boolean
   ): PatternCycle {
-    const scoreRange: [number, number] = [patternStartTime, patternStartTime + 50];
+    const scoreRange: [number, number] = [patternStartTime, patternStartTime + 35];
     const numColumns = this.columnManager.getNumColumns();
     const offset = alternating ? 1 : 0;
 
@@ -128,7 +128,7 @@ export class PatternFactory {
     maxEnemies: number,
     durationMs: number = 3000
   ): PatternCycle {
-    const scoreRange: [number, number] = [patternStartTime, patternStartTime + 50];
+    const scoreRange: [number, number] = [patternStartTime, patternStartTime + 35];
     const numSpawns = Math.max(1, Math.floor(Math.random() * maxEnemies));
     const spawns: EnemySpawnEvent[] = [];
 
