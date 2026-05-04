@@ -72,3 +72,37 @@ export const KEYS = {
 
 export const randomUpTo = (upperLimit: number): number =>
   Math.floor(Math.random() * upperLimit);
+
+export interface EnemySpawnEvent {
+  columnIndex: number;
+  delayMs: number;
+  patternId: string;
+}
+
+export interface PatternCycle {
+  patternType: "wall" | "diagonal" | "gaps" | "random";
+  spawns: EnemySpawnEvent[];
+  durationMs: number;
+  scoreRange: [number, number];
+  metadata?: {
+    direction?: "ltr" | "rtl";
+    alternating?: boolean;
+  };
+}
+
+export interface DifficultyTier {
+  scoreStart: number;
+  scoreEnd: number;
+  maxEnemies: number;
+  enemyTraverseDurationMs: number;
+  patternType: string;
+}
+
+export const GRID_CONFIG = {
+  NUM_COLUMNS: 10,
+  PADDING_PERCENT: 0.1,
+  getColumnWidth: (gameWidth: number) => gameWidth / GRID_CONFIG.NUM_COLUMNS,
+  getPadding: (columnWidth: number) => columnWidth * GRID_CONFIG.PADDING_PERCENT,
+  getEnemySize: (columnWidth: number) => columnWidth - (2 * GRID_CONFIG.getPadding(columnWidth)),
+  getVerticalSpacing: (columnWidth: number) => columnWidth,
+} as const;
