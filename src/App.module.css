@@ -18,18 +18,109 @@
 
 @media (max-width: 768px) {
   .container {
-    padding: 20px 10px;
-    gap: 15px;
+    padding: 16px 10px 14px;
+    gap: 12px;
+    justify-content: flex-start;
   }
 }
 
 @media (max-width: 480px) {
   .container {
-    padding: 15px 10px;
+    padding: 12px 8px 10px;
     gap: 10px;
   }
 }
 
+/* ============ MARQUEE (arcade cabinet header) ============ */
+.marquee {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .marquee {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    max-width: 520px;
+    padding: 14px 18px 12px;
+    box-sizing: border-box;
+    position: relative;
+    background:
+      linear-gradient(180deg,
+        #1a0d2e 0%,
+        #2a1248 45%,
+        #1a0d2e 100%);
+    border: 2px solid var(--color-accent-pink);
+    border-bottom: 4px solid color-mix(in srgb, var(--color-accent-pink) 60%, #000);
+    border-radius: 6px 6px 2px 2px;
+    clip-path: polygon(4% 0, 96% 0, 100% 100%, 0 100%);
+    box-shadow:
+      0 0 18px color-mix(in srgb, var(--color-accent-pink) 35%, transparent),
+      inset 0 0 24px rgba(0, 0, 0, 0.55);
+  }
+
+  .marquee::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.04) 2px,
+      transparent 2px,
+      transparent 4px
+    );
+  }
+
+  .marqueeText {
+    font-family: 'PressStart2P-Regular', monospace;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--color-accent-yellow);
+    text-shadow:
+      0 0 6px var(--color-accent-coral),
+      0 0 12px var(--color-accent-pink),
+      2px 2px 0 #000;
+    white-space: nowrap;
+  }
+
+  .marqueeEnemy {
+    display: grid;
+    grid-template-columns: repeat(11, 2px);
+    grid-auto-rows: 2px;
+    gap: 0;
+    flex-shrink: 0;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 0 4px color-mix(in srgb, var(--color-accent-cyan) 70%, transparent));
+  }
+
+  .marqueeEnemy span { background: transparent; }
+  .marqueeEnemy span[data-c="b"] { background: var(--color-accent-pink); }
+  .marqueeEnemy span[data-c="y"] { background: var(--color-accent-yellow); }
+  .marqueeEnemy span[data-c="c"] { background: var(--color-accent-cyan); }
+  .marqueeEnemy span[data-c="w"] { background: var(--color-text-primary); }
+  .marqueeEnemy span[data-c="g"] { background: var(--color-accent-green); }
+}
+
+@media (max-width: 380px) {
+  .marquee {
+    padding: 11px 14px 9px;
+    gap: 8px;
+  }
+  .marqueeText {
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .marqueeEnemy {
+    grid-template-columns: repeat(11, 1.5px);
+    grid-auto-rows: 1.5px;
+  }
+}
+
+/* ============ SCREEN BEZEL ============ */
 .screenBezel {
   position: relative;
   border: 12px solid var(--color-bezel);
@@ -46,19 +137,23 @@
 @media (max-width: 768px) {
   .screenBezel {
     border: 8px solid var(--color-bezel);
-    border-radius: 20px;
+    border-radius: 12px 12px 4px 4px;
     flex: 0 0 auto;
     max-width: 100%;
-    max-height: 66vh;
+    max-height: 50vh;
     width: 100%;
+    box-shadow:
+      inset 0 -2px 8px rgba(0, 0, 0, 0.8),
+      0 6px 0 #07111c,
+      0 8px 24px rgba(0, 0, 0, 0.6);
   }
 }
 
 @media (max-width: 480px) {
   .screenBezel {
     border: 6px solid var(--color-bezel);
-    border-radius: 12px;
-    max-height: 66vh;
+    border-radius: 10px 10px 4px 4px;
+    max-height: 48vh;
   }
 }
 
@@ -83,6 +178,92 @@
   box-shadow: inset 0 0 60px color-mix(in srgb, var(--color-accent-cyan) 8%, transparent);
 }
 
+/* ============ CONTROL PANEL (arcade deck) ============ */
+.controlPanel {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .controlPanel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    flex: 1 1 auto;
+    margin-top: 4px;
+    padding: 18px 16px 14px;
+    box-sizing: border-box;
+    position: relative;
+    background:
+      linear-gradient(180deg,
+        #2a2f38 0%,
+        #1a1f28 35%,
+        #14181f 100%);
+    border-top: 3px solid #3a4150;
+    border-bottom: 3px solid #060810;
+    border-radius: 6px;
+    box-shadow:
+      inset 0 2px 0 rgba(255, 255, 255, 0.08),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.6),
+      0 4px 12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+  }
+
+  .controlPanel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.025),
+        rgba(255, 255, 255, 0.025) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+  }
+}
+
+.rivet {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .rivet {
+    display: block;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 30%, #8a92a0 0%, #4a505c 55%, #1a1d24 100%);
+    box-shadow:
+      inset 0 -1px 1px rgba(0, 0, 0, 0.6),
+      0 1px 1px rgba(0, 0, 0, 0.4);
+    z-index: 2;
+  }
+}
+
+.controlSlot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.controlLabel {
+  font-family: 'PressStart2P-Regular', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--color-accent-yellow);
+  text-shadow: 1px 1px 0 #000, 0 0 6px color-mix(in srgb, var(--color-accent-yellow) 50%, transparent);
+}
+
+/* ============ FIRE BUTTON ============ */
 .fireButton {
   display: none;
 }
@@ -90,35 +271,55 @@
 @media (max-width: 768px) {
   .fireButton {
     display: flex;
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    width: 80px;
-    height: 80px;
+    width: 88px;
+    height: 88px;
     border-radius: 50%;
-    background: linear-gradient(180deg, var(--color-accent-pink) 0%, var(--color-accent-pink) 100%);
-    border: 4px solid #FFF;
+    background:
+      radial-gradient(circle at 32% 28%,
+        #ffd0d4 0%,
+        var(--color-accent-pink) 35%,
+        #b03840 100%);
+    border: 4px solid #f5f5f5;
     color: #fff;
-    font-family: 'PressStart2P', monospace;
-    font-size: 10px;
-    font-weight: bold;
+    font-family: 'PressStart2P-Regular', monospace;
+    font-size: 26px;
     cursor: pointer;
     touch-action: manipulation;
     box-shadow:
-      inset -2px -2px 4px rgba(0, 0, 0, 0.5),
-      inset 2px 2px 4px rgba(255, 255, 255, 0.1);
-    transition: all 0.08s;
+      0 0 0 3px #1a1f28,
+      0 0 0 5px #3a4150,
+      0 6px 0 #5a1820,
+      0 8px 14px rgba(0, 0, 0, 0.6),
+      inset 0 -4px 8px rgba(0, 0, 0, 0.35),
+      inset 0 3px 6px rgba(255, 255, 255, 0.35);
+    transition: transform 0.06s, box-shadow 0.06s;
     align-items: center;
     justify-content: center;
     user-select: none;
-    z-index: 100;
-    letter-spacing: 0.5px;
+    padding: 0;
+  }
+
+  .fireGlyph {
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+    line-height: 1;
   }
 
   .fireButton:active {
-    transform: scale(0.94) translateY(1px);
+    transform: translateY(4px);
     box-shadow:
-      inset -1px -1px 2px rgba(0, 0, 0, 0.6),
-      inset 1px 1px 2px rgba(255, 255, 255, 0.05);
+      0 0 0 3px #1a1f28,
+      0 0 0 5px #3a4150,
+      0 2px 0 #5a1820,
+      0 3px 6px rgba(0, 0, 0, 0.6),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.45),
+      inset 0 2px 4px rgba(255, 255, 255, 0.25);
+  }
+}
+
+@media (max-width: 380px) {
+  .fireButton {
+    width: 76px;
+    height: 76px;
+    font-size: 22px;
   }
 }

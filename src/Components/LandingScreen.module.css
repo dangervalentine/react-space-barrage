@@ -85,19 +85,22 @@
 }
 
 .subtitle {
-  font-size: clamp(10px, 1.8vw, 22px);
+  font-size: clamp(8px, 1.8vw, 22px);
   color: var(--color-accent-cyan);
-  letter-spacing: 4px;
+  letter-spacing: 2px;
   text-shadow: 2px 2px 0 var(--color-bg-base);
   margin: 0;
+  white-space: nowrap;
+  text-align: center;
+  align-self: center;
 }
 
 .pixelArt {
   display: grid;
   grid-template-columns: repeat(11, 1fr);
   grid-auto-rows: 1fr;
-  width: 55%;
-  aspect-ratio: 11 / 7;
+  width: 30%;
+  aspect-ratio: 11 / 13;
   gap: 0;
 }
 
@@ -105,11 +108,16 @@
   background: transparent;
 }
 
-.pixelArt span[data-c="g"] { background: var(--color-accent-green); }
-.pixelArt span[data-c="y"] { background: var(--color-accent-yellow); }
-.pixelArt span[data-c="p"] { background: var(--color-accent-pink); }
-.pixelArt span[data-c="c"] { background: var(--color-accent-cyan); }
+.pixelArt span[data-c="b"] { background: var(--color-neutral-dark-gray); }
+.pixelArt span[data-c="c"] { background: var(--color-primary-dark); }
+.pixelArt span[data-c="y"] { background: var(--color-accent-pink); }
 .pixelArt span[data-c="w"] { background: var(--color-text-primary); }
+.pixelArt span[data-c="p"] { background: var(--color-accent-coral); }
+.pixelArt span[data-c="g"] { background: var(--color-accent-yellow); }
+.pixelArt span[data-c="F"] { background: var(--color-accent-yellow); }
+.pixelArt span[data-c="I"] { background: var(--color-text-primary); }
+.pixelArt span[data-c="M"] { background: var(--color-accent-pink); }
+.pixelArt span[data-c="P"] { background: var(--color-accent-coral); }
 
 .controls {
   width: 100%;
@@ -133,9 +141,8 @@
 
 .controlsMobile { display: none; }
 
-@media (hover: none) and (pointer: coarse) {
-  .controlsDesktop { display: none; }
-  .controlsMobile  { display: flex; }
+@media (max-width: 768px) {
+  .controls { display: none; }
 }
 
 .controlGroup {

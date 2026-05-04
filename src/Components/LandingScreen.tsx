@@ -1,22 +1,53 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './LandingScreen.module.css';
 
 interface LandingScreenProps {
   onStart: () => void;
 }
 
-// 11x7 pixel-art ship made of colored cells. '.' is empty.
-const SHIP_ROWS = [
-  '.....y.....',
-  '....ypy....',
-  '...ypppy...',
-  '..cppppppc.',
-  '.ccwppppwcc',
-  'c.c.ypy.c.c',
+// 11x13 player ship + flame trail — mirror of SHIP_ROWS_A/B + FLAME_ROWS_A/B
+// in engine/GameRenderer.ts. Flame chars (F/I/M/P) are uppercase to avoid
+// colliding with ship chars (y=cockpit, w=highlight, g=engine glow).
+//   F = yellow flame, I = white-hot core, M = pink mid, P = coral tail
+const SHIP_FRAME_A = [
+  '.....b.....',
+  '....bbb....',
+  '....byb....',
+  '...bbybb...',
+  '..ccbwbcc..',
+  '.cccbbbccc.',
+  'cccbbbbbccc',
+  'ccbbbbbbbcc',
+  '.ccbbbbbcc.',
+  '....bbb....',
+  '....p.p....',
+  '....FIF....',
+  '.....M.....',
+];
+const SHIP_FRAME_B = [
+  '.....b.....',
+  '....bbb....',
+  '....byb....',
+  '...bbybb...',
+  '..ccbwbcc..',
+  '.cccbbbccc.',
+  'cccbbbbbccc',
+  'ccbbbbbbbcc',
+  '.ccbbbbbcc.',
+  '....bbb....',
   '....g.g....',
+  '....MFM....',
+  '.....P.....',
 ];
 
 export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
+  const [frame, setFrame] = useState(0);
+
+  useEffect(() => {
+    const id = window.setInterval(() => setFrame((f) => f + 1), 80);
+    return () => window.clearInterval(id);
+  }, []);
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.keyCode === 32 || e.key === 'Enter') {
@@ -45,7 +76,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
         </div>
 
         <div className={styles.pixelArt} aria-hidden>
-          {SHIP_ROWS.flatMap((row, r) =>
+          {(frame % 2 === 0 ? SHIP_FRAME_A : SHIP_FRAME_B).flatMap((row, r) =>
             row.split('').map((ch, c) => (
               <span key={`${r}-${c}`} data-c={ch === '.' ? '' : ch} />
             ))
