@@ -56,7 +56,8 @@ export class DifficultyScaler {
     // Enemy count increases per tier, resets per cycle
     const maxEnemies = baseTier.maxEnemies + cycleCount;
 
-    const scoreStart = score - cyclePosition;
+    const cycleStart = cycleCount * this.cycleLength;
+    const scoreStart = cycleStart + (tierIndex * this.tierDuration);
     const scoreEnd = scoreStart + this.tierDuration;
 
     return {
