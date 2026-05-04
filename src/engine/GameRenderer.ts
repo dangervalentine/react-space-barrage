@@ -311,7 +311,7 @@ export class GameRenderer {
     this.drawScore(state);
 
     // Lives
-    this.drawLives(state);
+    this.drawLives(state, timestamp);
 
     // Game Over overlay
     if (state.isShipHit) {
@@ -458,7 +458,7 @@ export class GameRenderer {
     ctx.textBaseline = 'top';
     ctx.shadowColor = colors.accent.yellow;
     ctx.shadowBlur = 2;
-    ctx.fillText(state.score.toString(), 30, 20);
+    ctx.fillText(`SCORE: ${state.score}`, 30, 20);
 
     if (state.highScore > 0) {
       ctx.font = `${16 * s}px PressStart2P`;
@@ -469,23 +469,24 @@ export class GameRenderer {
     ctx.shadowBlur = 0;
   }
 
-  private drawLives(state: GameState): void {
+  private drawLives(state: GameState, timestamp: number): void {
     const ctx = this.ctx;
     const isMobile = typeof window !== 'undefined'
       && window.matchMedia?.('(max-width: 768px)').matches;
-    const s = isMobile ? 2 : 1;
-    ctx.font = `${19 * s}px PressStart2P`;
-    ctx.fillStyle = colors.accent.pink;
-    ctx.textBaseline = 'top';
-    ctx.shadowColor = colors.accent.yellow;
+    const shipSize = isMobile ? 56 : 36;
+    const gap = isMobile ? 12 : 8;
+    const reserve = Math.max(0, state.lives - 1);
+    const rightEdge = GAME_WIDTH - 30;
+    const top = 20;
+
+    ctx.save();
+    ctx.shadowColor = colors.primary.main;
     ctx.shadowBlur = 2;
-
-    const text = `LIVES: ${state.lives}`;
-    const metrics = ctx.measureText(text);
-    const x = GAME_WIDTH - metrics.width - 30;
-
-    ctx.fillText(text, x, 20);
-    ctx.shadowBlur = 0;
+    for (let i = 0; i < reserve; i++) {
+      const x = rightEdge - (i + 1) * shipSize - i * gap;
+      drawPixelShip(ctx, x, top, shipSize, timestamp);
+    }
+    ctx.restore();
   }
 
   private drawGameOver(state: GameState, timestamp: number): void {
