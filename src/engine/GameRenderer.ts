@@ -22,8 +22,8 @@ const ENEMY_ROWS = [
   '.....y.....',
   '....yby....',
   '...ybbby...',
-  '..cbbbbbbc.',
-  '.ccwbbbbwcc',
+  '..cbbbbbc..',
+  '.ccwbbbwcc.',
   'c.c.yby.c.c',
   '....g.g....',
 ];
