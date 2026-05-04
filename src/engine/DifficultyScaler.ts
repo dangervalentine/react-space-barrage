@@ -98,7 +98,8 @@ export class DifficultyScaler {
    * @returns Delay in milliseconds between pattern spawns
    */
   waveDelayMs(tier: DifficultyTier): number {
-    switch (tier.tier) {
+    const tierNum = Math.floor(tier.scoreStart / 50);
+    switch (Math.min(tierNum, 3)) {
       case 0:
         return 1000;
       case 1:
