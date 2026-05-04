@@ -15,33 +15,233 @@ function healthToColor(health: number): string {
   return colors.accent.pink;
 }
 
-const tintBuffer = document.createElement('canvas');
-tintBuffer.width = 80;
-tintBuffer.height = 80;
-const tintCtx = tintBuffer.getContext('2d');
+// 11x7 pixel-art enemy. Char codes:
+//   y = fin/top accent, b = body (health-tinted), c = wing,
+//   w = cockpit highlight, g = engine glow, '.' = empty
+const ENEMY_ROWS = [
+  '.....y.....',
+  '....yby....',
+  '...ybbby...',
+  '..cbbbbbbc.',
+  '.ccwbbbbwcc',
+  'c.c.yby.c.c',
+  '....g.g....',
+];
+const ENEMY_COLS = ENEMY_ROWS[0].length;
+const ENEMY_ROW_COUNT = ENEMY_ROWS.length;
 
-function drawTintedEnemy(
+function drawPixelEnemy(
   ctx: CanvasRenderingContext2D,
-  img: HTMLImageElement,
   x: number,
   y: number,
-  w: number,
-  h: number,
-  tint: string,
+  size: number,
+  bodyColor: string,
 ): void {
-  if (!tintCtx) {
-    ctx.drawImage(img, x, y, w, h);
-    return;
+  const cell = size / ENEMY_COLS;
+  const offsetY = (size - cell * ENEMY_ROW_COUNT) / 2;
+  const px = Math.ceil(cell);
+
+  for (let r = 0; r < ENEMY_ROW_COUNT; r++) {
+    const row = ENEMY_ROWS[r];
+    for (let c = 0; c < ENEMY_COLS; c++) {
+      const ch = row[c];
+      if (ch === '.') continue;
+      let color: string;
+      switch (ch) {
+        case 'b': color = bodyColor; break;
+        case 'y': color = colors.accent.yellow; break;
+        case 'c': color = colors.accent.cyan; break;
+        case 'w': color = colors.text.primary; break;
+        case 'g': color = colors.accent.green; break;
+        default: continue;
+      }
+      ctx.fillStyle = color;
+      ctx.fillRect(x + c * cell, y + offsetY + r * cell, px, px);
+    }
   }
+}
 
-  tintCtx.clearRect(0, 0, tintBuffer.width, tintBuffer.height);
-  tintCtx.globalCompositeOperation = 'source-over';
-  tintCtx.drawImage(img, 0, 0, tintBuffer.width, tintBuffer.height);
-  tintCtx.globalCompositeOperation = 'source-in';
-  tintCtx.fillStyle = tint;
-  tintCtx.fillRect(0, 0, tintBuffer.width, tintBuffer.height);
+// 11x11 player ship facing up. Codes:
+//   b = body (blue), c = wing (cyan), y = cockpit (yellow),
+//   w = cockpit highlight (white), p = engine port (coral),
+//   g = engine glow (pink, swapped with flame frame)
+const SHIP_ROWS_A = [
+  '.....b.....',
+  '....bbb....',
+  '....byb....',
+  '...bbybb...',
+  '..ccbwbcc..',
+  '.cccbbbccc.',
+  'cccbbbbbccc',
+  'ccbbbbbbbcc',
+  '.ccbbbbbcc.',
+  '....bbb....',
+  '....p.p....',
+];
+const SHIP_ROWS_B = [
+  '.....b.....',
+  '....bbb....',
+  '....byb....',
+  '...bbybb...',
+  '..ccbwbcc..',
+  '.cccbbbccc.',
+  'cccbbbbbccc',
+  'ccbbbbbbbcc',
+  '.ccbbbbbcc.',
+  '....bbb....',
+  '....g.g....',
+];
+const SHIP_COLS = SHIP_ROWS_A[0].length;
+const SHIP_ROW_COUNT = SHIP_ROWS_A.length;
 
-  ctx.drawImage(tintBuffer, x, y, w, h);
+function drawPixelShip(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  size: number,
+  timestamp: number,
+): void {
+  const rows = Math.floor(timestamp / 120) % 2 === 0 ? SHIP_ROWS_A : SHIP_ROWS_B;
+  const cell = size / SHIP_COLS;
+  const offsetY = (size - cell * SHIP_ROW_COUNT) / 2;
+  const px = Math.ceil(cell);
+
+  for (let r = 0; r < SHIP_ROW_COUNT; r++) {
+    const row = rows[r];
+    for (let c = 0; c < SHIP_COLS; c++) {
+      const ch = row[c];
+      if (ch === '.') continue;
+      let color: string;
+      switch (ch) {
+        case 'b': color = colors.secondary.main; break;
+        case 'c': color = colors.primary.dark; break;
+        case 'y': color = colors.accent.pink; break;
+        case 'w': color = colors.neutral.lightGray; break;
+        case 'p': color = colors.accent.coral; break;
+        case 'g': color = colors.accent.yellow; break;
+        default: continue;
+      }
+      ctx.fillStyle = color;
+      ctx.fillRect(x + c * cell, y + offsetY + r * cell, px, px);
+    }
+  }
+}
+
+// 9-col x 7-row flame plume below ship. Codes:
+//   p = coral outer, g = pink mid, y = yellow core, w = white-hot center
+const FLAME_ROWS_A = [
+  '.y.p.p.y.',
+  '.pgwwwgp.',
+  '..pgggp..',
+  '...ppp...',
+  '....p....',
+];
+const FLAME_ROWS_B = [
+  '.p.y.y.p.',
+  '.pgwywgp.',
+  '..pgwgp..',
+  '...ppp...',
+  '....p....',
+];
+const FLAME_COLS = FLAME_ROWS_A[0].length;
+const FLAME_ROW_COUNT = FLAME_ROWS_A.length;
+
+function drawPixelFlame(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  timestamp: number,
+): void {
+  const rows = Math.floor(timestamp / 80) % 2 === 0 ? FLAME_ROWS_A : FLAME_ROWS_B;
+  const cellW = width / FLAME_COLS;
+  const cellH = height / FLAME_ROW_COUNT;
+  const pxW = Math.ceil(cellW);
+  const pxH = Math.ceil(cellH);
+
+  for (let r = 0; r < FLAME_ROW_COUNT; r++) {
+    const row = rows[r];
+    for (let c = 0; c < FLAME_COLS; c++) {
+      const ch = row[c];
+      if (ch === '.') continue;
+      let color: string;
+      switch (ch) {
+        case 'p': color = colors.accent.coral; break;
+        case 'g': color = colors.accent.pink; break;
+        case 'y': color = colors.accent.yellow; break;
+        case 'w': color = colors.text.primary; break;
+        default: continue;
+      }
+      ctx.fillStyle = color;
+      ctx.fillRect(x + c * cellW, y + r * cellH, pxW, pxH);
+    }
+  }
+}
+
+// 11x11 bomb. Codes:
+//   B = body (steel), d = shadow rim, w = chrome highlight,
+//   f = fuse, s = spark glow, h = spark hot core
+const BOMB_ROWS_A = [
+  '.....f.....',
+  '.....h.....',
+  '....sss....',
+  '....sss....',
+  '..dBBBBBd..',
+  '.dBBwBBBBd.',
+  'dBBBBBBBBBd',
+  'dBBBBBBBBBd',
+  '.dBBBBBBBd.',
+  '..dBBBBBd..',
+  '...ddddd...',
+];
+const BOMB_ROWS_B = [
+  '.....f.....',
+  '....s.s....',
+  '...s.h.s...',
+  '....sss....',
+  '..dBBBBBd..',
+  '.dBBwBBBBd.',
+  'dBBBBBBBBBd',
+  'dBBBBBBBBBd',
+  '.dBBBBBBBd.',
+  '..dBBBBBd..',
+  '...ddddd...',
+];
+const BOMB_COLS = BOMB_ROWS_A[0].length;
+const BOMB_ROW_COUNT = BOMB_ROWS_A.length;
+
+function drawPixelShield(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  size: number,
+  timestamp: number,
+): void {
+  const rows = Math.floor(timestamp / 100) % 2 === 0 ? BOMB_ROWS_A : BOMB_ROWS_B;
+  const cell = size / BOMB_COLS;
+  const offsetY = (size - cell * BOMB_ROW_COUNT) / 2;
+  const px = Math.ceil(cell);
+
+  for (let r = 0; r < BOMB_ROW_COUNT; r++) {
+    const row = rows[r];
+    for (let c = 0; c < BOMB_COLS; c++) {
+      const ch = row[c];
+      if (ch === '.') continue;
+      let color: string;
+      switch (ch) {
+        case 'B': color = colors.secondary.main; break;
+        case 'd': color = colors.secondary.dark; break;
+        case 'w': color = colors.neutral.lightGray; break;
+        case 'f': color = colors.accent.coral; break;
+        case 's': color = colors.accent.yellow; break;
+        case 'h': color = colors.text.primary; break;
+        default: continue;
+      }
+      ctx.fillStyle = color;
+      ctx.fillRect(x + c * cell, y + offsetY + r * cell, px, px);
+    }
+  }
 }
 
 export class GameRenderer {
@@ -161,12 +361,12 @@ export class GameRenderer {
     const pulseFactor = 1 + 0.1 * Math.sin((elapsed / 1500) * Math.PI * 2);
 
     ctx.save();
-    ctx.shadowColor = colors.accent.cyan;
+    ctx.shadowColor = colors.accent.yellow;
     ctx.shadowBlur = 10 + 5 * Math.sin((elapsed / 1500) * Math.PI * 2);
 
     ctx.translate(shield.x, shield.y);
     ctx.scale(pulseFactor, pulseFactor);
-    ctx.drawImage(this.assets.shield, -30, -30, 60, 60);
+    drawPixelShield(ctx, -30, -30, 60, timestamp);
     ctx.restore();
   }
 
@@ -183,10 +383,10 @@ export class GameRenderer {
       ctx.globalAlpha = alpha;
       ctx.translate(enemy.x + 40, enemy.y + 40);
       ctx.scale(scale, scale);
-      drawTintedEnemy(ctx, this.assets.enemies[enemy.imageIndex], -40, -40, 80, 80, tint);
+      drawPixelEnemy(ctx, -40, -40, 80, tint);
       ctx.restore();
     } else if (!enemy.removedAt) {
-      drawTintedEnemy(ctx, this.assets.enemies[enemy.imageIndex], enemy.x, enemy.y, 80, 80, tint);
+      drawPixelEnemy(ctx, enemy.x, enemy.y, 80, tint);
     }
   }
 
@@ -239,16 +439,12 @@ export class GameRenderer {
     ctx.globalAlpha = opacity;
 
     // Flame
-    ctx.drawImage(
-      this.assets.fire,
-      -40 * velocityScale * flameFlicker,
-      30,
-      80 * velocityScale * flameFlicker,
-      60 * flameFlicker
-    );
+    const flameW = 60 * velocityScale * flameFlicker;
+    const flameH = 35 * flameFlicker;
+    drawPixelFlame(ctx, -flameW / 2, 30, flameW, flameH, timestamp);
 
     // Body
-    ctx.drawImage(this.assets.rocket, -40, -40, 80, 80);
+    drawPixelShip(ctx, -40, -40, 80, timestamp);
     ctx.restore();
   }
 
