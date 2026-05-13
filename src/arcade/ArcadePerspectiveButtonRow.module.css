@@ -1,0 +1,69 @@
+/* Universal desktop button-row styling. SVG attribute `fill=` does
+ * NOT accept `color-mix()`, so all per-color fills cascade via this
+ * stylesheet. */
+
+.row {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* SVG scales to fill the row container; preserveAspectRatio
+   * 'xMidYMid meet' (set on the SVG element) keeps the panel + buttons
+   * proportional regardless of viewport width. */
+}
+
+/* ---------- Panel surface (the trapezoid) ----------
+ * Slightly lighter than cabinet body so the panel reads as a separate
+ * piece mounted on the cabinet — like a real arcade control panel
+ * which is its own physical assembly bolted onto the cabinet front. */
+.panel {
+  fill: var(--color-bg-elevated);
+}
+
+.panelTopEdge {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1;
+  fill: none;
+}
+
+/* Soft shadow along the top edge of the panel — implies the panel's
+ * far edge is in shadow, reinforcing the tilted-perspective read. */
+.panelTopShadow {
+  fill: rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- Chrome flange (the ring around each button) ----------
+ * Sanwa-style buttons have a chrome bolt-through flange. The OUTER
+ * fill is the chrome surface; the INNER fill is darker, reading as
+ * the lip / depth between the flange and the cap. */
+.flangeOuter {
+  fill: #8a92a0;
+}
+
+.flangeInner {
+  fill: #2a2f38;
+}
+
+/* ---------- Caps (the colored top of each button) ---------- */
+.capCoral   { fill: var(--color-accent-coral); }
+.capYellow  { fill: var(--color-accent-yellow); }
+.capGreen   { fill: var(--color-accent-green); }
+.capPrimary { fill: var(--color-primary-main); }
+
+/* ---------- Concave inner shadow on each cap ----------
+ * Real arcade buttons have a slight scooped depression in the cap.
+ * Render that as a smaller ellipse in a darker hue (color-mix toward
+ * bg-base for hue-preserving luminance drop). */
+.capInnerCoral   { fill: color-mix(in srgb, var(--color-accent-coral) 50%, var(--color-bg-base)); }
+.capInnerYellow  { fill: color-mix(in srgb, var(--color-accent-yellow) 50%, var(--color-bg-base)); }
+.capInnerGreen   { fill: color-mix(in srgb, var(--color-accent-green) 50%, var(--color-bg-base)); }
+.capInnerPrimary { fill: color-mix(in srgb, var(--color-primary-main) 50%, var(--color-bg-base)); }
+
+/* ---------- Cap rim highlight ----------
+ * Single thin arc along the top half of the cap ellipse, low-opacity
+ * white. Stops the cap reading as a flat sticker — there's a real
+ * physical edge there. */
+.capRim {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.18);
+  stroke-width: 1;
+}

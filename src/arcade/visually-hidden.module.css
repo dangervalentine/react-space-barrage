@@ -1,0 +1,25 @@
+/* Shared sr-only pattern for arcade A11y mirrors. Visually hidden but
+ * present in the accessibility tree.
+ *
+ * Cannot use `display: none` (removes from a11y tree) or
+ * `visibility: hidden` (also removes). The 1×1 absolute +
+ * `clip-path: inset(50%)` clips the actual rendered output without
+ * removing the element from the tree.
+ *
+ * Sourced from the WHATWG-recommended pattern; same shape Tailwind's
+ * `sr-only`, Bootstrap's `.visually-hidden`, etc. ship. Lifted out of
+ * asteroids' local copy in Stage 3 so both games (and any future
+ * arcade game) use one canonical version. */
+
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+  pointer-events: none;
+}

@@ -1,0 +1,23 @@
+/* Intrinsic look for the space-barrage marquee enemy — grid template,
+ * color mapping, drop-shadow glow. Cell size is parameterized via the
+ * `--marquee-cell` CSS custom property (default 2px). Consumers override
+ * the property to size the art for their context (cabinet marquee uses
+ * the 2px default with a 1.5px override at <=380px; landing tile uses
+ * ~6px). */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(11, var(--marquee-cell, 2px));
+  grid-auto-rows: var(--marquee-cell, 2px);
+  gap: 0;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--color-accent-cyan) 70%, transparent));
+}
+
+.grid span { background: transparent; }
+.grid span[data-c="b"] { background: var(--color-accent-pink); }
+.grid span[data-c="y"] { background: var(--color-accent-yellow); }
+.grid span[data-c="c"] { background: var(--color-accent-cyan); }
+.grid span[data-c="w"] { background: var(--color-text-primary); }
+.grid span[data-c="g"] { background: var(--color-accent-green); }

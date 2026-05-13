@@ -1,0 +1,48 @@
+/* Cabinet-context override for the marquee enemy art. Structural CSS
+ * (grid template, color mapping, drop-shadow) lives in
+ * MarqueeArt.module.css with a 2px default cell. Below 380px, shrink the
+ * cell to 1.5px so the art fits narrow viewports. The class is applied
+ * unconditionally on the cabinet's marquee instance; the cell only
+ * changes when the media query matches. */
+
+@media (max-width: 380px) {
+  .marqueeArt {
+    --marquee-cell: 1.5px;
+  }
+}
+
+/* Desktop marquee is wider than mobile; bump the pixel-grid cell so
+ * the enemy art doesn't get lost. Default cell size in
+ * MarqueeArt.module.css is 2px (mobile-tuned). */
+@media (min-width: 769px) {
+  .marqueeArt {
+    --marquee-cell: 3px;
+  }
+}
+
+/* Layout for the cabinet's controls slot — joystick on the left, fire
+ * button on the right. Same shape as asteroids today; per-game by
+ * design (post-B4) so a future variant with different controls ships
+ * its own layout class. */
+.touchControls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  gap: clamp(10px, 4vw, 28px);
+}
+
+.controlLabel {
+  font-family: 'PressStart2P-Regular', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--color-accent-yellow);
+  text-shadow: 1px 1px 0 #000, 0 0 6px color-mix(in srgb, var(--color-accent-yellow) 50%, transparent);
+}
+
+@media (max-width: 768px) {
+  .fireGlyph {
+    line-height: 1;
+  }
+}

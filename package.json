@@ -1,35 +1,27 @@
 {
   "name": "space-barrage",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "dependencies": {
-    "gh-pages": "^6.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-scripts": "^5.0.1"
-  },
+  "type": "module",
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:single": "cross-env SINGLE_FILE=true vite build",
+    "preview": "vite preview",
+    "predeploy": "npm run build"
   },
-  "homepage": "http://victoriousj.github.io/react-space-barrage",
-  "eslintConfig": {
-    "extends": "react-app"
+  "homepage": "https://dangervalentine.github.io/react-space-barrage",
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
   "devDependencies": {
-    "@types/node": "^25.6.0",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "typescript": "^6.0.3"
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.4.1",
+    "cross-env": "^10.1.0",
+    "typescript": "^5.8.0",
+    "vite": "^6.3.0",
+    "vite-plugin-singlefile": "^2.3.3"
   }
 }
