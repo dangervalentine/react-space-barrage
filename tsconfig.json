@@ -1,20 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "jsx": "react-jsx",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "strict": true,
-    "esModuleInterop": true,
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "isolatedModules": true,
-    "noEmit": true
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@arcade": ["./src/arcade/index.ts"],
+      "@arcade/*": ["./src/arcade/*"]
+    }
   },
   "include": ["src"]
 }

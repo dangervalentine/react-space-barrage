@@ -1,0 +1,86 @@
+:root {
+  --header-height: 0px;
+
+  --color-primary-light: #AFC6FF;
+  --color-primary-main: #82AAFF;
+  --color-primary-dark: #4976A1;
+
+  --color-accent-cyan: #7fdbca;
+  --color-accent-coral: #FFAB70;
+  --color-accent-green: #C3E88D;
+  --color-accent-pink: #F07178;
+  --color-accent-yellow: #FFCB6B;
+  --color-accent-purple: #C792EA;
+
+  --color-bg-floor: #010E18;
+  --color-bg-base: #011627;
+  --color-bg-surface: #0A1E30;
+  --color-bg-elevated: #132A3E;
+  --color-bg-medium: #1D3B53;
+
+  --color-text-primary: #D6DEEB;
+  --color-text-secondary: #9DB2C0;
+  --color-text-muted: #7E8E94;
+}
+
+@font-face {
+  font-family: 'PressStart2P-Regular';
+  src: url('./assets/PressStart2P-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-bg-floor);
+}
+
+.github-attribution {
+  position: fixed;
+  bottom: 0.85rem;
+  right: 1rem;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  background: var(--color-bg-elevated);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-bg-medium);
+  border-radius: 999px;
+  font-family: system-ui, sans-serif;
+  font-size: 0.76rem;
+  font-weight: 500;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: background 0.15s ease, color 0.15s ease,
+              border-color 0.15s ease;
+}
+
+.github-attribution:hover {
+  background: var(--color-bg-medium);
+  color: var(--color-accent-cyan);
+  border-color: var(--color-accent-cyan);
+}
+
+.github-attribution:focus-visible {
+  outline: 2px solid var(--color-accent-cyan);
+  outline-offset: 2px;
+}
+
+.github-attribution-icon {
+  font-size: 1.1em;
+  line-height: 1;
+}
+
